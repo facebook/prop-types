@@ -1,0 +1,40 @@
+{
+  "name": "prop-types",
+  "version": "15.5.0-alpha.0",
+  "description": "Runtime type checking for React props and similar objects.",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "files": [
+    "LICENSE",
+    "PATENTS",
+    "factory.js",
+    "index.js",
+    "checkPropTypes.js",
+    "prop-types.js",
+    "prop-types.min.js",
+    "lib"
+  ],
+  "repository": "facebook/react",
+  "keywords": [
+    "react"
+  ],
+  "bugs": {
+    "url": "https://github.com/facebook/react/issues"
+  },
+  "homepage": "https://facebook.github.io/react/",
+  "dependencies": {
+    "fbjs": "^0.8.9"
+  },
+  "scripts": {
+    "test": "jest",
+    "umd": "browserify index.js --standalone PropTypes -o prop-types.js && uglifyjs prop-types.js --compress unused,dead_code -o prop-types.min.js"
+  },
+  "devDependencies": {
+    "babel-jest": "^19.0.0",
+    "babel-preset-react": "^6.24.1",
+    "browserify": "^14.3.0",
+    "jest": "^19.0.2",
+    "react": "^15.5.1",
+    "uglifyjs": "^2.4.10"
+  }
+}
