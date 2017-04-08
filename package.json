@@ -14,12 +14,12 @@
     "prop-types.min.js",
     "lib"
   ],
-  "repository": "facebook/react",
+  "repository": "reactjs/prop-types",
   "keywords": [
     "react"
   ],
   "bugs": {
-    "url": "https://github.com/facebook/react/issues"
+    "url": "https://github.com/reactjs/prop-types/issues"
   },
   "homepage": "https://facebook.github.io/react/",
   "dependencies": {
