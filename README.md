@@ -36,3 +36,7 @@ If you use a bundler like Browserify or Webpack, don’t forget to [follow these
 ## Usage
 
 Refer to the [React documentation](https://facebook.github.io/react/docs/typechecking-with-proptypes.html) for more information.
+
+## Migrating from React.PropTypes
+
+Check out [Migrating from React.PropTypes](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes) for details on how to migrate to `prop-types` from `React.PropTypes`
