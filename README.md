@@ -39,4 +39,4 @@ Refer to the [React documentation](https://facebook.github.io/react/docs/typeche
 
 ## Migrating from React.PropTypes
 
-Read this post to migrate to prop-types: [Migrate to prop-types](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes)
+Check out [Migrating from React.PropTypes](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes) for details on how to migrate to `prop-types` from `React.PropTypes`
