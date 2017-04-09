@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'; // ES6
 var PropTypes = require('prop-types'); // ES5 with npm
 ```
 
-If you prefer a <script> tag, you can get it from `window.PropTypes` global:
+If you prefer a `<script>` tag, you can get it from `window.PropTypes` global:
 
 ```html
 <!-- development version -->
