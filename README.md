@@ -29,7 +29,7 @@ If you prefer a <script> tag, you can get it from `window.PropTypes` global:
 
 In production, all validator functions are replaced with empty functions that throw an error. This is done to optimize the bundle size.
 
-Don’t call the validator functions manually in your code. React automatically calls PropTypes validators declared on your components in development version, and it won’t call them in productions.
+Don’t call the validator functions manually in your code. React automatically calls `PropTypes` validators declared on your components in development version, and it won’t call them in production.
 
 If you use a bundler like Browserify or Webpack, don’t forget to [follow these instructions](https://facebook.github.io/react/docs/installation.html#development-and-production-versions) to correctly bundle your application in development or production mode. Otherwise you’ll ship unnecessary code to your users.
 
