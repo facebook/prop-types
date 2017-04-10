@@ -859,6 +859,24 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckPass(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
     });
 
+    it('should warn when setup with invalid checker types', () => {
+      spyOn(console, 'error');
+
+      PropTypes.oneOfType([undefined])
+
+      expect(console.error).toHaveBeenCalled();
+      expect(console.error.calls.argsFor(0)[0])
+        .toContain('Invalid argument supplied to oneOfType. Expected an array containing check functions, but argument at index 0 is undefined.');
+
+      console.error.calls.reset();
+
+      PropTypes.oneOfType([PropTypes.string, {}])
+
+      expect(console.error).toHaveBeenCalled();
+      expect(console.error.calls.argsFor(0)[0])
+        .toContain('Invalid argument supplied to oneOfType. Expected an array containing check functions, but argument at index 1 is of type object.');
+    });
+
     it('should warn if none of the types are valid', () => {
       typeCheckFail(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

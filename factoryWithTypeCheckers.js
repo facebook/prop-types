@@ -314,6 +314,23 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return emptyFunction.thatReturnsNull;
     }
 
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        var detailMessage;
+
+        if(checker === void 0 || checker === null) {
+          detailMessage = checker;
+        }
+        else {
+          detailMessage = 'of type ' + getPreciseType(checker);
+        }
+
+        warning(false, 'Invalid argument supplied to oneOfType. Expected an array containing check functions, but argument at index ' + i + ' is ' + detailMessage + '.');
+        return emptyFunction.thatReturnsNull;
+      }
+    }
+
     function validate(props, propName, componentName, location, propFullName) {
       for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
         var checker = arrayOfTypeCheckers[i];

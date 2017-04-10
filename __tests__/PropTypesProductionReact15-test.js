@@ -819,6 +819,17 @@ describe('PropTypesProductionReact15', () => {
         undefined,
       );
     });
+
+    it('should not warn if setup without checker function', () => {
+      expectNoop(
+        PropTypes.oneOfType([null]),
+        null,
+      );
+      expectNoop(
+        PropTypes.oneOfType([undefined]),
+        undefined,
+      );
+    });
   });
 
   describe('Shape Types', () => {
