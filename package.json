@@ -30,7 +30,8 @@
     "test": "jest",
     "umd": "NODE_ENV=development browserify index.js -t envify --standalone PropTypes -o prop-types.js",
     "umd-min": "NODE_ENV=production browserify index.js -t envify --standalone PropTypes -o | uglifyjs --compress unused,dead_code -o prop-types.min.js",
-    "build": "yarn umd && yarn umd-min"
+    "build": "yarn umd && yarn umd-min",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "babel-jest": "^19.0.0",
