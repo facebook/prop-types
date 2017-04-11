@@ -29,7 +29,7 @@
   "scripts": {
     "test": "jest",
     "umd": "NODE_ENV=development browserify index.js -t envify --standalone PropTypes -o prop-types.js",
-    "umd-min": "NODE_ENV=production browserify index.js -t envify --standalone PropTypes  -p bundle-collapser/plugin -o | uglifyjs --compress unused,dead_code -o prop-types.min.js",
+    "umd-min": "NODE_ENV=production browserify index.js -t envify -t uglifyify --standalone PropTypes  -p bundle-collapser/plugin -o | uglifyjs --compress unused,dead_code -o prop-types.min.js",
     "build": "yarn umd && yarn umd-min",
     "prepublish": "yarn build"
   },
@@ -41,6 +41,7 @@
     "envify": "^4.0.0",
     "jest": "^19.0.2",
     "react": "^15.5.1",
+    "uglifyify": "^3.0.4",
     "uglifyjs": "^2.4.10"
   }
 }
