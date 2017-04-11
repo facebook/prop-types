@@ -25,6 +25,30 @@ If you prefer a `<script>` tag, you can get it from `window.PropTypes` global:
 <script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
 ```
 
+## How to Depend on This Package?
+
+For apps, we recommend putting it in `dependencies` with a caret range.
+For example:
+
+```js
+  "dependencies": {
+    "prop-types": "^15.5.0" 
+  }
+```
+
+For libraries, we *also* recommend leaving it in `dependencies`:
+
+```js
+  "dependencies": {
+    "prop-types": "^15.5.0" 
+  },
+  "peerDependencies": {
+    "react": "^15.5.0" 
+  }
+```
+
+Just make sure that the version range uses a caret (`^`) and thus is broad enough for npm to efficiently deduplicate packages.
+
 ## Difference from `React.PropTypes`: Don’t Call Validator Functions
 
 When you migrate components to use the standalone `prop-types`, **all validator functions will start throwing an error if you call them directly**. This makes sure that nobody relies on them in production code, and it is safe to strip their implementations to optimize the bundle size.
