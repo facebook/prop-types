@@ -25,4 +25,3 @@ if (process.env.NODE_ENV !== 'production') {
   // https://github.com/reactjs/prop-types#development-and-production-versions
   module.exports = require('./factoryWithThrowingShims')();
 }
-
