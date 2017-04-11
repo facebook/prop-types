@@ -1010,6 +1010,10 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
+extend@^1.2.1:
+  version "1.3.0"
+  resolved "http://npme.walmart.com/extend/-/extend-1.3.0.tgz#d1516fb0ff5624d2ebf9123ea1dac5a1994004f8"
+
 extend@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4"
@@ -2748,7 +2752,7 @@ ua-parser-js@^0.7.9:
   version "0.7.12"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
-uglify-js@^2.6:
+uglify-js@2.x.x, uglify-js@^2.6:
   version "2.8.21"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.21.tgz#1733f669ae6f82fc90c7b25ec0f5c783ee375314"
   dependencies:
@@ -2760,6 +2764,16 @@ uglify-js@^2.6:
 uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
+
+uglifyify@^3.0.4:
+  version "3.0.4"
+  resolved "http://npme.walmart.com/uglifyify/-/uglifyify-3.0.4.tgz#487e080a5a7798880e68e90def9b06681fb13bd2"
+  dependencies:
+    convert-source-map "~1.1.0"
+    extend "^1.2.1"
+    minimatch "^3.0.2"
+    through "~2.3.4"
+    uglify-js "2.x.x"
 
 uglifyjs@^2.4.10:
   version "2.4.10"
