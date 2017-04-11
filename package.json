@@ -10,6 +10,8 @@
     "README.md",
     "checkPropTypes.js",
     "factory.js",
+    "factoryWithThrowingShims.js",
+    "factoryWithTypeCheckers.js",
     "index.js",
     "prop-types.js",
     "prop-types.min.js",

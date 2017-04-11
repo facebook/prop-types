@@ -11,26 +11,25 @@
 
 'use strict';
 
-describe('ReactPropTypesProduction', function() {
+describe('PropTypesProductionStandalone', function() {
   var React;
   var PropTypes;
-  var checkPropTypes;
-  var oldProcess;
 
-  beforeEach(function() {
+  function resetWarningCache() {
+    jest.resetModules();
     process.env.NODE_ENV = 'production';
+
     React = require('react');
     PropTypes = require('../index');
+  }
+
+  beforeEach(function() {
+    resetWarningCache();
   });
 
   afterEach(function() {
     delete process.env.NODE_ENV;
   });
-
-  function resetWarningCache() {
-    jest.resetModules();
-    checkPropTypes = require('../checkPropTypes');
-  }
 
   function getPropTypeWarningMessage(propTypes, object, componentName) {
     if (!console.error.calls) {
@@ -39,7 +38,7 @@ describe('ReactPropTypesProduction', function() {
       console.error.calls.reset();
     }
     resetWarningCache();
-    checkPropTypes(propTypes, object, 'prop', 'testComponent');
+    PropTypes.checkPropTypes(propTypes, object, 'prop', 'testComponent');
     const callCount = console.error.calls.count();
     if (callCount > 1) {
       throw new Error('Too many warnings.');
@@ -222,10 +221,6 @@ describe('ReactPropTypesProduction', function() {
   });
 
   describe('checkPropTypes', function() {
-    beforeEach(function() {
-      jest.resetModules();
-    });
-
     it('does not call validators', function() {
       spyOn(console, 'error');
 

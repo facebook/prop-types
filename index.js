@@ -7,17 +7,22 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var factory = require('./factory');
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
 
-var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-  Symbol.for &&
-  Symbol.for('react.element')) ||
-  0xeac7;
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
 
-function isValidElement(object) {
-  return typeof object === 'object' &&
-    object !== null &&
-    object.$$typeof === REACT_ELEMENT_TYPE;
+  module.exports = require('./factoryWithTypeCheckers')(isValidElement);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // https://github.com/reactjs/prop-types#development-and-production-versions
+  module.exports = require('./factoryWithThrowingShims')();
 }
 
-module.exports = factory(isValidElement);
