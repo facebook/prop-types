@@ -9,12 +9,18 @@
 
 'use strict';
 
-var invariant = require('fbjs/lib/invariant');
+var emptyFunction = require('fbjs/lib/emptyFunction');
 var warning = require('fbjs/lib/warning');
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 
+var invariant = emptyFunction;
+
 var loggedTypeFailures = {};
+
+if (process.env.NODE_ENV !== 'production') {
+  invariant = require('fbjs/lib/invariant');
+}
 
 /**
  * Assert that the values match with the type specs.
