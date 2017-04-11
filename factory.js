@@ -10,7 +10,6 @@
 'use strict';
 
 var emptyFunction = require('fbjs/lib/emptyFunction');
-var invariant = require('fbjs/lib/invariant');
 var warning = require('fbjs/lib/warning');
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
@@ -116,7 +115,7 @@ module.exports = function (isValidElement) {
     };
   } else {
     var productionTypeChecker = function () {
-      invariant(false, 'React.PropTypes type checking code is stripped in production.');
+      throw new Error('React.PropTypes type checking code is stripped in production.');
     };
     productionTypeChecker.isRequired = productionTypeChecker;
     var getProductionTypeChecker = function () {
