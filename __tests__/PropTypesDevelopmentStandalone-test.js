@@ -105,7 +105,7 @@ function expectWarningInDevelopment(declaration, value) {
   console.error.calls.reset();
 }
 
-describe('PropTypesDevelopment', () => {
+describe('PropTypesDevelopmentStandalone', () => {
   beforeEach(() => {
     resetWarningCache();
   });
