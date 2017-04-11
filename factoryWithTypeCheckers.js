@@ -159,8 +159,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           invariant(
             false,
             'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-            'Use PropTypes.checkPropTypes() to call them. ' +
-            'Read more at http://fb.me/prop-types-in-prod'
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
           );
         } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes

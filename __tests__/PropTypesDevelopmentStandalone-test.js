@@ -98,8 +98,8 @@ function expectThrowsInDevelopment(declaration, value) {
     declaration(props, 'testProp', 'testComponent', 'prop');
   }).toThrowError(
     'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-    'Use PropTypes.checkPropTypes() to call them. ' +
-    'Read more at http://fb.me/prop-types-in-prod'
+    'Use `PropTypes.checkPropTypes()` to call them. ' +
+    'Read more at http://fb.me/use-check-prop-types'
   );
 }
 
