@@ -54,7 +54,11 @@ describe('PropTypesProductionStandalone', function() {
     var props = {testProp: value};
     expect(() => {
       declaration(props, 'testProp', 'testComponent', 'prop');
-    }).toThrowError('React.PropTypes type checking code is stripped in production.');
+    }).toThrowError(
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/prop-types-in-prod'
+    );
   }
 
   function typeCheckPass(declaration, value) {

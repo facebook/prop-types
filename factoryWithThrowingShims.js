@@ -16,7 +16,12 @@ module.exports = function() {
   // Important!
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   function shim() {
-    invariant(false, 'React.PropTypes type checking code is stripped in production.');
+    invariant(
+      false,
+      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+      'Use PropTypes.checkPropTypes() to call them. ' +
+      'Read more at http://fb.me/prop-types-in-prod'
+    );
   };
   shim.isRequired = shim;
   function getShim() {

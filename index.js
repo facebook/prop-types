@@ -19,9 +19,12 @@ if (process.env.NODE_ENV !== 'production') {
       object.$$typeof === REACT_ELEMENT_TYPE;
   };
 
-  module.exports = require('./factoryWithTypeCheckers')(isValidElement);
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = require('./factoryWithTypeCheckers')(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
-  // https://github.com/reactjs/prop-types#development-and-production-versions
+  // http://fb.me/prop-types-in-prod
   module.exports = require('./factoryWithThrowingShims')();
 }
