@@ -145,6 +145,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   // Make `instanceof Error` still work for returned errors.
   PropTypeError.prototype = Error.prototype;
 
+  var isReact14 = false;
+
   function createChainableTypeChecker(validate) {
     if (process.env.NODE_ENV !== 'production') {
       var manualPropTypeCallCache = {};
@@ -153,15 +155,30 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       componentName = componentName || ANONYMOUS;
       propFullName = propFullName || propName;
 
-      if (secret !== ReactPropTypesSecret) {
+      if (secret !== ReactPropTypesSecret && !isReact14) {
         if (throwOnDirectAccess) {
           // New behavior only for users of `prop-types` package
-          invariant(
-            false,
-            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-            'Use `PropTypes.checkPropTypes()` to call them. ' +
-            'Read more at http://fb.me/use-check-prop-types'
-          );
+          try {
+            invariant(
+              false,
+              'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+              'Use `PropTypes.checkPropTypes()` to call them. ' +
+              'Read more at http://fb.me/use-check-prop-types'
+            );
+          } catch (e) {
+            // This is a super fragile way to duck type React 0.14 to sidestep this issue:
+            // https://github.com/reactjs/react-redux/issues/669
+            // We can remove this in 16.
+            if (typeof e.stack === 'string' && (
+              e.stack.indexOf('_checkPropTypes') !== -1 || // React 0.14 contextTypes check
+              e.stack.indexOf('validatePropTypes') !== -1 // React 0.14 propTypes check
+            )) {
+              // This is coming from React 0.14. Ignore because it's unactionable.
+              isReact14 = true;
+            } else {
+              throw e;
+            }
+          }
         } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
