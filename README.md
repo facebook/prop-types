@@ -51,7 +51,7 @@ Just make sure that the version range uses a caret (`^`) and thus is broad enoug
 
 ## Compatibility
 
-### React 14
+### React 0.14
 
 This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was released a year ago), there are no other changes in 0.14.9, so it should be a painless upgrade.
 
