@@ -49,6 +49,20 @@ For libraries, we *also* recommend leaving it in `dependencies`:
 
 Just make sure that the version range uses a caret (`^`) and thus is broad enough for npm to efficiently deduplicate packages.
 
+## Compatibility
+
+### React 14
+
+This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was released a year ago), there are no other changes in 0.14.9, so it should be a painless upgrade.
+
+### React 15+
+
+This package is compatible with **React 15.3.0** and higher.
+
+### What happens on other React versions?
+
+It outputs warnings with the message below even though the developer doesn’t do anything wrong. Unfortunately there is no solution for this other than updating React to either 15.3.0 or higher, or 0.14.9 if you’re using React 0.14.
+
 ## Difference from `React.PropTypes`: Don’t Call Validator Functions
 
 When you migrate components to use the standalone `prop-types`, **all validator functions will start throwing an error if you call them directly**. This makes sure that nobody relies on them in production code, and it is safe to strip their implementations to optimize the bundle size.
@@ -74,6 +88,8 @@ It will throw an error:
 Calling PropTypes validators directly is not supported by the `prop-types` package.
 Use PropTypes.checkPropTypes() to call them.
 ```
+
+(If you see **a warning** rather than an error with this message, please check the above section about compatibility.)
 
 This is new behavior, and you will only encounter it when you migrate from `React.PropTypes` to the `prop-types` package. For the vast majority of components, this doesn’t matter, and if you didn’t see [this warning](https://facebook.github.io/react/warnings/dont-call-proptypes.html) in your components, your code is safe to migrate. This is not a breaking change in React because you are only opting into this change for a component by explicitly changing your imports to use `prop-types`. If you temporarily need the old behavior, you can keep using `React.PropTypes` until React 16.
 
