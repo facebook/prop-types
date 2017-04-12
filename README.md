@@ -42,7 +42,7 @@ For example:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.0" 
+    "prop-types": "^15.5.7" 
   }
 ```
 
@@ -50,14 +50,16 @@ For libraries, we *also* recommend leaving it in `dependencies`:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.0" 
+    "prop-types": "^15.5.7" 
   },
   "peerDependencies": {
     "react": "^15.5.0" 
   }
 ```
 
-Just make sure that the version range uses a caret (`^`) and thus is broad enough for npm to efficiently deduplicate packages.
+**Note:** there are known issues in versions before 15.5.7 so we recommend using it as the minimal version.
+
+Make sure that the version range uses a caret (`^`) and thus is broad enough for npm to efficiently deduplicate packages.
 
 ## Compatibility
 
