@@ -93,6 +93,7 @@ function typeCheckPass(declaration, value) {
 }
 
 function expectWarningInDevelopment(declaration, value) {
+  resetWarningCache();
   var props = {testProp: value};
   var propName = 'testProp' + Math.random().toString();
   var componentName = 'testComponent' + Math.random().toString();
