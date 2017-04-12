@@ -25,6 +25,16 @@ If you prefer a `<script>` tag, you can get it from `window.PropTypes` global:
 <script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
 ```
 
+## Usage
+
+Refer to the [React documentation](https://facebook.github.io/react/docs/typechecking-with-proptypes.html) for more information.
+
+## Migrating from React.PropTypes
+
+Check out [Migrating from React.PropTypes](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes) for details on how to migrate to `prop-types` from `React.PropTypes`.
+
+There are also important notes below.
+
 ## How to Depend on This Package?
 
 For apps, we recommend putting it in `dependencies` with a caret range.
@@ -117,10 +127,3 @@ PropTypes.checkPropTypes(MyComponent.propTypes, props, 'prop', 'MyComponent');
 
 If you use a bundler like Browserify or Webpack, don’t forget to [follow these instructions](https://facebook.github.io/react/docs/installation.html#development-and-production-versions) to correctly bundle your application in development or production mode. Otherwise you’ll ship unnecessary code to your users.
 
-## Usage
-
-Refer to the [React documentation](https://facebook.github.io/react/docs/typechecking-with-proptypes.html) for more information.
-
-## Migrating from React.PropTypes
-
-Check out [Migrating from React.PropTypes](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes) for details on how to migrate to `prop-types` from `React.PropTypes`.
