@@ -321,14 +321,17 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     }
 
     function validate(props, propName, componentName, location, propFullName) {
+      var messages = [];
       for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
         var checker = arrayOfTypeCheckers[i];
-        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+        var error = checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret);
+        if (error == null) {
           return null;
         }
+        messages.push(error.message);
       }
 
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, failed matches:\n' + messages.join('\n')));
     }
     return createChainableTypeChecker(validate);
   }

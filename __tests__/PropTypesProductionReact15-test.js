@@ -18,7 +18,7 @@ function resetWarningCache() {
   jest.resetModules();
 
   // Set production mode throughout this test.
-  process.env.NODE_ENV = 'production';  
+  process.env.NODE_ENV = 'production';
   React = require('react');
   // We are testing that when imported in the same way React 15 imports `prop-types`,
   // it just suppresses warnings but doesn't actually throw when calling validators.
@@ -759,7 +759,7 @@ describe('PropTypesProductionReact15', () => {
       expectNoop(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
 
       var checker = PropTypes.oneOfType([
@@ -769,7 +769,7 @@ describe('PropTypesProductionReact15', () => {
       expectNoop(
         checker,
         {c: 1},
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
     });
 
