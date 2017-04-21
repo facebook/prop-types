@@ -856,6 +856,26 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
     });
 
+    it('should warn but for invalid argument type', () => {
+      spyOn(console, 'error');
+
+      var types = [undefined, null, false, new Date, /foo/, {}];
+      var expected = ['undefined', 'null', 'a boolean', 'a date', 'a regexp', 'an object'];
+
+      for (var i = 0; i < expected.length; i++) {
+        var type = types[i];
+        PropTypes.oneOfType([type]);
+        expect(console.error).toHaveBeenCalled();
+        expect(console.error.calls.argsFor(0)[0]).toContain(
+          'Invalid argument supplid to oneOfType. Expected an array of check functions, ' +
+          'but received ' + expected[i] + ' at index 0.'
+        );
+        console.error.calls.reset();
+      }
+      
+      typeCheckPass(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
+    });
+
     it('should warn if none of the types are valid', () => {
       typeCheckFail(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
