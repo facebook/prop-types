@@ -277,6 +277,15 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return emptyFunction.thatReturnsNull;
     }
 
+    function isValueAFunction(value) {
+      return typeof value === 'function'
+    }
+
+    if (expectedValues.every(isValueAFunction)) {
+      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an array of values but got an array of PropType functions. Did you mean oneOfType?') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
     function validate(props, propName, componentName, location, propFullName) {
       var propValue = props[propName];
       for (var i = 0; i < expectedValues.length; i++) {
