@@ -1,3 +1,24 @@
+## 15.5.8
+
+* Limit the manual PropTypes call warning count because it has false positives with React versions earlier than 15.2.0 in the 15.x branch and 0.14.9 in the 0.14.x branch. ([@gaearon](https://github.com/gaearon) in [#26](https://github.com/reactjs/prop-types/pull/26))
+
+## 15.5.7
+
+* **Critical Bugfix:** Fix an accidental breaking change that caused errors in production when used through `React.PropTypes`.  ([@gaearon](https://github.com/gaearon) in [#20](https://github.com/reactjs/prop-types/pull/20))
+* Improve the size of production UMD build.  ([@aweary](https://github.com/aweary) in [38ba18](https://github.com/reactjs/prop-types/commit/38ba18a4a8f705f4b2b33c88204573ddd604f2d6) and [7882a7](https://github.com/reactjs/prop-types/commit/7882a7285293db5f284bcf559b869fd2cd4c44d4))
+
+## 15.5.6
+
+**Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
+
+* Fix a markdown issue in README. ([@bvaughn](https://github.com/bvaughn) in [174f77](https://github.com/reactjs/prop-types/commit/174f77a50484fa628593e84b871fb40eed78b69a)
+
+## 15.5.5
+
+**Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
+
+* Add missing documentation and license files.  ([@bvaughn](https://github.com/bvaughn) in [0a53d3](https://github.com/reactjs/prop-types/commit/0a53d3a34283ae1e2d3aa396632b6dc2a2061e6a)
+
 ## 15.5.4
 
 **Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
