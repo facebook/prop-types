@@ -9,7 +9,7 @@ definitions, and warn in development if they don’t match.
 
 ## Installation
 
-```
+```shell
 npm install --save prop-types
 ```
 
@@ -37,7 +37,7 @@ commonly used with React components.
 Here is an example of using PropTypes with a React component, which also
 documents the different validators provided:
 
-```javascript
+```jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -167,7 +167,7 @@ Make sure that the version range uses a caret (`^`) and thus is broad enough for
 
 This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was released a year ago), there are no other changes in 0.14.9, so it should be a painless upgrade.
 
-```
+```shell
 # ATTENTION: Only run this if you still use React 0.14!
 npm install --save react@^0.14.9 react-dom@^0.14.9
 ```
@@ -236,7 +236,7 @@ React will automatically check the propTypes you set on the component, but if
 you are using PropTypes without React then you may want to manually call
 `PropTypes.checkPropTypes`, like so:
 
-```
+```js
 const myPropTypes = {
   name: PropTypes.string,
   age: PropTypes. number,
