@@ -31,13 +31,14 @@
 
 **Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
 
-* No significant changes
+* Remove the accidentally included React package code from the UMD bundle. ([@acdlite](https://github.com/acdlite) in [df318bb](https://github.com/reactjs/prop-types/commit/df318bba8a89bc5aadbb0292822cf4ed71d27ace))
 
 ## 15.5.2
 
 **Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
 
-* Remove the accidentally included React package code from the UMD bundle. ([@acdlite](https://github.com/acdlite) in [df318bb](https://github.com/reactjs/prop-types/commit/df318bba8a89bc5aadbb0292822cf4ed71d27ace))
+* Remove dependency on React for CommonJS entry point. ([@acdlite](https://github.com/acdlite) in [cae72bb](https://github.com/reactjs/prop-types/commit/cae72bb281a3766c765e3624f6088c3713567e6d))
+
 
 ## 15.5.1
 
