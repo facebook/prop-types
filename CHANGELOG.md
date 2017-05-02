@@ -11,13 +11,13 @@
 
 **Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
 
-* Fix a markdown issue in README. ([@bvaughn](https://github.com/bvaughn) in [174f77](https://github.com/reactjs/prop-types/commit/174f77a50484fa628593e84b871fb40eed78b69a)
+* Fix a markdown issue in README. ([@bvaughn](https://github.com/bvaughn) in [174f77](https://github.com/reactjs/prop-types/commit/174f77a50484fa628593e84b871fb40eed78b69a))
 
 ## 15.5.5
 
 **Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
 
-* Add missing documentation and license files.  ([@bvaughn](https://github.com/bvaughn) in [0a53d3](https://github.com/reactjs/prop-types/commit/0a53d3a34283ae1e2d3aa396632b6dc2a2061e6a)
+* Add missing documentation and license files.  ([@bvaughn](https://github.com/bvaughn) in [0a53d3](https://github.com/reactjs/prop-types/commit/0a53d3a34283ae1e2d3aa396632b6dc2a2061e6a))
 
 ## 15.5.4
 
@@ -46,6 +46,12 @@
 
 * Remove accidental uncompiled ES6 syntax in the published package. ([@acdlite](https://github.com/acdlite) in [e191963](https://github.com/facebook/react/commit/e1919638b39dd65eedd250a8bb649773ca61b6f1))
 
-## Before 15.5.1
+## 15.5.0
+
+**Note: this release has a critical issue and was deprecated. Please update to 15.5.7 or higher.**
+
+* Initial release.
+
+## Before 15.5.0
 
 PropTypes was previously included in React, but is now a separate package. For earlier history of PropTypes [see the React change log.](https://github.com/facebook/react/blob/master/CHANGELOG.md)
