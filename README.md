@@ -161,6 +161,8 @@ For libraries, we *also* recommend leaving it in `dependencies`:
 
 Make sure that the version range uses a caret (`^`) and thus is broad enough for npm to efficiently deduplicate packages.
 
+For UMD bundles of your comoponents, make sure you **don’t** include `PropTypes` in the build. Usually this is done by marking it as an external (the specifics depend on your bundler), just like you do with React.
+
 ## Compatibility
 
 ### React 0.14
