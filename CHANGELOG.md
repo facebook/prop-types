@@ -1,3 +1,7 @@
+## 15.5.9
+
+* Add `loose-envify` Browserify transform for users who don't envify globally. ([@mridgway](https://github.com/mridgway) in [#45](https://github.com/reactjs/prop-types/pull/45))
+
 ## 15.5.8
 
 * Limit the manual PropTypes call warning count because it has false positives with React versions earlier than 15.2.0 in the 15.x branch and 0.14.9 in the 0.14.x branch. ([@gaearon](https://github.com/gaearon) in [#26](https://github.com/reactjs/prop-types/pull/26))
