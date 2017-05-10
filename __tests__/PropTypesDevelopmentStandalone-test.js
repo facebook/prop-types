@@ -867,12 +867,12 @@ describe('PropTypesDevelopmentStandalone', () => {
         PropTypes.oneOfType([type]);
         expect(console.error).toHaveBeenCalled();
         expect(console.error.calls.argsFor(0)[0]).toContain(
-          'Invalid argument supplid to oneOfType. Expected an array of check functions, ' +
+          'Invalid argument supplied to oneOfType. Expected an array of check functions, ' +
           'but received ' + expected[i] + ' at index 0.'
         );
         console.error.calls.reset();
       }
-      
+
       typeCheckPass(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
     });
 
