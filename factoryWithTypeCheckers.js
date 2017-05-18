@@ -150,7 +150,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var manualPropTypeCallCache = {};
       var manualPropTypeWarningCount = 0;
     }
-    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+    function checkType(isRequired, notNull, props, propName, componentName, location, propFullName, secret) {
       componentName = componentName || ANONYMOUS;
       propFullName = propFullName || propName;
 
@@ -192,6 +192,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
           }
           return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        } else if (notNull && props[propName] === null) {
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` ' + ('in `' + componentName + '` must not be `null`.'));
         }
         return null;
       } else {
@@ -199,8 +201,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
     }
 
-    var chainedCheckType = checkType.bind(null, false);
-    chainedCheckType.isRequired = checkType.bind(null, true);
+    var chainedCheckType = checkType.bind(null, false, false);
+    chainedCheckType.isRequired = checkType.bind(null, true, true);
+    chainedCheckType.notNull = checkType.bind(null, false, true);
 
     return chainedCheckType;
   }

@@ -99,6 +99,10 @@ MyComponent.propTypes = {
   // A value of any data type
   requiredAny: PropTypes.any.isRequired,
 
+  // You can use `notNull` like `isRequired`
+  // to allow undefined but not null
+  optionalObjectNotNull: PropTypes.object.notNull,
+
   // You can also specify a custom validator. It should return an Error
   // object if the validation fails. Don't `console.warn` or throw, as this
   // won't work inside `oneOfType`.
@@ -142,7 +146,7 @@ For example:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.7" 
+    "prop-types": "^15.5.7"
   }
 ```
 
@@ -150,10 +154,10 @@ For libraries, we *also* recommend leaving it in `dependencies`:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.7" 
+    "prop-types": "^15.5.7"
   },
   "peerDependencies": {
-    "react": "^15.5.0" 
+    "react": "^15.5.0"
   }
 ```
 

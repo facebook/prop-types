@@ -91,6 +91,27 @@ function typeCheckPass(declaration, value) {
   expect(message).toBe(null);
 }
 
+function typeCheckNullFail(declaration, value) {
+  const propTypes = {
+    testProp: declaration,
+  };
+  var mustNotBeNullMsg = 'The prop `testProp` in `testComponent`' +
+    ' must not be `null`.';
+  const message1 = getPropTypeWarningMessage(
+    propTypes,
+    {testProp: null},
+    'testComponent'
+  );
+  expect(message1).toContain(mustNotBeNullMsg);
+
+  const message2 = getPropTypeWarningMessage(
+    propTypes,
+    {testProp: undefined},
+    'testComponent'
+  );
+  expect(message2).toBe(null);
+}
+
 function expectThrowsInDevelopment(declaration, value) {
   resetWarningCache();
   var props = {testProp: value};
@@ -214,6 +235,10 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(PropTypes.string, undefined);
     });
 
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.string.notNull);
+    });
+
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.string.isRequired);
     });
@@ -276,6 +301,10 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.any, null);
       typeCheckPass(PropTypes.any, undefined);
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.any.notNull);
     });
 
     it('should warn for missing required values', () => {
@@ -372,6 +401,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), undefined);
     });
 
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(
+        PropTypes.arrayOf(PropTypes.number).notNull
+      );
+    });
+
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(
         PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -439,6 +474,10 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.element, null);
       typeCheckPass(PropTypes.element, undefined);
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.element.notNull);
     });
 
     it('should warn for missing required values', () => {
@@ -540,6 +579,10 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(PropTypes.instanceOf(String), undefined);
     });
 
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.instanceOf(String).notNull);
+    });
+
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.instanceOf(String).isRequired);
     });
@@ -634,6 +677,10 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should not warn for null/undefined if not required', () => {
       typeCheckPass(PropTypes.node, null);
       typeCheckPass(PropTypes.node, undefined);
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.node.notNull);
     });
 
     it('should warn for missing required values', () => {
@@ -753,6 +800,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(PropTypes.objectOf(PropTypes.number), undefined);
     });
 
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(
+        PropTypes.objectOf(PropTypes.number).notNull
+      );
+    });
+
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(
         PropTypes.objectOf(PropTypes.number).isRequired,
@@ -828,6 +881,10 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), null);
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), undefined);
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(PropTypes.oneOf(['red', 'blue']).notNull);
     });
 
     it('should warn for missing required values', () => {
@@ -916,6 +973,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         undefined,
+      );
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number]).notNull
       );
     });
 
@@ -1014,6 +1077,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckPass(
         PropTypes.shape(PropTypes.shape({key: PropTypes.number})),
         undefined,
+      );
+    });
+
+    it('should warn when null is not allowed', () => {
+      typeCheckNullFail(
+        PropTypes.shape({key: PropTypes.number}).notNull
       );
     });
 
