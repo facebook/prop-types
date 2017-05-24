@@ -100,11 +100,11 @@ function expectWarningInDevelopment(declaration, value) {
   for (var i = 0; i < 3; i++) {
     declaration(props, propName, componentName, 'prop');
   }
-  expect(console.error.calls.count()).toBe(1);
-  expect(console.error.calls.argsFor(0)[0]).toContain(
+  expect(console.warn.calls.count()).toBe(1);
+  expect(console.warn.calls.argsFor(0)[0]).toContain(
     'You are manually calling a React.PropTypes validation ',
   );
-  console.error.calls.reset();
+  console.warn.calls.reset();
 }
 
 describe('PropTypesDevelopmentReact15', () => {
@@ -223,7 +223,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.array, /please/);
       expectWarningInDevelopment(PropTypes.array, []);
       expectWarningInDevelopment(PropTypes.array.isRequired, /please/);
@@ -287,7 +287,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.any, null);
       expectWarningInDevelopment(PropTypes.any.isRequired, null);
       expectWarningInDevelopment(PropTypes.any.isRequired, undefined);
@@ -383,7 +383,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.arrayOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -450,7 +450,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.element, [<div />, <div />]);
       expectWarningInDevelopment(PropTypes.element, <div />);
       expectWarningInDevelopment(PropTypes.element, 123);
@@ -549,7 +549,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.instanceOf(Date), {});
       expectWarningInDevelopment(PropTypes.instanceOf(Date), new Date());
       expectWarningInDevelopment(PropTypes.instanceOf(Date).isRequired, {});
@@ -649,7 +649,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.node, 'node');
       expectWarningInDevelopment(PropTypes.node, {});
       expectWarningInDevelopment(PropTypes.node.isRequired, 'node');
@@ -764,7 +764,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.objectOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -839,7 +839,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.oneOf(['red', 'blue']), true);
       expectWarningInDevelopment(PropTypes.oneOf(['red', 'blue']), null);
       expectWarningInDevelopment(PropTypes.oneOf(['red', 'blue']), undefined);
@@ -930,7 +930,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
@@ -1028,7 +1028,7 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectWarningInDevelopment(PropTypes.shape({}), 'some string');
       expectWarningInDevelopment(PropTypes.shape({foo: PropTypes.number}), {
         foo: 42,

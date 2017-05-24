@@ -16,6 +16,34 @@ var warning = require('fbjs/lib/warning');
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var checkPropTypes = require('./checkPropTypes');
 
+// We are inlining 'lowPriorityWarning' until it gets added to 'fbjs'
+// https://github.com/facebook/fbjs/issues/239
+const printWarning = function(format, ...args) {
+  var argIndex = 0;
+  var message = 'Warning: ' + format.replace(/%s/g, () => args[argIndex++]);
+  if (typeof console !== 'undefined') {
+    console.warn(message);
+  }
+  try {
+    // --- Welcome to debugging React ---
+    // This error was thrown as a convenience so that you can use this stack
+    // to find the callsite that caused this warning to fire.
+    throw new Error(message);
+  } catch (x) {}
+};
+
+const lowPriorityWarning = function(condition, format, ...args) {
+  if (format === undefined) {
+    throw new Error(
+      '`warning(condition, format, ...args)` requires a warning ' +
+      'message argument'
+    );
+  }
+  if (!condition) {
+    printWarning(format, ...args);
+  }
+};
+
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
   var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
@@ -171,7 +199,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             // Avoid spamming the console because they are often not actionable except for lib authors
             manualPropTypeWarningCount < 3
           ) {
-            warning(
+            lowPriorityWarning(
               false,
               'You are manually calling a React.PropTypes validation ' +
               'function for the `%s` prop on `%s`. This is deprecated ' +
