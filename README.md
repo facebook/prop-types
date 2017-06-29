@@ -37,7 +37,7 @@ commonly used with React components.
 Here is an example of using PropTypes with a React component, which also
 documents the different validators provided:
 
-```jsx
+```js
 import React from 'react';
 import PropTypes from 'prop-types';
 
