@@ -241,7 +241,7 @@ you are using PropTypes without React then you may want to manually call
 ```js
 const myPropTypes = {
   name: PropTypes.string,
-  age: PropTypes. number,
+  age: PropTypes.number,
   // ... define your prop validations
 };
 
