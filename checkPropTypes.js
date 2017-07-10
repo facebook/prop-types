@@ -29,15 +29,21 @@ if (process.env.NODE_ENV !== 'production') {
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (process.env.NODE_ENV !== 'production') {
+    var lowerCaseValueNames = Object.keys(values).map(function (name) {
+      return name.toLowerCase()
+    });
+
     for (var typeSpecName in typeSpecs) {
       if (typeSpecs.hasOwnProperty(typeSpecName)) {
         var error;
+        var matchingValueIndex = lowerCaseValueNames.indexOf(typeSpecName.toLowerCase());
         // Prop type validation may throw. In case they do, we don't want to
         // fail the render phase where it didn't fail before. So we log it.
         // After these have been cleaned up, we'll let them throw.
         try {
           // This is intentionally an invariant that gets caught. It's the same
           // behavior as without this statement except with a better message.
+          warning((typeSpecName in values) || matchingValueIndex == -1, 'A PropType exists for %s, but the prop %s was received instead. This is most likely a miscapitalization.', typeSpecName, Object.keys(values)[matchingValueIndex]);
           invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', componentName || 'React class', location, typeSpecName);
           error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
         } catch (ex) {

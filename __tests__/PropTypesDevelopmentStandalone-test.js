@@ -146,6 +146,23 @@ describe('PropTypesDevelopmentStandalone', () => {
       expect(console.error.calls.argsFor(0)[0]).toContain('some error');
       expect(returnValue).toBe(undefined);
     });
+
+    it('should warn when a propType and a prop are the same but have different capitalization', () => {
+      const propTypes = {onSuccess: PropTypes.function};
+      const props = {onsuccess: () => {}};
+      spyOn(console, 'error');
+
+      const returnValue = PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+
+      expect(console.error.calls.argsFor(0)[0]).toContain('A PropType exists for onSuccess, but the prop onsuccess was received instead. This is most likely a miscapitalization.');
+      expect(returnValue).toBe(undefined);
+    });
   });
 
   describe('Primitive Types', () => {
