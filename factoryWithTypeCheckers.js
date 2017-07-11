@@ -12,6 +12,7 @@
 var emptyFunction = require('fbjs/lib/emptyFunction');
 var invariant = require('fbjs/lib/invariant');
 var warning = require('fbjs/lib/warning');
+var assign = require('object-assign');
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var checkPropTypes = require('./checkPropTypes');
@@ -389,7 +390,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
       // We need to check all keys in case some are required but missing from
       // props.
-      var allKeys = Object.assign({}, props[propName], shapeTypes);
+      var allKeys = assign({}, props[propName], shapeTypes);
       for (var key in allKeys) {
         var checker = shapeTypes[key];
         if (!checker) {
