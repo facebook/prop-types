@@ -109,7 +109,7 @@ describe('PropTypesDevelopmentStandalone', () => {
   });
 
   describe('checkPropTypes', () => {
-    it('warn for invalid validators', () => {
+    it('should warn for invalid validators', () => {
       spyOn(console, 'error')
       const propTypes = { foo: undefined };
       const props = { foo: 'foo' };
