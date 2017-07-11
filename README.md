@@ -37,7 +37,7 @@ commonly used with React components.
 Here is an example of using PropTypes with a React component, which also
 documents the different validators provided:
 
-```jsx
+```js
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -132,6 +132,8 @@ Refer to the [React documentation](https://facebook.github.io/react/docs/typeche
 ## Migrating from React.PropTypes
 
 Check out [Migrating from React.PropTypes](https://facebook.github.io/react/blog/2017/04/07/react-v15.5.0.html#migrating-from-react.proptypes) for details on how to migrate to `prop-types` from `React.PropTypes`.
+
+Note that this blog posts **mentions a codemod script that performs the conversion automatically**.
 
 There are also important notes below.
 
@@ -241,7 +243,7 @@ you are using PropTypes without React then you may want to manually call
 ```js
 const myPropTypes = {
   name: PropTypes.string,
-  age: PropTypes. number,
+  age: PropTypes.number,
   // ... define your prop validations
 };
 
