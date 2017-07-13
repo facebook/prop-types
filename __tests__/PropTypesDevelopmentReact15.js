@@ -79,6 +79,40 @@ function typeCheckFailRequiredValues(declaration) {
   expect(message3).toContain(unspecifiedMsg);
 }
 
+function typeCheckFailDefinedValues(declaration) {
+  var unspecifiedMsg = 'The prop `testProp` is marked as required in ' +
+    '`testComponent`, but its value is \`undefined\`.';
+
+  var propTypes = { testProp: declaration };
+
+  // Required prop is undefined
+  var message2 = getPropTypeWarningMessage(
+    propTypes,
+    { testProp: undefined },
+    'testComponent',
+  );
+  expect(message2).toContain(unspecifiedMsg);
+
+  // Required prop is not a member of props object
+  var message3 = getPropTypeWarningMessage(propTypes, {}, 'testComponent');
+  expect(message3).toContain(unspecifiedMsg);
+}
+
+function typeCheckFailNotNullValues(declaration) {
+  var specifiedButIsNullMsg = 'The prop `testProp` is marked as required in ' +
+    '`testComponent`, but its value is `null`.';
+
+  var propTypes = { testProp: declaration };
+
+  // Required prop is null
+  var message1 = getPropTypeWarningMessage(
+    propTypes,
+    { testProp: null },
+    'testComponent',
+  );
+  expect(message1).toContain(specifiedButIsNullMsg);
+}
+
 function typeCheckPass(declaration, value) {
   const propTypes = {
     testProp: declaration,
@@ -357,6 +391,22 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.shape({}).isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.string.isDefined);
+    });
+
+    it('should not warn for defined values when the value is null', () => {
+      typeCheckPass(PropTypes.string.isDefined, null);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.string.isNotNull);
+    });
+
+    it('should not warn for null values when the value is undefined', () => {
+      typeCheckPass(PropTypes.string.isNotNull);
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.array, /please/);
@@ -374,42 +424,84 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.bigint.isRequired, 42);
       expectWarningInDevelopment(PropTypes.bigint.isRequired, null);
       expectWarningInDevelopment(PropTypes.bigint.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.array.isDefined, /please/);
+      expectWarningInDevelopment(PropTypes.array.isDefined, []);
+      expectWarningInDevelopment(PropTypes.array.isDefined, null);
+      expectWarningInDevelopment(PropTypes.array.isNotNull, /please/);
+      expectWarningInDevelopment(PropTypes.array.isNotNull, []);
+      expectWarningInDevelopment(PropTypes.array.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.bool, []);
       expectWarningInDevelopment(PropTypes.bool, true);
       expectWarningInDevelopment(PropTypes.bool.isRequired, []);
       expectWarningInDevelopment(PropTypes.bool.isRequired, true);
       expectWarningInDevelopment(PropTypes.bool.isRequired, null);
       expectWarningInDevelopment(PropTypes.bool.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.bool.isDefined, []);
+      expectWarningInDevelopment(PropTypes.bool.isDefined, true);
+      expectWarningInDevelopment(PropTypes.bool.isDefined, null);
+      expectWarningInDevelopment(PropTypes.bool.isNotNull, []);
+      expectWarningInDevelopment(PropTypes.bool.isNotNull, true);
+      expectWarningInDevelopment(PropTypes.bool.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.func, false);
       expectWarningInDevelopment(PropTypes.func, function() {});
       expectWarningInDevelopment(PropTypes.func.isRequired, false);
       expectWarningInDevelopment(PropTypes.func.isRequired, function() {});
       expectWarningInDevelopment(PropTypes.func.isRequired, null);
       expectWarningInDevelopment(PropTypes.func.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.func.isDefined, false);
+      expectWarningInDevelopment(PropTypes.func.isDefined, function () { });
+      expectWarningInDevelopment(PropTypes.func.isDefined, null);
+      expectWarningInDevelopment(PropTypes.func.isNotNull, false);
+      expectWarningInDevelopment(PropTypes.func.isNotNull, function () { });
+      expectWarningInDevelopment(PropTypes.func.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.number, function() {});
       expectWarningInDevelopment(PropTypes.number, 42);
       expectWarningInDevelopment(PropTypes.number.isRequired, function() {});
       expectWarningInDevelopment(PropTypes.number.isRequired, 42);
       expectWarningInDevelopment(PropTypes.number.isRequired, null);
       expectWarningInDevelopment(PropTypes.number.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.number.isDefined, function () { });
+      expectWarningInDevelopment(PropTypes.number.isDefined, 42);
+      expectWarningInDevelopment(PropTypes.number.isDefined, null);
+      expectWarningInDevelopment(PropTypes.number.isNotNull, function () { });
+      expectWarningInDevelopment(PropTypes.number.isNotNull, 42);
+      expectWarningInDevelopment(PropTypes.number.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.string, 0);
       expectWarningInDevelopment(PropTypes.string, 'foo');
       expectWarningInDevelopment(PropTypes.string.isRequired, 0);
       expectWarningInDevelopment(PropTypes.string.isRequired, 'foo');
       expectWarningInDevelopment(PropTypes.string.isRequired, null);
       expectWarningInDevelopment(PropTypes.string.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.string.isDefined, 0);
+      expectWarningInDevelopment(PropTypes.string.isDefined, 'foo');
+      expectWarningInDevelopment(PropTypes.string.isDefined, null);
+      expectWarningInDevelopment(PropTypes.string.isNotNull, 0);
+      expectWarningInDevelopment(PropTypes.string.isNotNull, 'foo');
+      expectWarningInDevelopment(PropTypes.string.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.symbol, 0);
       expectWarningInDevelopment(PropTypes.symbol, Symbol('Foo'));
       expectWarningInDevelopment(PropTypes.symbol.isRequired, 0);
       expectWarningInDevelopment(PropTypes.symbol.isRequired, Symbol('Foo'));
       expectWarningInDevelopment(PropTypes.symbol.isRequired, null);
       expectWarningInDevelopment(PropTypes.symbol.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.symbol.isDefined, 0);
+      expectWarningInDevelopment(PropTypes.symbol.isDefined, Symbol('Foo'));
+      expectWarningInDevelopment(PropTypes.symbol.isDefined, null);
+      expectWarningInDevelopment(PropTypes.symbol.isNotNull, 0);
+      expectWarningInDevelopment(PropTypes.symbol.isNotNull, Symbol('Foo'));
+      expectWarningInDevelopment(PropTypes.symbol.isNotNull, undefined);
       expectWarningInDevelopment(PropTypes.object, '');
       expectWarningInDevelopment(PropTypes.object, {foo: 'bar'});
       expectWarningInDevelopment(PropTypes.object.isRequired, '');
       expectWarningInDevelopment(PropTypes.object.isRequired, {foo: 'bar'});
       expectWarningInDevelopment(PropTypes.object.isRequired, null);
       expectWarningInDevelopment(PropTypes.object.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.object.isDefined, '');
+      expectWarningInDevelopment(PropTypes.object.isDefined, { foo: 'bar' });
+      expectWarningInDevelopment(PropTypes.object.isDefined, null);
+      expectWarningInDevelopment(PropTypes.object.isNotNull, '');
+      expectWarningInDevelopment(PropTypes.object.isNotNull, { foo: 'bar' });
+      expectWarningInDevelopment(PropTypes.object.isNotNull, undefined);
     });
   });
 
@@ -430,11 +522,23 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.any.isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.any.isDefined);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.any.isNotNull);
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.any, null);
       expectWarningInDevelopment(PropTypes.any.isRequired, null);
       expectWarningInDevelopment(PropTypes.any.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.any.isDefined, null);
+      expectWarningInDevelopment(PropTypes.any.isDefined, undefined);
+      expectWarningInDevelopment(PropTypes.any.isNotNull, null);
+      expectWarningInDevelopment(PropTypes.any.isNotNull, undefined);
     });
   });
 
@@ -529,6 +633,18 @@ describe('PropTypesDevelopmentReact15', () => {
       );
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(
+        PropTypes.arrayOf(PropTypes.number).isDefined,
+      );
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(
+        PropTypes.arrayOf(PropTypes.number).isNotNull,
+      );
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.arrayOf({foo: PropTypes.string}), {
@@ -549,6 +665,22 @@ describe('PropTypesDevelopmentReact15', () => {
       );
       expectWarningInDevelopment(
         PropTypes.arrayOf(PropTypes.number).isRequired,
+        undefined,
+      );
+      expectWarningInDevelopment(
+        PropTypes.arrayOf(PropTypes.number).isDefined,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.arrayOf(PropTypes.number).isDefined,
+        undefined,
+      );
+      expectWarningInDevelopment(
+        PropTypes.arrayOf(PropTypes.number).isNotNull,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.arrayOf(PropTypes.number).isNotNull,
         undefined,
       );
     });
@@ -603,6 +735,14 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.element.isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.element.isDefined);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.element.isNotNull);
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.element, [<div />, <div />]);
@@ -612,6 +752,10 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.element, false);
       expectWarningInDevelopment(PropTypes.element.isRequired, null);
       expectWarningInDevelopment(PropTypes.element.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.element.isDefined, null);
+      expectWarningInDevelopment(PropTypes.element.isDefined, undefined);
+      expectWarningInDevelopment(PropTypes.element.isNotNull, null);
+      expectWarningInDevelopment(PropTypes.element.isNotNull, undefined);
     });
   });
 
@@ -702,6 +846,14 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.instanceOf(String).isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.instanceOf(String).isDefined);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.instanceOf(String).isNotNull);
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.instanceOf(Date), {});
@@ -709,6 +861,16 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.instanceOf(Date).isRequired, {});
       expectWarningInDevelopment(
         PropTypes.instanceOf(Date).isRequired,
+        new Date(),
+      );
+      expectWarningInDevelopment(PropTypes.instanceOf(Date).isDefined, {});
+      expectWarningInDevelopment(
+        PropTypes.instanceOf(Date).isDefined,
+        new Date(),
+      );
+      expectWarningInDevelopment(PropTypes.instanceOf(Date).isNotNull, {});
+      expectWarningInDevelopment(
+        PropTypes.instanceOf(Date).isNotNull,
         new Date(),
       );
     });
@@ -798,8 +960,24 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.node.isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.node.isDefined);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.node.isNotNull);
+    });
+
     it('should accept empty array for required props', () => {
       typeCheckPass(PropTypes.node.isRequired, []);
+    });
+
+    it('should accept empty array for defined props', () => {
+      typeCheckPass(PropTypes.node.isDefined, []);
+    });
+
+    it('should accept empty array for non null props', () => {
+      typeCheckPass(PropTypes.node.isNotNull, []);
     });
 
     it('should warn if called manually in development', () => {
@@ -809,6 +987,12 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.node.isRequired, 'node');
       expectWarningInDevelopment(PropTypes.node.isRequired, undefined);
       expectWarningInDevelopment(PropTypes.node.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.node.isDefined, 'node');
+      expectWarningInDevelopment(PropTypes.node.isDefined, undefined);
+      expectWarningInDevelopment(PropTypes.node.isDefined, undefined);
+      expectWarningInDevelopment(PropTypes.node.isNotNull, 'node');
+      expectWarningInDevelopment(PropTypes.node.isNotNull, undefined);
+      expectWarningInDevelopment(PropTypes.node.isNotNull, undefined);
     });
   });
 
@@ -941,6 +1125,18 @@ describe('PropTypesDevelopmentReact15', () => {
       );
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(
+        PropTypes.objectOf(PropTypes.number).isDefined,
+      );
+    });
+
+    it('should warn for missing not null values', () => {
+      typeCheckFailNotNullValues(
+        PropTypes.objectOf(PropTypes.number).isNotNull,
+      );
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.objectOf({foo: PropTypes.string}), {
@@ -1059,6 +1255,14 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.oneOf(['red', 'blue']).isRequired);
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(PropTypes.oneOf(['red', 'blue']).isDefined);
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(PropTypes.oneOf(['red', 'blue']).isNotNull);
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.oneOf(['red', 'blue']), true);
@@ -1150,6 +1354,18 @@ describe('PropTypesDevelopmentReact15', () => {
       );
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isDefined,
+      );
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isNotNull,
+      );
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(
@@ -1221,8 +1437,34 @@ describe('PropTypesDevelopmentReact15', () => {
         {key: null},
         'The prop `testProp.key` is marked as required in `testComponent`, ' +
           'but its value is `null`.',
+        );
+      });
+
+      typeCheckFail(
+        PropTypes.shape({ key: PropTypes.number.isRequired }),
+        {key: null},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+        'but its value is `null`.',
       );
     });
+
+    it('should warn for defined valid types', () => {
+      typeCheckFail(
+        PropTypes.shape({ key: PropTypes.number.isDefined }),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+        'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for defined non null types', () => {
+      typeCheckFail(
+        PropTypes.shape({ key: PropTypes.number.isNotNull }),
+        { key: null },
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+        'but its value is `null`.',
+        );
+      });
 
     it('should warn for the first required type', () => {
       typeCheckFail(
@@ -1233,6 +1475,30 @@ describe('PropTypesDevelopmentReact15', () => {
         {},
         'The prop `testProp.key` is marked as required in `testComponent`, ' +
           'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for the first defined type', () => {
+      typeCheckFail(
+        PropTypes.shape({
+          key: PropTypes.number.isDefined,
+          secondKey: PropTypes.number.isDefined,
+        }),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+        'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for the first non null type', () => {
+      typeCheckFail(
+        PropTypes.shape({
+          key: PropTypes.number.isNotNull,
+          secondKey: PropTypes.number.isNotNull,
+        }),
+        {key: null, secondKey: null},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+        'but its value is `null`.',
       );
     });
 
@@ -1262,6 +1528,18 @@ describe('PropTypesDevelopmentReact15', () => {
       );
     });
 
+    it('should warn for missing defined values', () => {
+      typeCheckFailDefinedValues(
+        PropTypes.shape({ key: PropTypes.number }).isDefined,
+      );
+    });
+
+    it('should warn for missing non null values', () => {
+      typeCheckFailNotNullValues(
+        PropTypes.shape({ key: PropTypes.number }).isNotNull,
+      );
+    });
+
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
       expectWarningInDevelopment(PropTypes.shape({}), 'some string');
@@ -1274,6 +1552,22 @@ describe('PropTypesDevelopmentReact15', () => {
       );
       expectWarningInDevelopment(
         PropTypes.shape({key: PropTypes.number}).isRequired,
+        undefined,
+      );
+      expectWarningInDevelopment(
+        PropTypes.shape({ key: PropTypes.number }).isDefined,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.shape({ key: PropTypes.number }).isDefined,
+        undefined,
+      );
+      expectWarningInDevelopment(
+        PropTypes.shape({ key: PropTypes.number }).isNotNull,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.shape({ key: PropTypes.number }).isNotNull,
         undefined,
       );
       expectWarningInDevelopment(PropTypes.element, <div />);
