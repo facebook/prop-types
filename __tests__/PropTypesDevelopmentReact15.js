@@ -113,6 +113,23 @@ describe('PropTypesDevelopmentReact15', () => {
   });
 
   describe('checkPropTypes', () => {
+    it('should warn for invalid validators', () => {
+      spyOn(console, 'error')
+      const propTypes = { foo: undefined };
+      const props = { foo: 'foo' };
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      expect(console.error.calls.argsFor(0)[0]).toEqual(
+        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
+        'it must be a function, usually from the `prop-types` package.'
+      );
+    });
+
     it('does not return a value from a validator', () => {
       spyOn(console, 'error');
       const propTypes = {
