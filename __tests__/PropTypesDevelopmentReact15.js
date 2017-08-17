@@ -1062,6 +1062,113 @@ describe('PropTypesDevelopmentReact15', () => {
     });
   });
 
+  describe('Exact Types', () => {
+    it('should warn for non objects', () => {
+      typeCheckFail(
+        PropTypes.exact({}),
+        'some string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+          '`testComponent`, expected `object`.',
+      );
+      typeCheckFail(
+        PropTypes.exact({}),
+        ['array'],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+          '`testComponent`, expected `object`.',
+      );
+    });
+
+    it('should not warn for empty values', () => {
+      typeCheckPass(PropTypes.exact({}), undefined);
+      typeCheckPass(PropTypes.exact({}), null);
+      typeCheckPass(PropTypes.exact({}), {});
+    });
+
+    it('should not warn for an empty object', () => {
+      typeCheckPass(PropTypes.exact({}).isRequired, {});
+    });
+
+    it('should warn for non specified types', () => {
+      typeCheckFail(
+        PropTypes.exact({}),
+        {key: 1},
+        'Warning: Failed prop type: Invalid prop `testProp` key `key` supplied to `testComponent`.' +
+        '\nBad object: {' +
+        '\n  \"key\": 1' +
+        '\n}' +
+        '\nValid keys: []'
+      );
+    });
+
+    it('should not warn for valid types', () => {
+      typeCheckPass(PropTypes.exact({key: PropTypes.number}), {key: 1});
+    });
+
+    it('should warn for required valid types', () => {
+      typeCheckFail(
+        PropTypes.exact({key: PropTypes.number.isRequired}),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for the first required type', () => {
+      typeCheckFail(
+        PropTypes.exact({
+          key: PropTypes.number.isRequired,
+          secondKey: PropTypes.number.isRequired,
+        }),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for invalid key types', () => {
+      typeCheckFail(
+        PropTypes.exact({key: PropTypes.number}),
+        {key: 'abc'},
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+          'expected `number`.',
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      typeCheckPass(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        null,
+      );
+      typeCheckPass(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        undefined,
+      );
+    });
+
+    it('should warn for missing required values', () => {
+      typeCheckFailRequiredValues(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectWarningInDevelopment(PropTypes.exact({}), 'some string');
+      expectWarningInDevelopment(PropTypes.exact({foo: PropTypes.number}), {
+        foo: 42,
+      });
+      expectWarningInDevelopment(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+        undefined,
+      );
+      expectWarningInDevelopment(PropTypes.element, <div />);
+    });
+  });
+
   describe('Symbol Type', () => {
     it('should warn for non-symbol', () => {
       typeCheckFail(
