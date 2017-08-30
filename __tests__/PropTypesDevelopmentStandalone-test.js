@@ -163,6 +163,20 @@ describe('PropTypesDevelopmentStandalone', () => {
       expect(console.error.calls.argsFor(0)[0]).toContain('some error');
       expect(returnValue).toBe(undefined);
     });
+
+    it('warns if any of the propTypes is not a function', () => {
+      spyOn(console, 'error');
+      const propTypes = {
+        foo: PropTypes.invalid_type,
+      };
+      const props = { foo: 'foo' };
+      const returnValue = PropTypes.checkPropTypes(propTypes, props, 'prop', 'testComponent', null);
+      expect(console.error.calls.argsFor(0)[0]).toEqual(
+        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; '
+        + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
+      );
+      expect(returnValue).toBe(undefined);
+    });
   });
 
   describe('Primitive Types', () => {
