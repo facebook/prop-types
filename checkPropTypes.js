@@ -13,6 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
   var invariant = require('fbjs/lib/invariant');
   var warning = require('fbjs/lib/warning');
   var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
+  var {getPostfixForTypeWarning} = require('./lib/TypeWarning');
   var loggedTypeFailures = {};
 }
 
@@ -38,7 +39,15 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         try {
           // This is intentionally an invariant that gets caught. It's the same
           // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          invariant(
+            typeof typeSpecs[typeSpecName] === 'function',
+            '%s: %s type `%s` is invalid. Expected a function, usually from ' +
+            'the `prop-types` package, but received %s instead.',
+            componentName || 'React class',
+            location,
+            typeSpecName,
+            getPostfixForTypeWarning(typeSpecs[typeSpecName])
+          );
           error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
         } catch (ex) {
           error = ex;
