@@ -114,20 +114,25 @@ describe('PropTypesDevelopmentReact15', () => {
 
   describe('checkPropTypes', () => {
     it('should warn for invalid validators', () => {
+      var types = [undefined, null, false, new Date, /foo/, {}];
+      var expected = ['`undefined`', '`null`', 'a boolean', 'a date', 'a regexp', 'an object'];
       spyOn(console, 'error')
-      const propTypes = { foo: undefined };
       const props = { foo: 'foo' };
-      PropTypes.checkPropTypes(
-        propTypes,
-        props,
-        'prop',
-        'testComponent',
-        null,
-      );
-      expect(console.error.calls.argsFor(0)[0]).toEqual(
-        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
-        'it must be a function, usually from the `prop-types` package.'
-      );
+      for (var i = 0; i < types.length; i++) {
+        const propTypes = { foo: types[i] };
+        PropTypes.checkPropTypes(
+          propTypes,
+          props,
+          'prop',
+          'testComponent',
+          null,
+        );
+        expect(console.error.calls.argsFor(0)[0]).toEqual(
+          'Warning: Failed prop type: testComponent: prop type `foo` is invalid. ' +
+          'Expected a function, usually from the `prop-types` package, but received ' + expected[i] + ' instead.'
+        );
+        console.error.calls.reset();
+      }
     });
 
     it('does not return a value from a validator', () => {
@@ -165,20 +170,6 @@ describe('PropTypesDevelopmentReact15', () => {
         null,
       );
       expect(console.error.calls.argsFor(0)[0]).toContain('some error');
-      expect(returnValue).toBe(undefined);
-    });
-
-    it('warns if any of the propTypes is not a function', () => {
-      spyOn(console, 'error');
-      const propTypes = {
-        foo: PropTypes.invalid_type,
-      };
-      const props = { foo: 'foo' };
-      const returnValue = PropTypes.checkPropTypes(propTypes, props, 'prop', 'testComponent', null);
-      expect(console.error.calls.argsFor(0)[0]).toEqual(
-        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; '
-        + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
-      );
       expect(returnValue).toBe(undefined);
     });
   });
@@ -895,7 +886,7 @@ describe('PropTypesDevelopmentReact15', () => {
       spyOn(console, 'error');
 
       var types = [undefined, null, false, new Date, /foo/, {}];
-      var expected = ['undefined', 'null', 'a boolean', 'a date', 'a regexp', 'an object'];
+      var expected = ['`undefined`', '`null`', 'a boolean', 'a date', 'a regexp', 'an object'];
 
       for (var i = 0; i < expected.length; i++) {
         var type = types[i];
