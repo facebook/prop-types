@@ -723,6 +723,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       });
     });
 
+    it('should support objects with a null prototype', () => {
+      const nullObj = Object.create(null);
+      nullObj.test = "a property";
+      typeCheckPass(PropTypes.objectOf(PropTypes.string), nullObj);
+    });
+
     it('should warn with invalid items in the object', () => {
       typeCheckFail(
         PropTypes.objectOf(PropTypes.number),
