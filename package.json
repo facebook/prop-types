@@ -3,10 +3,9 @@
   "version": "15.5.10",
   "description": "Runtime type checking for React props and similar objects.",
   "main": "index.js",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "files": [
     "LICENSE",
-    "PATENTS",
     "README.md",
     "checkPropTypes.js",
     "factory.js",
