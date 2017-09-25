@@ -1,5 +1,6 @@
 ## 15.6.0
 
+* Switch from BSD + Patents to MIT license
 * Add PropTypes.exact, like PropTypes.shape but warns on extra object keys. ([@thejameskyle](https://github.com/thejameskyle) and [@aweary](https://github.com/aweary) in [#41](https://github.com/reactjs/prop-types/pull/41) and [#87](https://github.com/reactjs/prop-types/pull/87))
 
 ## 15.5.10
