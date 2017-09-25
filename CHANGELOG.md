@@ -1,3 +1,7 @@
+## 15.6.0
+
+* Add PropTypes.exact, like PropTypes.shape but warns on extra object keys. ([@thejameskyle](https://github.com/thejameskyle) and [@aweary](https://github.com/aweary) in [#41](https://github.com/reactjs/prop-types/pull/41) and [#87](https://github.com/reactjs/prop-types/pull/87))
+
 ## 15.5.10
 
 * Fix a false positive warning when using a production UMD build of a third-party library with a DEV version of React. ([@gaearon](https://github.com/gaearon) in [#50](https://github.com/reactjs/prop-types/pull/50))
