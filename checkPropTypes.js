@@ -9,7 +9,7 @@
 
 if (process.env.NODE_ENV !== 'production') {
   var invariant = require('fbjs/lib/invariant');
-  var warning = require('fbjs/lib/warning');
+  var warning = require('./lib/warning');
   var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
   var loggedTypeFailures = {};
 }
@@ -27,6 +27,7 @@ if (process.env.NODE_ENV !== 'production') {
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (process.env.NODE_ENV !== 'production') {
+    var warningMessages = [];
     for (var typeSpecName in typeSpecs) {
       if (typeSpecs.hasOwnProperty(typeSpecName)) {
         var error;
@@ -48,11 +49,12 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
           loggedTypeFailures[error.message] = true;
 
           var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+          message = warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+          warningMessages.push(message);
         }
       }
     }
+    return warningMessages;
   }
 }
 
