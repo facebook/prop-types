@@ -124,7 +124,7 @@ describe('PropTypesDevelopmentReact15', () => {
       );
       expect(console.error.calls.argsFor(0)[0]).toEqual(
         'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
-        'it must be a function, usually from the `prop-types` package.'
+        'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
     });
 
