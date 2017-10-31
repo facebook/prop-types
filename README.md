@@ -32,7 +32,7 @@ single-file distributions, which are hosted on the following CDNs:
 <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
 
 <!-- production version -->
-<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.min.js"></script>
 ```
 
 * [**cdnjs**](https://cdnjs.com/libraries/prop-types)
