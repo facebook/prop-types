@@ -29,22 +29,22 @@ single-file distributions, which are hosted on the following CDNs:
 * [**unpkg**](https://unpkg.com/prop-types/)
 ```html
 <!-- development version -->
-<script src="https://unpkg.com/prop-types@15.5/prop-types.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
 
 <!-- production version -->
-<script src="https://unpkg.com/prop-types@15.5/prop-types.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
 ```
 
 * [**cdnjs**](https://cdnjs.com/libraries/prop-types)
 ```html
 <!-- development version -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.5.10/prop-types.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
 
 <!-- production version -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.5.10/prop-types.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>
 ```
 
-To load a specific version of `prop-types` replace `15.5.10` with the version number. 
+To load a specific version of `prop-types` replace `15.6.0` with the version number. 
 
 ## Usage
 
