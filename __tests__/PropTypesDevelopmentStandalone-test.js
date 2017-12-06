@@ -1118,6 +1118,100 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
   });
 
+  describe('ElementWithType Types', () => {
+    it('should fail for mismatched component.type', () => {
+      typeCheckFail(
+        PropTypes.elementWithType('div'),
+        <span />,
+        "Warning: Failed prop type: Invalid prop `testProp` of type [span] supplied to `testComponent`, expected one of type `div`."
+      );
+    });
+
+    it('should pass for matched component.type', () => {
+      typeCheckPass(PropTypes.elementWithType('div'), <div />);
+    });
+
+    it('should pass if no component given', () => {
+      typeCheckPass(PropTypes.elementWithType('div'));
+    });
+
+    describe('factory error', () => {
+      it('should fail if using any value thats not a function nor a string for expectedTypes', () => {
+        spyOn(console, 'error');
+
+        PropTypes.elementWithType(1);
+
+        expect(console.error).toHaveBeenCalled();
+        expect(console.error.calls.argsFor(0)[0]).toContain(
+          "Invalid argument supplied to ElementWithType, expected an Html tag name or a Component."
+        );
+
+        typeCheckPass(PropTypes.elementWithType(1), <span />);
+      });
+    });
+
+    describe('with .isRequired', () => {
+      it('should fail if not passing in anything', () => {
+        typeCheckFail(
+          PropTypes.elementWithType('div').isRequired,
+          null,
+          "Warning: Failed prop type: The prop `testProp` is marked as required in `testComponent`, but its value is `null`."
+        );
+      });
+    });
+
+    describe('custom component', () => {
+      const MyComponent = () => <div></div>;
+      var myComponentPropType;
+      beforeEach(() => {
+        myComponentPropType = PropTypes.elementWithType(MyComponent)
+      });
+
+      it('should fail for mismatched component.type', () => {
+        typeCheckFail(
+          myComponentPropType,
+          <span />,
+          "Warning: Failed prop type: Invalid prop `testProp` of type [span] supplied to `testComponent`, expected one of type `MyComponent`."
+        );
+      });
+
+      it('should pass for matched component.type', () => {
+        typeCheckPass(myComponentPropType, <MyComponent />);
+      });
+    });
+
+    describe('given component mismatches with expected', () => {
+      it('should warn if given invalid element', () => {
+        [
+          '<div></div>',
+          { type: 'div' },
+          1,
+          ['div'],
+          'div'
+        ].forEach(invalidElement =>
+          typeCheckFail(
+            PropTypes.elementWithType('div'),
+            invalidElement,
+            "Warning: Failed prop type: Invalid prop `testProp` of component `testComponent` has been given invalid component."
+          )
+          );
+      });
+    });
+
+    describe('list of expected types', () => {
+      it('should warn if expected type does not include given component.type', () => {
+        typeCheckFail(
+          PropTypes.elementWithType('div'),
+          <span />,
+          "Warning: Failed prop type: Invalid prop `testProp` of type [span] supplied to `testComponent`, expected one of type `div`."
+        );
+      });
+      it('should pass if expected type include given component.type', () => {
+        typeCheckPass(PropTypes.elementWithType('div'), <div />)
+      });
+    });
+  });
+
   describe('Union Types', () => {
     it('should warn but not error for invalid argument', () => {
       spyOn(console, 'error');

@@ -51,6 +51,7 @@ module.exports = function() {
     objectOf: getShim,
     oneOf: getShim,
     oneOfType: getShim,
+    elementWithType: getShim,
     shape: getShim,
     exact: getShim,
 

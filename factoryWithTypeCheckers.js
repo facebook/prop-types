@@ -129,6 +129,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     node: createNodeChecker(),
     objectOf: createObjectOfTypeChecker,
     oneOf: createEnumTypeChecker,
+    elementWithType: createElementWithTypeChecker,
     oneOfType: createUnionTypeChecker,
     shape: createShapeTypeChecker,
     exact: createStrictShapeTypeChecker,
@@ -362,6 +363,36 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return null;
     }
     return createChainableTypeChecker(validate);
+  }
+
+
+  function createElementWithTypeChecker(expectedType) {
+    var ACCEPTABLE_TYPES_OF_EXPECTED_TYPES = ['string', 'function'];
+
+    if (ACCEPTABLE_TYPES_OF_EXPECTED_TYPES.indexOf(typeof expectedType) === -1) {
+      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to ElementWithType, expected an Html tag name or a Component.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    function getDisplayName (comp) {
+      return typeof comp === 'function' ? comp.displayName || comp.name : comp;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValues = [].concat(props[propName]);
+
+      if (propValues.some(pv => !isValidElement(pv))) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of component `' + componentName + '` has been given invalid component.');
+      }
+
+      var hasInvalid = propValues.some(propValue => expectedType !== propValue.type);
+      if (hasInvalid) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type [' + propValues.map(pv => pv.type).map(getDisplayName).join(', ') + '] ' + ('supplied to `' + componentName + '`, expected one of type `' + getDisplayName(expectedType) + '`.'));
+      }
+
+      return null;
+    }
+    return createChainableTypeChecker(validate)
   }
 
   function createUnionTypeChecker(arrayOfTypeCheckers) {

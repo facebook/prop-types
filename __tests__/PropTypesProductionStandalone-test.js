@@ -194,6 +194,16 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
+  describe('elementWithType Types', () => {
+    it('should be a no-op', () => {
+      expectThrowsInProduction(PropTypes.elementWithType(1));
+      expectThrowsInProduction(PropTypes.elementWithType('div'), 'div');
+      expectThrowsInProduction(PropTypes.elementWithType('div'), { type: 'div' });
+      expectThrowsInProduction(PropTypes.elementWithType(['div', 'span']), <div/>);
+      expectThrowsInProduction(PropTypes.elementWithType('div'), [<div/>, <span/>]);
+    });
+  });
+
   describe('Union Types', function() {
     it('should be a no-op', function() {
       expectThrowsInProduction(

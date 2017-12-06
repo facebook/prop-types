@@ -63,6 +63,8 @@ class MyComponent extends React.Component {
   }
 }
 
+const OtherComponent = () => <div/>
+
 MyComponent.propTypes = {
   // You can declare that a prop is a specific JS primitive. By default, these
   // are all optional.
@@ -93,11 +95,14 @@ MyComponent.propTypes = {
   // it as an enum.
   optionalEnum: PropTypes.oneOf(['News', 'Photos']),
 
+  optionalElementWithType: PropTypes.elementWithType(['div', OtherComponent]),
+
   // An object that could be one of many types
   optionalUnion: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.instanceOf(Message)
+    PropTypes.instanceOf(Message),
+    PropTypes.elementWithType(['label'])
   ]),
 
   // An array of a certain type
