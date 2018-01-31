@@ -198,7 +198,6 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     var chainedCheckType = checkType.bind(null, true, true);
     chainedCheckType.isRequired = checkType.bind(null, false, false);
     chainedCheckType.isDefined = checkType.bind(null, true, false);
-    chainedCheckType.isNotNull = checkType.bind(null, false, true);
 
     return chainedCheckType;
   }
