@@ -1,3 +1,6 @@
+## 15.6.1
+* Fix an issue where outdated BSD license headers were still present in the published bundle [#162](https://github.com/facebook/prop-types/issues/162)
+
 ## 15.6.0
 
 * Switch from BSD + Patents to MIT license
