@@ -28,6 +28,7 @@ if (process.env.NODE_ENV !== 'production') {
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (process.env.NODE_ENV !== 'production') {
+    var propTypeDefinitions = {};
     for (var typeSpecName in typeSpecs) {
       if (typeSpecs.hasOwnProperty(typeSpecName)) {
         var error;
@@ -53,12 +54,10 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
           warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
         }
 
-        console.log('typeSpecs[typeSpecName].propTypeDefinition', typeSpecs[typeSpecName].propTypeDefinition)
-        return {
-          propTypeDefinition: typeSpecs[typeSpecName].propTypeDefinition
-        }
+        propTypeDefinitions[typeSpecName] = typeSpecs[typeSpecName].propTypeDefinition
       }
     }
+    return propTypeDefinitions;
   }
 }
 
