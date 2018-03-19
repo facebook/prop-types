@@ -9,8 +9,8 @@
 
 'use strict';
 
-var React;
-var PropTypes;
+let React;
+let PropTypes;
 
 function resetWarningCache() {
   jest.resetModules();
@@ -50,15 +50,15 @@ function typeCheckFail(declaration, value, expectedMessage) {
 }
 
 function typeCheckFailRequiredValues(declaration) {
-  var specifiedButIsNullMsg = 'The prop `testProp` is marked as required in ' +
+  const specifiedButIsNullMsg = 'The prop `testProp` is marked as required in ' +
     '`testComponent`, but its value is `null`.';
-  var unspecifiedMsg = 'The prop `testProp` is marked as required in ' +
+  const unspecifiedMsg = 'The prop `testProp` is marked as required in ' +
     '`testComponent`, but its value is \`undefined\`.';
 
-  var propTypes = {testProp: declaration};
+  const propTypes = {testProp: declaration};
 
   // Required prop is null
-  var message1 = getPropTypeWarningMessage(
+  const message1 = getPropTypeWarningMessage(
     propTypes,
     {testProp: null},
     'testComponent',
@@ -66,7 +66,7 @@ function typeCheckFailRequiredValues(declaration) {
   expect(message1).toContain(specifiedButIsNullMsg);
 
   // Required prop is undefined
-  var message2 = getPropTypeWarningMessage(
+  const message2 = getPropTypeWarningMessage(
     propTypes,
     {testProp: undefined},
     'testComponent',
@@ -74,7 +74,7 @@ function typeCheckFailRequiredValues(declaration) {
   expect(message2).toContain(unspecifiedMsg);
 
   // Required prop is not a member of props object
-  var message3 = getPropTypeWarningMessage(propTypes, {}, 'testComponent');
+  const message3 = getPropTypeWarningMessage(propTypes, {}, 'testComponent');
   expect(message3).toContain(unspecifiedMsg);
 }
 
@@ -91,7 +91,7 @@ function typeCheckPass(declaration, value) {
 
 function expectThrowsInDevelopment(declaration, value) {
   resetWarningCache();
-  var props = {testProp: value};
+  const props = {testProp: value};
   expect(() => {
     declaration(props, 'testProp', 'testComponent', 'prop');
   }).toThrowError(
@@ -359,7 +359,7 @@ describe('PropTypesDevelopmentStandalone', () => {
 
     it('should warn with invalid complex types', () => {
       function Thing() {}
-      var name = Thing.name || '<<anonymous>>';
+      const name = Thing.name || '<<anonymous>>';
 
       typeCheckFail(
         PropTypes.arrayOf(PropTypes.instanceOf(Thing)),
@@ -490,9 +490,9 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should warn for invalid instances', () => {
       function Person() {}
       function Cat() {}
-      var personName = Person.name || '<<anonymous>>';
-      var dateName = Date.name || '<<anonymous>>';
-      var regExpName = RegExp.name || '<<anonymous>>';
+      const personName = Person.name || '<<anonymous>>';
+      const dateName = Date.name || '<<anonymous>>';
+      const regExpName = RegExp.name || '<<anonymous>>';
 
       typeCheckFail(
         PropTypes.instanceOf(Person),
@@ -587,7 +587,7 @@ describe('PropTypesDevelopmentStandalone', () => {
 
   describe('React Component Types', () => {
     it('should warn for invalid values', () => {
-      var failMessage = 'Invalid prop `testProp` supplied to ' +
+      const failMessage = 'Invalid prop `testProp` supplied to ' +
         '`testComponent`, expected a ReactNode.';
       typeCheckFail(PropTypes.node, true, failMessage);
       typeCheckFail(PropTypes.node, function() {}, failMessage);
@@ -621,12 +621,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       MyComponent.prototype.render = function() {
         return <div />;
       };
-      var iterable = {
+      const iterable = {
         '@@iterator': function() {
-          var i = 0;
+          let i = 0;
           return {
             next: function() {
-              var done = ++i > 2;
+              const done = ++i > 2;
               return {value: done ? undefined : <MyComponent />, done: done};
             },
           };
@@ -641,12 +641,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       MyComponent.prototype.render = function() {
         return <div />;
       };
-      var iterable = {
+      const iterable = {
         '@@iterator': function() {
-          var i = 0;
+          let i = 0;
           return {
             next: function() {
-              var done = ++i > 2;
+              const done = ++i > 2;
               return {
                 value: done ? undefined : ['#' + i, <MyComponent />],
                 done: done,
@@ -734,7 +734,7 @@ describe('PropTypesDevelopmentStandalone', () => {
 
     it('should warn with invalid complex types', () => {
       function Thing() {}
-      var name = Thing.name || '<<anonymous>>';
+      const name = Thing.name || '<<anonymous>>';
 
       typeCheckFail(
         PropTypes.objectOf(PropTypes.instanceOf(Thing)),
@@ -888,11 +888,11 @@ describe('PropTypesDevelopmentStandalone', () => {
     it('should warn but for invalid argument type', () => {
       spyOn(console, 'error');
 
-      var types = [undefined, null, false, new Date, /foo/, {}];
-      var expected = ['undefined', 'null', 'a boolean', 'a date', 'a regexp', 'an object'];
+      const types = [undefined, null, false, new Date, /foo/, {}];
+      const expected = ['undefined', 'null', 'a boolean', 'a date', 'a regexp', 'an object'];
 
-      for (var i = 0; i < expected.length; i++) {
-        var type = types[i];
+      for (let i = 0; i < expected.length; i++) {
+        const type = types[i];
         PropTypes.oneOfType([type]);
         expect(console.error).toHaveBeenCalled();
         expect(console.error.calls.argsFor(0)[0]).toContain(
@@ -912,7 +912,7 @@ describe('PropTypesDevelopmentStandalone', () => {
         'Invalid prop `testProp` supplied to `testComponent`.',
       );
 
-      var checker = PropTypes.oneOfType([
+      const checker = PropTypes.oneOfType([
         PropTypes.shape({a: PropTypes.number.isRequired}),
         PropTypes.shape({b: PropTypes.number.isRequired}),
       ]);
@@ -924,7 +924,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should not warn if one of the types are valid', () => {
-      var checker = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+      let checker = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
       typeCheckPass(checker, null);
       typeCheckPass(checker, 'foo');
       typeCheckPass(checker, 123);
@@ -1095,7 +1095,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should not warn for a polyfilled Symbol', () => {
-      var CoreSymbol = require('core-js/library/es6/symbol');
+      const CoreSymbol = require('core-js/library/es6/symbol');
       typeCheckPass(PropTypes.symbol, CoreSymbol('core-js'));
     });
   });
