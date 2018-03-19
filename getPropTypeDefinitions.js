@@ -13,7 +13,7 @@
  * @param {object} typeSpecs Map of name to a ReactPropType
  * @return {object} type, expectedValues, shapeTypes
  */
-function getProptypeDefinitions(typeSpecs) {
+function getPropTypeDefinitions(typeSpecs) {
   if (process.env.NODE_ENV !== 'production') {
     var propTypeDefinitions = {};
     for (var typeSpecName in typeSpecs) {
@@ -25,4 +25,4 @@ function getProptypeDefinitions(typeSpecs) {
   }
 }
 
-module.exports = getProptypeDefinitions;
+module.exports = getPropTypeDefinitions;
