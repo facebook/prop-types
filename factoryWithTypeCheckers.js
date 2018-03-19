@@ -413,11 +413,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     //   otherProp: propTypeDefinition
     // }
     var shapeKeys = Object.keys(shapeTypes);
-    var customShapeTypes = shapeKeys.reduce( (acc, curr) => {
-      return {
-        ...acc,
-        [curr]: shapeTypes[curr].propTypeDefinition
-      }
+    var customShapeTypes = shapeKeys.reduce((acc, curr) => {
+      const currentKeyObject = {};
+      currentKeyObject[curr] = shapeTypes[curr].propTypeDefinition;
+      const newAcc = Object.assign({}, acc, currentKeyObject)
+      return newAcc;
     }, {})
 
     var expectedDefinition = {
