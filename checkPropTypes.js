@@ -24,6 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
  * @param {string} componentName Name of the component for error messages.
  * @param {?Function} getStack Returns the component stack.
  * @private
+ * @return {object} location, message, componentName, loggedTypeFailurs
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (process.env.NODE_ENV !== 'production') {
@@ -51,10 +52,10 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
           warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
           return {
-            location,
+            location: location,
             message: error.message,
-            componentName,
-            loggedTypeFailures
+            componentName: componentName,
+            loggedTypeFailures: loggedTypeFailures
           }
         }
       }
