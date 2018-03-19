@@ -10,8 +10,8 @@
 'use strict';
 
 describe('PropTypesProductionStandalone', function() {
-  var React;
-  var PropTypes;
+  let React;
+  let PropTypes;
 
   function resetWarningCache() {
     jest.resetModules();
@@ -49,7 +49,7 @@ describe('PropTypesProductionStandalone', function() {
 
   function expectThrowsInProduction(declaration, value) {
     resetWarningCache();
-    var props = {testProp: value};
+    const props = {testProp: value};
     expect(() => {
       declaration(props, 'testProp', 'testComponent', 'prop');
     }).toThrowError(
@@ -226,7 +226,7 @@ describe('PropTypesProductionStandalone', function() {
     it('does not call validators', function() {
       spyOn(console, 'error');
 
-      var spy = jest.fn();
+      const spy = jest.fn();
       typeCheckPass(PropTypes.string, 42);
       typeCheckPass(PropTypes.bool, 'whatever');
       typeCheckPass(spy, 'no way');
