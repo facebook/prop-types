@@ -50,6 +50,12 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
           var stack = getStack ? getStack() : '';
 
           warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+          return {
+            location,
+            message: error.message,
+            componentName,
+            loggedTypeFailures
+          }
         }
       }
     }
