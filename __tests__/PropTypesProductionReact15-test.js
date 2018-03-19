@@ -9,14 +9,14 @@
 
 'use strict';
 
-var React;
-var PropTypes;
+let React;
+let PropTypes;
 
 function resetWarningCache() {
   jest.resetModules();
 
   // Set production mode throughout this test.
-  process.env.NODE_ENV = 'production';  
+  process.env.NODE_ENV = 'production';
   React = require('react');
   // We are testing that when imported in the same way React 15 imports `prop-types`,
   // it just suppresses warnings but doesn't actually throw when calling validators.
@@ -30,11 +30,11 @@ function expectNoop(declaration, value) {
     console.error.calls.reset();
   }
 
-  var props = {testProp: value};
-  var propName = 'testProp' + Math.random().toString();
-  var componentName = 'testComponent' + Math.random().toString();
+  const props = {testProp: value};
+  const propName = 'testProp' + Math.random().toString();
+  const componentName = 'testComponent' + Math.random().toString();
   // Try calling it manually
-  for (var i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {
     declaration(props, propName, componentName, 'prop');
   }
   // Try calling it via checkPropTypes
@@ -235,7 +235,7 @@ describe('PropTypesProductionReact15', () => {
 
     it('should warn with invalid complex types', () => {
       function Thing() {}
-      var name = Thing.name || '<<anonymous>>';
+      const name = Thing.name || '<<anonymous>>';
 
       expectNoop(
         PropTypes.arrayOf(PropTypes.instanceOf(Thing)),
@@ -366,9 +366,9 @@ describe('PropTypesProductionReact15', () => {
     it('should warn for invalid instances', () => {
       function Person() {}
       function Cat() {}
-      var personName = Person.name || '<<anonymous>>';
-      var dateName = Date.name || '<<anonymous>>';
-      var regExpName = RegExp.name || '<<anonymous>>';
+      const personName = Person.name || '<<anonymous>>';
+      const dateName = Date.name || '<<anonymous>>';
+      const regExpName = RegExp.name || '<<anonymous>>';
 
       expectNoop(
         PropTypes.instanceOf(Person),
@@ -463,7 +463,7 @@ describe('PropTypesProductionReact15', () => {
 
   describe('React Component Types', () => {
     it('should warn for invalid values', () => {
-      var failMessage = 'Invalid prop `testProp` supplied to ' +
+      const failMessage = 'Invalid prop `testProp` supplied to ' +
         '`testComponent`, expected a ReactNode.';
       expectNoop(PropTypes.node, true, failMessage);
       expectNoop(PropTypes.node, function() {}, failMessage);
@@ -497,12 +497,12 @@ describe('PropTypesProductionReact15', () => {
       MyComponent.prototype.render = function() {
         return <div />;
       };
-      var iterable = {
+      const iterable = {
         '@@iterator': function() {
-          var i = 0;
+          const i = 0;
           return {
             next: function() {
-              var done = ++i > 2;
+              const done = ++i > 2;
               return {value: done ? undefined : <MyComponent />, done: done};
             },
           };
@@ -517,12 +517,12 @@ describe('PropTypesProductionReact15', () => {
       MyComponent.prototype.render = function() {
         return <div />;
       };
-      var iterable = {
+      const iterable = {
         '@@iterator': function() {
-          var i = 0;
+          const i = 0;
           return {
             next: function() {
-              var done = ++i > 2;
+              const done = ++i > 2;
               return {
                 value: done ? undefined : ['#' + i, <MyComponent />],
                 done: done,
@@ -610,7 +610,7 @@ describe('PropTypesProductionReact15', () => {
 
     it('should warn with invalid complex types', () => {
       function Thing() {}
-      var name = Thing.name || '<<anonymous>>';
+      const name = Thing.name || '<<anonymous>>';
 
       expectNoop(
         PropTypes.objectOf(PropTypes.instanceOf(Thing)),
@@ -760,7 +760,7 @@ describe('PropTypesProductionReact15', () => {
         'Invalid prop `testProp` supplied to `testComponent`.',
       );
 
-      var checker = PropTypes.oneOfType([
+      const checker = PropTypes.oneOfType([
         PropTypes.shape({a: PropTypes.number.isRequired}),
         PropTypes.shape({b: PropTypes.number.isRequired}),
       ]);
@@ -772,7 +772,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should not warn if one of the types are valid', () => {
-      var checker = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+      let checker = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
       expectNoop(checker, null);
       expectNoop(checker, 'foo');
       expectNoop(checker, 123);
@@ -954,7 +954,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should not warn for a polyfilled Symbol', () => {
-      var CoreSymbol = require('core-js/library/es6/symbol');
+      const CoreSymbol = require('core-js/library/es6/symbol');
       expectNoop(PropTypes.symbol, CoreSymbol('core-js'));
     });
   });
