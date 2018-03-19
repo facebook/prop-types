@@ -202,6 +202,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     var chainedCheckType = checkType.bind(null, false);
     chainedCheckType.isRequired = checkType.bind(null, true);
 
+    chainedCheckType.propTypeDefinition = {
+      type: "string",
+      expectedValues: ['some', 'value']
+    }
+
     return chainedCheckType;
   }
 

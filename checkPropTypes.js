@@ -51,12 +51,11 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
           var stack = getStack ? getStack() : '';
 
           warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-          return {
-            location: location,
-            message: error.message,
-            componentName: componentName,
-            loggedTypeFailures: loggedTypeFailures
-          }
+        }
+
+        console.log('typeSpecs[typeSpecName].propTypeDefinition', typeSpecs[typeSpecName].propTypeDefinition)
+        return {
+          propTypeDefinition: typeSpecs[typeSpecName].propTypeDefinition
         }
       }
     }
