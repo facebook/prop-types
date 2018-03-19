@@ -14,7 +14,7 @@ var assign = require('object-assign');
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var checkPropTypes = require('./checkPropTypes');
-var getProptypeDefinitions = require('./getPropTypeDefinitions');
+var getPropTypeDefinitions = require('./getPropTypeDefinitions');
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -586,7 +586,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   ReactPropTypes.checkPropTypes = checkPropTypes;
   ReactPropTypes.PropTypes = ReactPropTypes;
-  ReactPropTypes.getProptypeDefinitions = getProptypeDefinitions;
+  ReactPropTypes.getPropTypeDefinitions = getPropTypeDefinitions;
 
   return ReactPropTypes;
 };
