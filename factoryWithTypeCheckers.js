@@ -406,9 +406,23 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
       return null;
     }
+
+    // should be:
+    // shapeTypes = {
+    //   prop: propTypeDefinition,
+    //   otherProp: propTypeDefinition
+    // }
+    var shapeKeys = Object.keys(shapeTypes);
+    var customShapeTypes = shapeKeys.reduce( (acc, curr) => {
+      return {
+        ...acc,
+        [curr]: shapeTypes[curr].propTypeDefinition
+      }
+    }, {})
+
     var expectedDefinition = {
       type: 'shape',
-      shapeTypes: shapeTypes
+      shapeTypes: customShapeTypes
     }
     return createChainableTypeChecker(validate, expectedDefinition);
   }
