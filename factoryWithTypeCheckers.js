@@ -373,11 +373,15 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
     }
 
-    console.log('arrayOfTypeCheckers',arrayOfTypeCheckers);
-    // var expectedDefinition = {
-    //   type: 'oneOfType',
-    //   expectedTypes:
-    // }
+    console.log('arrayOfTypeCheckers', arrayOfTypeCheckers);
+    var expectedValues = arrayOfTypeCheckers.map(function (item) {
+      return item.propTypeDefinition;
+    });
+
+    var expectedDefinition = {
+      type: 'oneOfType',
+      expectedTypes:expectedValues
+    };
 
     return createChainableTypeChecker(validate);
   }
