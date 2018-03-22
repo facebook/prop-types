@@ -232,7 +232,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   }
 
   function createAnyTypeChecker() {
-    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
+    var expectedDefinition = {
+      type: "any"
+    }
+    return createChainableTypeChecker(emptyFunction.thatReturnsNull, expectedDefinition);
   }
 
   function createArrayOfTypeChecker(typeChecker) {
