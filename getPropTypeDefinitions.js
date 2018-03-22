@@ -14,6 +14,7 @@
  * @return {object} type, expectedValues, shapeTypes
  */
 function getPropTypeDefinitions(typeSpecs) {
+  if (process.env.NODE_ENV !== 'production') {
     var propTypeDefinitions = {};
     for (var typeSpecName in typeSpecs) {
       if (typeSpecs.hasOwnProperty(typeSpecName)) {
@@ -21,6 +22,7 @@ function getPropTypeDefinitions(typeSpecs) {
       }
     }
     return propTypeDefinitions;
+  }
 }
 
 module.exports = getPropTypeDefinitions;
