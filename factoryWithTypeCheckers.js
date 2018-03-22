@@ -383,7 +383,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       expectedTypes:expectedValues
     };
 
-    return createChainableTypeChecker(validate);
+    return createChainableTypeChecker(validate, expectedDefinition);
   }
 
   function createNodeChecker() {
