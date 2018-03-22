@@ -415,7 +415,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (!shapeKey) {
         continue;
       }
-      customShapeTypes[key] = shapeKeys[key].propTypeDefinition;
+      customShapeTypes[shapeKey] = shapeKey.propTypeDefinition;
     }
 
     var expectedDefinition = {
