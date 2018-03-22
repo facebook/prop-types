@@ -408,15 +408,16 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return null;
     }
 
-    var shapeKeys = Object.keys(shapeTypes);
     var customShapeTypes = {};
-    for (var key in shapeKeys) {
-      var shapeKey = shapeKeys[key];
+
+    for (var key in shapeTypes) {
+      var shapeKey = shapeTypes[key];
       if (!shapeKey) {
         continue;
       }
-      customShapeTypes[shapeKey] = shapeKey.propTypeDefinition;
+      customShapeTypes[key] = shapeKey.propTypeDefinition
     }
+
 
     var expectedDefinition = {
       type: 'shape',
