@@ -258,7 +258,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     }
 
     var expectedDefinition = {
-      type: 'arrayOfType',
+      type: 'arrayOf',
+      expectedType: typeChecker.propTypeDefinition
     }
 
     return createChainableTypeChecker(validate, expectedDefinition);
