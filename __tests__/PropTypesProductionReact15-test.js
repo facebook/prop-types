@@ -968,4 +968,26 @@ describe('PropTypesProductionReact15', () => {
       expectNoop(PropTypes.symbol, CoreSymbol('core-js'));
     });
   });
+
+  describe('checkPropTypes', function() {
+    describe('checkPropTypes.resetWarningCache', () => {
+      it('should provide empty function', () => {
+        spyOn(console, 'error');
+
+        var spy = jest.fn();
+        PropTypes.checkPropTypes.resetWarningCache();
+        expect(spy).not.toBeCalled();
+      });
+    });
+  });
+
+  describe('resetWarningCache', () => {
+    it('should provide empty function', () => {
+      spyOn(console, 'error');
+
+      var spy = jest.fn();
+      PropTypes.resetWarningCache();
+      expect(spy).not.toBeCalled();
+    });
+  });
 });

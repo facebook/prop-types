@@ -112,7 +112,7 @@ describe('PropTypesDevelopmentReact15', () => {
 
   describe('checkPropTypes', () => {
     it('should warn for invalid validators', () => {
-      spyOn(console, 'error')
+      spyOn(console, 'error');
       const propTypes = { foo: undefined };
       const props = { foo: 'foo' };
       PropTypes.checkPropTypes(
@@ -126,6 +126,51 @@ describe('PropTypesDevelopmentReact15', () => {
         'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
         'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
+    });
+
+    it('should only warn once for identical validator failures', () => {
+      spyOn(console, 'error');
+      const propTypes = { foo: undefined };
+      const props = { foo: 'foo' };
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      expect(console.error.calls.count()).toEqual(1);
+    });
+
+    describe('checkPropTypes.resetWarningCache', () => {
+      it('should reset warning cache', () => {
+        spyOn(console, 'error');
+        const propTypes = { foo: undefined };
+        const props = { foo: 'foo' };
+        PropTypes.checkPropTypes(
+          propTypes,
+          props,
+          'prop',
+          'testComponent',
+          null,
+        );
+        PropTypes.checkPropTypes.resetWarningCache();
+        PropTypes.checkPropTypes(
+          propTypes,
+          props,
+          'prop',
+          'testComponent',
+          null,
+        );
+        expect(console.error.calls.count()).toEqual(2);
+      });
     });
 
     it('does not return a value from a validator', () => {
@@ -178,6 +223,30 @@ describe('PropTypesDevelopmentReact15', () => {
         + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
       expect(returnValue).toBe(undefined);
+    });
+  });
+
+  describe('resetWarningCache', () => {
+    it('should reset warning cache', () => {
+      spyOn(console, 'error');
+      const propTypes = { foo: undefined };
+      const props = { foo: 'foo' };
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      PropTypes.resetWarningCache();
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      expect(console.error.calls.count()).toEqual(2);
     });
   });
 

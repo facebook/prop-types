@@ -232,5 +232,25 @@ describe('PropTypesProductionStandalone', function() {
       typeCheckPass(spy, 'no way');
       expect(spy).not.toBeCalled();
     });
+
+    describe('checkPropTypes.resetWarningCache', () => {
+      it('should provide empty function', () => {
+        spyOn(console, 'error');
+
+        var spy = jest.fn();
+        PropTypes.checkPropTypes.resetWarningCache();
+        expect(spy).not.toBeCalled();
+      });
+    });
+  });
+
+  describe('resetWarningCache', () => {
+    it('should provide empty function', () => {
+      spyOn(console, 'error');
+
+      var spy = jest.fn();
+      PropTypes.resetWarningCache();
+      expect(spy).not.toBeCalled();
+    });
   });
 });

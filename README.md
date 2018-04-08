@@ -284,6 +284,10 @@ PropTypes.checkPropTypes(myPropTypes, props, 'age', 'MyComponent');
 // `MyComponent`, expected `number`.
 ```
 
+## PropTypes.resetWarningCache()
+
+`PropTypes.checkPropTypes(...)` only `console.error.log(...)`s a given message once.  To reset the cache while testing call `PropTypes.resetWarningCache()`
+
 ### License
 
 prop-types is [MIT licensed](./LICENSE).
