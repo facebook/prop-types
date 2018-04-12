@@ -102,10 +102,13 @@ MyComponent.propTypes = {
   // An object with property values of a certain type
   optionalObjectOf: PropTypes.objectOf(PropTypes.number),
 
+  // You can chain any of the above with `isRequired` to make sure a warning
+  // is shown if the prop isn't provided.
+
   // An object taking on a particular shape
   optionalObjectWithShape: PropTypes.shape({
-    color: PropTypes.string,
-    fontSize: PropTypes.number
+    optionalProperty: PropTypes.string,
+    requiredProperty: PropTypes.number.isRequired
   }),
 
   // An object with warnings on extra properties
@@ -114,8 +117,6 @@ MyComponent.propTypes = {
     requiredProperty: PropTypes.number.isRequired
   }),
 
-  // You can chain any of the above with `isRequired` to make sure a warning
-  // is shown if the prop isn't provided.
   requiredFunc: PropTypes.func.isRequired,
 
   // A value of any data type
