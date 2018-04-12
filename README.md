@@ -108,6 +108,12 @@ MyComponent.propTypes = {
     fontSize: PropTypes.number
   }),
 
+  // An object with warnings on extra properties
+  optionalObjectWithStrictShape: PropTypes.exact({
+    color: PropTypes.string,
+    fontSize: PropTypes.number
+  }),
+
   // You can chain any of the above with `isRequired` to make sure a warning
   // is shown if the prop isn't provided.
   requiredFunc: PropTypes.func.isRequired,
