@@ -779,8 +779,18 @@ describe('PropTypesDevelopmentStandalone', () => {
       );
     });
 
+    it('should not warn when passing an object with no prototype', () => {
+      typeCheckPass(PropTypes.objectOf(PropTypes.number), Object.create(null));
+    });
+
     it('should not warn when passing an empty object', () => {
       typeCheckPass(PropTypes.objectOf(PropTypes.number), {});
+    });
+
+    it('should not warn when passing an object with a hasOwnProperty property', () => {
+      typeCheckPass(PropTypes.objectOf(PropTypes.number), {
+        hasOwnProperty: 3,
+      });
     });
 
     it('should be implicitly optional and not warn without values', () => {
