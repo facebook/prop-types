@@ -48,6 +48,8 @@ module.exports = function() {
     oneOf: getShim,
     oneOfType: getShim,
     shape: getShim,
+    set: shim,
+    setOf: getShim,
     exact: getShim
   };
 
