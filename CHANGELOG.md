@@ -1,3 +1,6 @@
+## 15.6.2
+* Remove the `fbjs` dependency by inlining some helpers from it ([#194](https://github.com/reactjs/prop-types/pull/194)))
+
 ## 15.6.1
 * Fix an issue where outdated BSD license headers were still present in the published bundle [#162](https://github.com/facebook/prop-types/issues/162)
 
