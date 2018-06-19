@@ -22,8 +22,8 @@ var PropTypes = require('prop-types'); // ES5 with npm
 
 ### CDN
 
-If you prefer to exclude `prop-types` from your application and use it 
-globally via `window.PropTypes`, the `prop-types` package provides 
+If you prefer to exclude `prop-types` from your application and use it
+globally via `window.PropTypes`, the `prop-types` package provides
 single-file distributions, which are hosted on the following CDNs:
 
 * [**unpkg**](https://unpkg.com/prop-types/)
@@ -44,7 +44,7 @@ single-file distributions, which are hosted on the following CDNs:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>
 ```
 
-To load a specific version of `prop-types` replace `15.6.0` with the version number. 
+To load a specific version of `prop-types` replace `15.6.0` with the version number.
 
 ## Usage
 
@@ -102,14 +102,21 @@ MyComponent.propTypes = {
   // An object with property values of a certain type
   optionalObjectOf: PropTypes.objectOf(PropTypes.number),
 
-  // An object taking on a particular shape
-  optionalObjectWithShape: PropTypes.shape({
-    color: PropTypes.string,
-    fontSize: PropTypes.number
-  }),
-
   // You can chain any of the above with `isRequired` to make sure a warning
   // is shown if the prop isn't provided.
+
+  // An object taking on a particular shape
+  optionalObjectWithShape: PropTypes.shape({
+    optionalProperty: PropTypes.string,
+    requiredProperty: PropTypes.number.isRequired
+  }),
+
+  // An object with warnings on extra properties
+  optionalObjectWithStrictShape: PropTypes.exact({
+    optionalProperty: PropTypes.string,
+    requiredProperty: PropTypes.number.isRequired
+  }),
+
   requiredFunc: PropTypes.func.isRequired,
 
   // A value of any data type
@@ -160,7 +167,7 @@ For example:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.7" 
+    "prop-types": "^15.5.7"
   }
 ```
 
@@ -168,10 +175,10 @@ For libraries, we *also* recommend leaving it in `dependencies`:
 
 ```js
   "dependencies": {
-    "prop-types": "^15.5.7" 
+    "prop-types": "^15.5.7"
   },
   "peerDependencies": {
-    "react": "^15.5.0" 
+    "react": "^15.5.0"
   }
 ```
 
