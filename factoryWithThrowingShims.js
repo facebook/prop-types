@@ -29,6 +29,8 @@ module.exports = function() {
   function getShim() {
     return shim;
   };
+  getShim.isRequired = shim;
+  
   // Important!
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
