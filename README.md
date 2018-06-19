@@ -1,4 +1,4 @@
-# prop-types
+# prop-types [![Build Status](https://travis-ci.com/facebook/prop-types.svg?branch=master)](https://travis-ci.org/facebook/prop-types)
 
 Runtime type checking for React props and similar objects.
 
