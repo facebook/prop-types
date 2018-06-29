@@ -757,7 +757,7 @@ describe('PropTypesProductionReact15', () => {
       expectNoop(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
 
       const checker = PropTypes.oneOfType([
@@ -767,7 +767,7 @@ describe('PropTypesProductionReact15', () => {
       expectNoop(
         checker,
         {c: 1},
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
     });
 

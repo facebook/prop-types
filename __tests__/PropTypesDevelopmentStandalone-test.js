@@ -915,7 +915,7 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckFail(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
 
       const checker = PropTypes.oneOfType([
@@ -925,7 +925,7 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckFail(
         checker,
         {c: 1},
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, failed matches:',
       );
     });
 
