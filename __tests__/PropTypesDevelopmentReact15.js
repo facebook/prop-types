@@ -232,23 +232,35 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for valid values', () => {
       typeCheckPass(PropTypes.array, []);
+      typeCheckPass(PropTypes.array.isInjected, []);
       typeCheckPass(PropTypes.bool, false);
+      typeCheckPass(PropTypes.bool.isInjected, false);
       typeCheckPass(PropTypes.func, function() {});
+      typeCheckPass(PropTypes.func.isInjected, function() {});
       typeCheckPass(PropTypes.number, 0);
+      typeCheckPass(PropTypes.number.isInjected, 0);
       typeCheckPass(PropTypes.string, '');
+      typeCheckPass(PropTypes.string.isInjected, '');
       typeCheckPass(PropTypes.object, {});
+      typeCheckPass(PropTypes.object.isInjected, {});
       typeCheckPass(PropTypes.object, new Date());
+      typeCheckPass(PropTypes.object.isInjected, new Date());
       typeCheckPass(PropTypes.object, /please/);
+      typeCheckPass(PropTypes.object.isInjected, /please/);
       typeCheckPass(PropTypes.symbol, Symbol());
+      typeCheckPass(PropTypes.symbol.isInjected, Symbol());
     });
 
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.string, null);
+      typeCheckPass(PropTypes.string.isInjected, null);
       typeCheckPass(PropTypes.string, undefined);
+      typeCheckPass(PropTypes.string.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.string.isRequired);
+      typeCheckFailRequiredValues(PropTypes.string.isInjected.isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -301,18 +313,25 @@ describe('PropTypesDevelopmentReact15', () => {
   describe('Any type', () => {
     it('should should accept any value', () => {
       typeCheckPass(PropTypes.any, 0);
+      typeCheckPass(PropTypes.any.isInjected, 0);
       typeCheckPass(PropTypes.any, 'str');
+      typeCheckPass(PropTypes.any.isInjected, 'str');
       typeCheckPass(PropTypes.any, []);
+      typeCheckPass(PropTypes.any.isInjected, []);
       typeCheckPass(PropTypes.any, Symbol());
+      typeCheckPass(PropTypes.any.isInjected, Symbol());
     });
 
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.any, null);
+      typeCheckPass(PropTypes.any.isInjected, null);
       typeCheckPass(PropTypes.any, undefined);
+      typeCheckPass(PropTypes.any.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.any.isRequired);
+      typeCheckFailRequiredValues(PropTypes.any.isInjected.isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -334,9 +353,13 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should support the arrayOf propTypes', () => {
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), [1, 2, 3]);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.number).isInjected, [1, 2, 3]);
       typeCheckPass(PropTypes.arrayOf(PropTypes.string), ['a', 'b', 'c']);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.string).isInjected, ['a', 'b', 'c']);
       typeCheckPass(PropTypes.arrayOf(PropTypes.oneOf(['a', 'b'])), ['a', 'b']);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.oneOf(['a', 'b'])).isInjected, ['a', 'b']);
       typeCheckPass(PropTypes.arrayOf(PropTypes.symbol), [Symbol(), Symbol()]);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.symbol).isInjected, [Symbol(), Symbol()]);
     });
 
     it('should support arrayOf with complex types', () => {
@@ -398,17 +421,19 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn when passing an empty array', () => {
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), []);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.number).isInjected, []);
     });
 
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.number).isInjected, null);
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), undefined);
+      typeCheckPass(PropTypes.arrayOf(PropTypes.number).isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
-      typeCheckFailRequiredValues(
-        PropTypes.arrayOf(PropTypes.number).isRequired,
-      );
+      typeCheckFailRequiredValues(PropTypes.arrayOf(PropTypes.number).isRequired);
+      typeCheckFailRequiredValues(PropTypes.arrayOf(PropTypes.number).isInjected.isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -440,6 +465,7 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should support components', () => {
       typeCheckPass(PropTypes.element, <div />);
+      typeCheckPass(PropTypes.element.isInjected, <div />);
     });
 
     it('should not support multiple components or scalar values', () => {
@@ -471,11 +497,14 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.element, null);
+      typeCheckPass(PropTypes.element.isInjected, null);
       typeCheckPass(PropTypes.element, undefined);
+      typeCheckPass(PropTypes.element.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.element.isRequired);
+      typeCheckFailRequiredValues(PropTypes.element.isInjected.isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -570,7 +599,9 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should be implicitly optional and not warn without values', () => {
       typeCheckPass(PropTypes.instanceOf(String), null);
+      typeCheckPass(PropTypes.instanceOf(String).isInjected, null);
       typeCheckPass(PropTypes.instanceOf(String), undefined);
+      typeCheckPass(PropTypes.instanceOf(String).isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
@@ -604,12 +635,7 @@ describe('PropTypesDevelopmentReact15', () => {
       MyComponent.prototype.render = function() {
         return <div />;
       };
-      typeCheckPass(PropTypes.node, <div />);
-      typeCheckPass(PropTypes.node, false);
-      typeCheckPass(PropTypes.node, <MyComponent />);
-      typeCheckPass(PropTypes.node, 'Some string');
-      typeCheckPass(PropTypes.node, []);
-      typeCheckPass(PropTypes.node, [
+      const arrayOfNode = [
         123,
         'Some string',
         <div />,
@@ -617,7 +643,20 @@ describe('PropTypesDevelopmentReact15', () => {
         <MyComponent />,
         null,
         undefined,
-      ]);
+      ];
+
+      typeCheckPass(PropTypes.node, <div />);
+      typeCheckPass(PropTypes.node.isInjected, <div />);
+      typeCheckPass(PropTypes.node, false);
+      typeCheckPass(PropTypes.node.isInjected, false);
+      typeCheckPass(PropTypes.node, <MyComponent />);
+      typeCheckPass(PropTypes.node.isInjected, <MyComponent />);
+      typeCheckPass(PropTypes.node, 'Some string');
+      typeCheckPass(PropTypes.node.isInjected, 'Some string');
+      typeCheckPass(PropTypes.node, []);
+      typeCheckPass(PropTypes.node.isInjected, []);
+      typeCheckPass(PropTypes.node, arrayOfNode);
+      typeCheckPass(PropTypes.node.isInjected, arrayOfNode);
     });
 
     it('should not warn for iterables', () => {
@@ -638,6 +677,7 @@ describe('PropTypesDevelopmentReact15', () => {
       };
 
       typeCheckPass(PropTypes.node, iterable);
+      typeCheckPass(PropTypes.node.isInjected, iterable);
     });
 
     it('should not warn for entry iterables', () => {
@@ -662,11 +702,14 @@ describe('PropTypesDevelopmentReact15', () => {
       iterable.entries = iterable['@@iterator'];
 
       typeCheckPass(PropTypes.node, iterable);
+      typeCheckPass(PropTypes.node.isInjected, iterable);
     });
 
     it('should not warn for null/undefined if not required', () => {
       typeCheckPass(PropTypes.node, null);
+      typeCheckPass(PropTypes.node.isInjected, null);
       typeCheckPass(PropTypes.node, undefined);
+      typeCheckPass(PropTypes.node.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
@@ -675,6 +718,7 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should accept empty array for required props', () => {
       typeCheckPass(PropTypes.node.isRequired, []);
+      typeCheckPass(PropTypes.node.isInjected.isRequired, []);
     });
 
     it('should warn if called manually in development', () => {
@@ -698,20 +742,13 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should support the objectOf propTypes', () => {
       typeCheckPass(PropTypes.objectOf(PropTypes.number), {a: 1, b: 2, c: 3});
-      typeCheckPass(PropTypes.objectOf(PropTypes.string), {
-        a: 'a',
-        b: 'b',
-        c: 'c',
-      });
-      typeCheckPass(PropTypes.objectOf(PropTypes.oneOf(['a', 'b'])), {
-        a: 'a',
-        b: 'b',
-      });
-      typeCheckPass(PropTypes.objectOf(PropTypes.symbol), {
-        a: Symbol(),
-        b: Symbol(),
-        c: Symbol(),
-      });
+      typeCheckPass(PropTypes.objectOf(PropTypes.number).isInjected, {a: 1, b: 2, c: 3});
+      typeCheckPass(PropTypes.objectOf(PropTypes.string), { a: 'a', b: 'b', c: 'c' });
+      typeCheckPass(PropTypes.objectOf(PropTypes.string).isInjected, { a: 'a', b: 'b', c: 'c' });
+      typeCheckPass(PropTypes.objectOf(PropTypes.oneOf(['a', 'b'])), { a: 'a', b: 'b' });
+      typeCheckPass(PropTypes.objectOf(PropTypes.oneOf(['a', 'b'])).isInjected, { a: 'a', b: 'b' });
+      typeCheckPass(PropTypes.objectOf(PropTypes.symbol), { a: Symbol(), b: Symbol(), c: Symbol() });
+      typeCheckPass(PropTypes.objectOf(PropTypes.symbol).isInjected, { a: Symbol(), b: Symbol(), c: Symbol() });
     });
 
     it('should support objectOf with complex types', () => {
@@ -854,8 +891,11 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for valid values', () => {
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), 'red');
+      typeCheckPass(PropTypes.oneOf(['red', 'blue']).isInjected, 'red');
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), 'blue');
+      typeCheckPass(PropTypes.oneOf(['red', 'blue']).isInjected, 'blue');
       typeCheckPass(PropTypes.oneOf(['red', 'blue', NaN]), NaN);
+      typeCheckPass(PropTypes.oneOf(['red', 'blue', NaN]).isInjected, NaN);
     });
 
     it('should be implicitly optional and not warn without values', () => {
@@ -938,18 +978,18 @@ describe('PropTypesDevelopmentReact15', () => {
         PropTypes.shape({b: PropTypes.number.isRequired}),
       ]);
       typeCheckPass(checker, {a: 1});
+      typeCheckPass(checker.isInjected, {a: 1});
       typeCheckPass(checker, {b: 1});
+      typeCheckPass(checker.isInjected, {b: 1});
     });
 
     it('should be implicitly optional and not warn without values', () => {
-      typeCheckPass(
-        PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        null,
-      );
-      typeCheckPass(
-        PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        undefined,
-      );
+      const checker = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+
+      typeCheckPass(checker, null);
+      typeCheckPass(checker.isInjected, null);
+      typeCheckPass(checker, undefined);
+      typeCheckPass(checker.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
@@ -993,20 +1033,26 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for empty values', () => {
       typeCheckPass(PropTypes.shape({}), undefined);
+      typeCheckPass(PropTypes.shape({}).isInjected, undefined);
       typeCheckPass(PropTypes.shape({}), null);
+      typeCheckPass(PropTypes.shape({}).isInjected, null);
       typeCheckPass(PropTypes.shape({}), {});
+      typeCheckPass(PropTypes.shape({}).isInjected, {});
     });
 
     it('should not warn for an empty object', () => {
       typeCheckPass(PropTypes.shape({}).isRequired, {});
+      typeCheckPass(PropTypes.shape({}).isInjected.isRequired, {});
     });
 
     it('should not warn for non specified types', () => {
       typeCheckPass(PropTypes.shape({}), {key: 1});
+      typeCheckPass(PropTypes.shape({}).isInjected, {key: 1});
     });
 
     it('should not warn for valid types', () => {
       typeCheckPass(PropTypes.shape({key: PropTypes.number}), {key: 1});
+      typeCheckPass(PropTypes.shape({key: PropTypes.number}).isInjected, {key: 1});
     });
 
     it('should warn for required valid types', () => {
@@ -1040,14 +1086,12 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should be implicitly optional and not warn without values', () => {
-      typeCheckPass(
-        PropTypes.shape(PropTypes.shape({key: PropTypes.number})),
-        null,
-      );
-      typeCheckPass(
-        PropTypes.shape(PropTypes.shape({key: PropTypes.number})),
-        undefined,
-      );
+      const checker = PropTypes.shape(PropTypes.shape({key: PropTypes.number}));
+
+      typeCheckPass(checker, null);
+      typeCheckPass(checker.isInjected, null);
+      typeCheckPass(checker, undefined);
+      typeCheckPass(checker.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
@@ -1092,12 +1136,16 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for empty values', () => {
       typeCheckPass(PropTypes.exact({}), undefined);
+      typeCheckPass(PropTypes.exact({}).isInjected, undefined);
       typeCheckPass(PropTypes.exact({}), null);
+      typeCheckPass(PropTypes.exact({}).isInjected, null);
       typeCheckPass(PropTypes.exact({}), {});
+      typeCheckPass(PropTypes.exact({}).isInjected, {});
     });
 
     it('should not warn for an empty object', () => {
       typeCheckPass(PropTypes.exact({}).isRequired, {});
+      typeCheckPass(PropTypes.exact({}).isInjected.isRequired, {});
     });
 
     it('should warn for non specified types', () => {
@@ -1114,6 +1162,7 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for valid types', () => {
       typeCheckPass(PropTypes.exact({key: PropTypes.number}), {key: 1});
+      typeCheckPass(PropTypes.exact({key: PropTypes.number}).isInjected, {key: 1});
     });
 
     it('should warn for required valid types', () => {
@@ -1147,14 +1196,12 @@ describe('PropTypesDevelopmentReact15', () => {
     });
 
     it('should be implicitly optional and not warn without values', () => {
-      typeCheckPass(
-        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
-        null,
-      );
-      typeCheckPass(
-        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
-        undefined,
-      );
+      const checker = PropTypes.exact(PropTypes.exact({key: PropTypes.number}));
+
+      typeCheckPass(checker, null);
+      typeCheckPass(checker.isInjected, null);
+      typeCheckPass(checker, undefined);
+      typeCheckPass(checker.isInjected, undefined);
     });
 
     it('should warn for missing required values', () => {
@@ -1207,7 +1254,9 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for a polyfilled Symbol', () => {
       const CoreSymbol = require('core-js/library/es6/symbol');
+
       typeCheckPass(PropTypes.symbol, CoreSymbol('core-js'));
+      typeCheckPass(PropTypes.symbol.isInjected, CoreSymbol('core-js'));
     });
   });
 });

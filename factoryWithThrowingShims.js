@@ -25,7 +25,9 @@ module.exports = function() {
     err.name = 'Invariant Violation';
     throw err;
   };
+  shim.isInjected = shim;
   shim.isRequired = shim;
+  shim.isInjected.isRequired = shim;
   function getShim() {
     return shim;
   };

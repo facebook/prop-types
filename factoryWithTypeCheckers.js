@@ -217,7 +217,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     }
 
     var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isInjected = checkType.bind(null, false);
     chainedCheckType.isRequired = checkType.bind(null, true);
+    chainedCheckType.isInjected.isRequired = checkType.bind(null, true);
 
     return chainedCheckType;
   }
