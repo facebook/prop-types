@@ -1080,7 +1080,7 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFail(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
-        'Invalid prop `testProp` supplied to `testComponent`.',
+        'Invalid prop `testProp` supplied to `testComponent`, expected one of type [string, number].',
       );
 
       const checker = PropTypes.oneOfType([
