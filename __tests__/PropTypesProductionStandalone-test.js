@@ -162,6 +162,13 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
+  describe('React ElementType Type', function() {
+    it('shoud be a no-op', function() {
+      expectThrowsInProduction(PropTypes.elementType.isRequired, false);
+      expectThrowsInProduction(PropTypes.elementType.isRequired, {});
+    });
+  });
+
   describe('ObjectOf Type', function() {
     it('should be a no-op', function() {
       expectThrowsInProduction(PropTypes.objectOf({foo: PropTypes.string}), {

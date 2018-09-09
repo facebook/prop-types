@@ -18,6 +18,7 @@ function resetWarningCache() {
   React = require('react');
   PropTypes = require('../index');
 }
+resetWarningCache();
 
 function getPropTypeWarningMessage(propTypes, object, componentName) {
   if (!console.error.calls) {
@@ -552,6 +553,77 @@ describe('PropTypesDevelopmentStandalone', () => {
       expectThrowsInDevelopment(PropTypes.element, false);
       expectThrowsInDevelopment(PropTypes.element.isRequired, null);
       expectThrowsInDevelopment(PropTypes.element.isRequired, undefined);
+    });
+  });
+
+  describe('ElementType Types', () => {
+    it('should support native component', () => {
+      typeCheckPass(PropTypes.elementType, 'div');
+    });
+
+    it('should support stateless component', () => {
+      var MyComponent = () => <div />;
+      typeCheckPass(PropTypes.elementType, MyComponent);
+    });
+
+    it('should support stateful component', () => {
+      class MyComponent extends React.Component {
+        render() {
+          return <div />;
+        }
+      }
+      typeCheckPass(PropTypes.elementType, MyComponent);
+    });
+
+    (React.forwardRef ? it : it.skip)('should support forwardRef component', () => {
+      const MyForwardRef = React.forwardRef((props, ref) => <div ref={ref} />);
+      typeCheckPass(PropTypes.elementType, MyForwardRef);
+    });
+
+    (React.createContext ? it : it.skip)('should support context provider component', () => {
+      const MyContext = React.createContext('test');
+      typeCheckPass(PropTypes.elementType, MyContext.Provider);
+    });
+
+    (React.createContext ? it : it.skip)('should support context consumer component', () => {
+      const MyContext = React.createContext('test');
+      typeCheckPass(PropTypes.elementType, MyContext.Consumer);
+    });
+
+    it('should warn for invalid types', () => {
+      typeCheckFail(
+        PropTypes.elementType,
+        true,
+        'Invalid prop `testProp` of type `boolean` supplied to ' +
+          '`testComponent`, expected a single ReactElement type.',
+      );
+
+      typeCheckFail(
+        PropTypes.elementType,
+        {},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+          '`testComponent`, expected a single ReactElement type.',
+      );
+
+      typeCheckFail(
+        PropTypes.elementType,
+        [],
+        'Invalid prop `testProp` of type `array` supplied to ' +
+          '`testComponent`, expected a single ReactElement type.',
+      );
+
+      it('should warn for missing required values', () => {
+        typeCheckFailRequiredValues(PropTypes.elementType.isRequired);
+      });
+    });
+
+    it('should warn for React element', () => {
+      typeCheckFail(
+        PropTypes.elementType,
+        <div />,
+        'Invalid prop `testProp` of type `object` supplied to ' +
+          '`testComponent`, expected a single ReactElement type.',
+      );
     });
   });
 
