@@ -27,7 +27,7 @@ function getPropTypeWarningMessage(propTypes, object, componentName) {
   }
   resetWarningCache();
 
-  PropTypes.checkPropTypes(propTypes, object, 'prop', 'testComponent');
+  PropTypes.checkPropTypes(propTypes, object, 'prop', componentName);
   const callCount = console.error.calls.count();
   if (callCount > 1) {
     throw new Error('Too many warnings.');
