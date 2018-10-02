@@ -7,7 +7,7 @@
 
 'use strict';
 
-var assign = require('object-assign');
+var assign = Object.assign;
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var checkPropTypes = require('./checkPropTypes');
