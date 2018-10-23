@@ -12,39 +12,41 @@ var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 function emptyFunction() {}
 
 module.exports = function() {
-  function shim(props, propName, componentName, location, propFullName, secret) {
-    if (secret === ReactPropTypesSecret) {
-      // It is still safe when called from React.
-      return;
-    }
-    var err = new Error(
-      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-      'Use PropTypes.checkPropTypes() to call them. ' +
-      'Read more at http://fb.me/use-check-prop-types'
-    );
-    err.name = 'Invariant Violation';
-    throw err;
-  };
-  shim.isRequired = shim;
   function getShim() {
+    function shim(props, propName, componentName, location, propFullName, secret) {
+      if (secret === ReactPropTypesSecret) {
+        // It is still safe when called from React.
+        return;
+      }
+      var err = new Error(
+        'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+        'Use PropTypes.checkPropTypes() to call them. ' +
+        'Read more at http://fb.me/use-check-prop-types'
+      );
+      err.name = 'Invariant Violation';
+      throw err;
+    };
+
+    shim.isRequired = shim;
+
     return shim;
   };
   // Important!
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
-    array: shim,
-    bool: shim,
-    func: shim,
-    number: shim,
-    object: shim,
-    string: shim,
-    symbol: shim,
+    array: getShim(),
+    bool: getShim(),
+    func: getShim(),
+    number: getShim(),
+    object: getShim(),
+    string: getShim(),
+    symbol: getShim(),
 
-    any: shim,
+    any: getShim(),
     arrayOf: getShim,
-    element: shim,
+    element: getShim(),
     instanceOf: getShim,
-    node: shim,
+    node: getShim(),
     objectOf: getShim,
     oneOf: getShim,
     oneOfType: getShim,
