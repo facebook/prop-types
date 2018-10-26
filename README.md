@@ -192,7 +192,7 @@ For UMD bundles of your components, make sure you **don’t** include `PropTypes
 
 ### React 0.14
 
-This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was released a year ago), there are no other changes in 0.14.9, so it should be a painless upgrade.
+This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was released in March of 2016), there are no other changes in 0.14.9, so it should be a painless upgrade.
 
 ```shell
 # ATTENTION: Only run this if you still use React 0.14!
