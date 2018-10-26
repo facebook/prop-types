@@ -105,6 +105,15 @@ function expectWarningInDevelopment(declaration, value) {
   console.error.calls.reset();
 }
 
+function expectInvalidValidatorWarning(declaration, type) {
+  PropTypes.checkPropTypes({ foo: declaration }, { foo: {} }, 'prop', 'testComponent', null);
+  expect(console.error.calls.argsFor(0)[0]).toEqual(
+    'Warning: Failed prop type: testComponent: prop type `foo.bar` is invalid; '
+    + 'it must be a function, usually from the `prop-types` package, but received `' + type + '`.'
+  );
+  console.error.calls.reset();
+}
+
 describe('PropTypesDevelopmentReact15', () => {
   beforeEach(() => {
     resetWarningCache();
@@ -223,6 +232,22 @@ describe('PropTypesDevelopmentReact15', () => {
         + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
       expect(returnValue).toBe(undefined);
+    });
+
+    it('should warn for invalid validators inside shape', () => {
+      spyOn(console, 'error');
+      expectInvalidValidatorWarning(PropTypes.shape({ bar: PropTypes.invalid_type }), 'undefined');
+      expectInvalidValidatorWarning(PropTypes.shape({ bar: true }), 'boolean');
+      expectInvalidValidatorWarning(PropTypes.shape({ bar: 'true' }), 'string');
+      expectInvalidValidatorWarning(PropTypes.shape({ bar: null }), 'null');
+    });
+
+    it('should warn for invalid validators inside exact', () => {
+      spyOn(console, 'error');
+      expectInvalidValidatorWarning(PropTypes.exact({ bar: PropTypes.invalid_type }), 'undefined');
+      expectInvalidValidatorWarning(PropTypes.exact({ bar: true }), 'boolean');
+      expectInvalidValidatorWarning(PropTypes.exact({ bar: 'true' }), 'string');
+      expectInvalidValidatorWarning(PropTypes.exact({ bar: null }), 'null');
     });
   });
 
