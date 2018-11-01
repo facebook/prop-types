@@ -283,3 +283,7 @@ PropTypes.checkPropTypes(myPropTypes, props, 'prop', 'MyComponent');
 // Warning: Failed prop type: Invalid prop `age` of type `string` supplied to
 // `MyComponent`, expected `number`.
 ```
+
+### License
+
+prop-types is [MIT licensed](./LICENSE).
