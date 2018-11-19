@@ -239,6 +239,7 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckPass(PropTypes.object, {});
       typeCheckPass(PropTypes.object, new Date());
       typeCheckPass(PropTypes.object, /please/);
+      typeCheckPass(PropTypes.set, new Set());
       typeCheckPass(PropTypes.symbol, Symbol());
     });
 
@@ -283,6 +284,12 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.string.isRequired, 'foo');
       expectWarningInDevelopment(PropTypes.string.isRequired, null);
       expectWarningInDevelopment(PropTypes.string.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.set, 0);
+      expectWarningInDevelopment(PropTypes.set, new Set());
+      expectWarningInDevelopment(PropTypes.set.isRequired, 0);
+      expectWarningInDevelopment(PropTypes.set.isRequired, new Set());
+      expectWarningInDevelopment(PropTypes.set.isRequired, null);
+      expectWarningInDevelopment(PropTypes.set.isRequired, undefined);
       expectWarningInDevelopment(PropTypes.symbol, 0);
       expectWarningInDevelopment(PropTypes.symbol, Symbol('Foo'));
       expectWarningInDevelopment(PropTypes.symbol.isRequired, 0);
@@ -1178,6 +1185,119 @@ describe('PropTypesDevelopmentReact15', () => {
         undefined,
       );
       expectWarningInDevelopment(PropTypes.element, <div />);
+    });
+  });
+
+  describe('SetOf Type', () => {
+    it('should fail for invalid argument', () => {
+      typeCheckFail(
+        PropTypes.setOf({foo: PropTypes.string}),
+        {foo: 'bar'},
+        'Property `testProp` of component `testComponent` has invalid PropType notation inside setOf.',
+      );
+    });
+
+    it('should support the setOf propTypes', () => {
+      typeCheckPass(PropTypes.setOf(PropTypes.number), new Set([1, 2, 3]));
+      typeCheckPass(PropTypes.setOf(PropTypes.string), new Set(['a', 'b', 'c']));
+      typeCheckPass(PropTypes.setOf(PropTypes.oneOf(['a', 'b'])), new Set(['a', 'b']));
+      typeCheckPass(PropTypes.setOf(PropTypes.symbol), new Set([Symbol(), Symbol()]));
+    });
+
+    it('should support setOf with complex types', () => {
+      typeCheckPass(
+        PropTypes.setOf(PropTypes.shape({a: PropTypes.number.isRequired})),
+        new Set([{a: 1}, {a: 2}]),
+      );
+
+      function Thing() {}
+      typeCheckPass(PropTypes.setOf(PropTypes.instanceOf(Thing)), new Set([
+        new Thing(),
+        new Thing(),
+      ]));
+    });
+
+    it('should warn with invalid items in the set', () => {
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        new Set([1, 2, 'b']),
+        'Invalid value inside testProp of type `string` supplied to ' +
+          '`testComponent`, expected `number`.',
+      );
+    });
+
+    it('should warn with invalid complex types', () => {
+      function Thing() {}
+      var name = Thing.name || '<<anonymous>>';
+
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.instanceOf(Thing)),
+        new Set([new Thing(), 'xyz']),
+        'Invalid value inside testProp of type `String` supplied to ' +
+          '`testComponent`, expected instance of `' +
+          name +
+          '`.',
+      );
+    });
+
+    it('should warn when passed something other than a set', () => {
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        {'0': 'maybe-set', length: 1},
+        'Invalid prop `testProp` of type `object` supplied to ' +
+          '`testComponent`, expected a set.',
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+          '`testComponent`, expected a set.',
+      );
+      typeCheckFail(
+        PropTypes.setOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+          '`testComponent`, expected a set.',
+      );
+    });
+
+    it('should not warn when passing an empty set', () => {
+      typeCheckPass(PropTypes.setOf(PropTypes.number), new Set());
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      typeCheckPass(PropTypes.setOf(PropTypes.number), null);
+      typeCheckPass(PropTypes.setOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      typeCheckFailRequiredValues(
+        PropTypes.setOf(PropTypes.number).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectWarningInDevelopment(PropTypes.setOf({foo: PropTypes.string}), {
+        foo: 'bar',
+      });
+      expectWarningInDevelopment(PropTypes.setOf(PropTypes.number), new Set([
+        1,
+        2,
+        'b',
+      ]));
+      expectWarningInDevelopment(PropTypes.setOf(PropTypes.number), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectWarningInDevelopment(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        null,
+      );
+      expectWarningInDevelopment(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        undefined,
+      );
     });
   });
 

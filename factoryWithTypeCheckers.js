@@ -129,6 +129,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     oneOf: createEnumTypeChecker,
     oneOfType: createUnionTypeChecker,
     shape: createShapeTypeChecker,
+    set: createSetTypeChecker(),
+    setOf: createSetOfTypeChecker,
     exact: createStrictShapeTypeChecker,
   };
 
@@ -393,6 +395,52 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     return createChainableTypeChecker(validate);
   }
 
+  function createSetTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      if (!(propValue instanceof Set)) {
+        var propType = getPropType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a set.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createSetOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside setOf.');
+      }
+      var propValue = props[propName];
+      if (!(propValue instanceof Set)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a set.'));
+      }
+      // Check the types of the values inside the set using forEach(), which has broader support than values().
+      var insideValidateResult = null;
+      var insideValidateContainer = {};
+      var insideLocation = 'inside ' + propFullName;
+      propValue.forEach(function checkValue(value) {
+        if (null !== insideValidateResult) {
+          return;
+        }
+        insideValidateContainer.value = value;
+        var error = typeChecker(insideValidateContainer, 'value', componentName, 'value', insideLocation, ReactPropTypesSecret);
+        if (error instanceof Error) {
+          // If the error contains the inside location ("inside someSet") in quotes, remove those quotes.
+          if (error instanceof PropTypeError && error.message.includes('`' + insideLocation + '`')) {
+            error = new PropTypeError(error.message.replace('`' + insideLocation + '`', insideLocation));
+          }
+          insideValidateResult = error;
+        }
+      });
+      return insideValidateResult;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
   function createStrictShapeTypeChecker(shapeTypes) {
     function validate(props, propName, componentName, location, propFullName) {
       var propValue = props[propName];
@@ -519,6 +567,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         return 'date';
       } else if (propValue instanceof RegExp) {
         return 'regexp';
+      } else if (propValue instanceof Set) {
+        return 'set';
       }
     }
     return propType;
@@ -535,6 +585,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       case 'boolean':
       case 'date':
       case 'regexp':
+      case 'set':
         return 'a ' + type;
       default:
         return type;
