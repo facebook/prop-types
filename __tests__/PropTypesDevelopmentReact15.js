@@ -894,11 +894,25 @@ describe('PropTypesDevelopmentReact15', () => {
     it('should warn but not error for invalid argument', () => {
       spyOn(console, 'error');
 
+      PropTypes.oneOf('red');
+
+      expect(console.error).toHaveBeenCalled();
+      expect(console.error.calls.argsFor(0)[0]).toContain(
+        'Invalid argument supplied to oneOf, expected an array.',
+      );
+
+      typeCheckPass(PropTypes.oneOf('red', 'blue'), 'red');
+    });
+
+    it('should warn but not error for invalid multiple arguments', () => {
+      spyOn(console, 'error');
+
       PropTypes.oneOf('red', 'blue');
 
       expect(console.error).toHaveBeenCalled();
       expect(console.error.calls.argsFor(0)[0]).toContain(
-        'Invalid argument supplied to oneOf, expected an instance of array.',
+        'Invalid arguments supplied to oneOf, expected an array, got 2 arguments. '
+        + 'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).',
       );
 
       typeCheckPass(PropTypes.oneOf('red', 'blue'), 'red');
