@@ -24,10 +24,10 @@ function resetWarningCache() {
 }
 
 function expectNoop(declaration, value) {
-  if (!console.error.calls) {
-    spyOn(console, 'error');
+  if (!console.warn.calls) {
+    spyOn(console, 'warn');
   } else {
-    console.error.calls.reset();
+    console.warn.calls.reset();
   }
 
   const props = {testProp: value};
@@ -44,8 +44,8 @@ function expectNoop(declaration, value) {
   PropTypes.checkPropTypes(propTypes, props, 'prop', 'testComponent');
 
   // They should all be no-ops
-  expect(console.error.calls.count()).toBe(0);
-  console.error.calls.reset();
+  expect(console.warn.calls.count()).toBe(0);
+  console.warn.calls.reset();
 }
 
 describe('PropTypesProductionReact15', () => {
@@ -124,7 +124,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.array, /please/);
       expectNoop(PropTypes.array, []);
       expectNoop(PropTypes.array.isRequired, /please/);
@@ -188,7 +188,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.any, null);
       expectNoop(PropTypes.any.isRequired, null);
       expectNoop(PropTypes.any.isRequired, undefined);
@@ -284,7 +284,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.arrayOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -351,7 +351,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.element, [<div />, <div />]);
       expectNoop(PropTypes.element, <div />);
       expectNoop(PropTypes.element, 123);
@@ -450,7 +450,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.instanceOf(Date), {});
       expectNoop(PropTypes.instanceOf(Date), new Date());
       expectNoop(PropTypes.instanceOf(Date).isRequired, {});
@@ -550,7 +550,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.node, 'node');
       expectNoop(PropTypes.node, {});
       expectNoop(PropTypes.node.isRequired, 'node');
@@ -665,7 +665,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.objectOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -685,11 +685,11 @@ describe('PropTypesProductionReact15', () => {
 
   describe('OneOf Types', () => {
     it('should ignore invalid argument', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       PropTypes.oneOf('red', 'blue');
 
-      expect(console.error).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
       expectNoop(PropTypes.oneOf('red', 'blue'), 'red');
     });
 
@@ -736,7 +736,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.oneOf(['red', 'blue']), true);
       expectNoop(PropTypes.oneOf(['red', 'blue']), null);
       expectNoop(PropTypes.oneOf(['red', 'blue']), undefined);
@@ -745,11 +745,11 @@ describe('PropTypesProductionReact15', () => {
 
   describe('Union Types', () => {
     it('should ignore invalid argument', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       PropTypes.oneOfType(PropTypes.string, PropTypes.number);
 
-      expect(console.error).not.toHaveBeenCalled();
+      expect(console.warn).not.toHaveBeenCalled();
       expectNoop(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
     });
 
@@ -803,7 +803,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
@@ -912,7 +912,7 @@ describe('PropTypesProductionReact15', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectNoop(PropTypes.shape({}), 'some string');
       expectNoop(PropTypes.shape({foo: PropTypes.number}), {
         foo: 42,

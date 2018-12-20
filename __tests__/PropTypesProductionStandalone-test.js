@@ -30,19 +30,19 @@ describe('PropTypesProductionStandalone', function() {
   });
 
   function getPropTypeWarningMessage(propTypes, object, componentName) {
-    if (!console.error.calls) {
-      spyOn(console, 'error');
+    if (!console.warn.calls) {
+      spyOn(console, 'warn');
     } else {
-      console.error.calls.reset();
+      console.warn.calls.reset();
     }
     resetWarningCache();
     PropTypes.checkPropTypes(propTypes, object, 'prop', 'testComponent');
-    const callCount = console.error.calls.count();
+    const callCount = console.warn.calls.count();
     if (callCount > 1) {
       throw new Error('Too many warnings.');
     }
-    const message = console.error.calls.argsFor(0)[0] || null;
-    console.error.calls.reset();
+    const message = console.warn.calls.argsFor(0)[0] || null;
+    console.warn.calls.reset();
 
     return message;
   }
@@ -224,7 +224,7 @@ describe('PropTypesProductionStandalone', function() {
 
   describe('checkPropTypes', function() {
     it('does not call validators', function() {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       const spy = jest.fn();
       typeCheckPass(PropTypes.string, 42);

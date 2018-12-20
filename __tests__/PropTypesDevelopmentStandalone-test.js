@@ -20,20 +20,20 @@ function resetWarningCache() {
 }
 
 function getPropTypeWarningMessage(propTypes, object, componentName) {
-  if (!console.error.calls) {
-    spyOn(console, 'error');
+  if (!console.warn.calls) {
+    spyOn(console, 'warn');
   } else {
-    console.error.calls.reset();
+    console.warn.calls.reset();
   }
   resetWarningCache();
 
   PropTypes.checkPropTypes(propTypes, object, 'prop', 'testComponent');
-  const callCount = console.error.calls.count();
+  const callCount = console.warn.calls.count();
   if (callCount > 1) {
     throw new Error('Too many warnings.');
   }
-  const message = console.error.calls.argsFor(0)[0] || null;
-  console.error.calls.reset();
+  const message = console.warn.calls.argsFor(0)[0] || null;
+  console.warn.calls.reset();
 
   return message;
 }
@@ -108,7 +108,7 @@ describe('PropTypesDevelopmentStandalone', () => {
 
   describe('checkPropTypes', () => {
     it('should warn for invalid validators', () => {
-      spyOn(console, 'error')
+      spyOn(console, 'warn')
       const propTypes = { foo: undefined };
       const props = { foo: 'foo' };
       PropTypes.checkPropTypes(
@@ -118,14 +118,14 @@ describe('PropTypesDevelopmentStandalone', () => {
         'testComponent',
         null,
       );
-      expect(console.error.calls.argsFor(0)[0]).toEqual(
+      expect(console.warn.calls.argsFor(0)[0]).toEqual(
         'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
         'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
     });
 
     it('does not return a value from a validator', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       const propTypes = {
         foo(props, propName, componentName) {
           return new Error('some error');
@@ -139,12 +139,12 @@ describe('PropTypesDevelopmentStandalone', () => {
         'testComponent',
         null,
       );
-      expect(console.error.calls.argsFor(0)[0]).toContain('some error');
+      expect(console.warn.calls.argsFor(0)[0]).toContain('some error');
       expect(returnValue).toBe(undefined);
     });
 
     it('does not throw if validator throws', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       const propTypes = {
         foo(props, propName, componentName) {
           throw new Error('some error');
@@ -158,18 +158,18 @@ describe('PropTypesDevelopmentStandalone', () => {
         'testComponent',
         null,
       );
-      expect(console.error.calls.argsFor(0)[0]).toContain('some error');
+      expect(console.warn.calls.argsFor(0)[0]).toContain('some error');
       expect(returnValue).toBe(undefined);
     });
 
     it('warns if any of the propTypes is not a function', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       const propTypes = {
         foo: PropTypes.invalid_type,
       };
       const props = { foo: 'foo' };
       const returnValue = PropTypes.checkPropTypes(propTypes, props, 'prop', 'testComponent', null);
-      expect(console.error.calls.argsFor(0)[0]).toEqual(
+      expect(console.warn.calls.argsFor(0)[0]).toEqual(
         'Warning: Failed prop type: testComponent: prop type `foo` is invalid; '
         + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
       );
@@ -248,7 +248,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.array, /please/);
       expectThrowsInDevelopment(PropTypes.array, []);
       expectThrowsInDevelopment(PropTypes.array.isRequired, /please/);
@@ -312,7 +312,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.any, null);
       expectThrowsInDevelopment(PropTypes.any.isRequired, null);
       expectThrowsInDevelopment(PropTypes.any.isRequired, undefined);
@@ -408,7 +408,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.arrayOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -475,7 +475,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.element, [<div />, <div />]);
       expectThrowsInDevelopment(PropTypes.element, <div />);
       expectThrowsInDevelopment(PropTypes.element, 123);
@@ -574,7 +574,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.instanceOf(Date), {});
       expectThrowsInDevelopment(PropTypes.instanceOf(Date), new Date());
       expectThrowsInDevelopment(PropTypes.instanceOf(Date).isRequired, {});
@@ -674,7 +674,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.node, 'node');
       expectThrowsInDevelopment(PropTypes.node, {});
       expectThrowsInDevelopment(PropTypes.node.isRequired, 'node');
@@ -795,7 +795,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.objectOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -815,12 +815,12 @@ describe('PropTypesDevelopmentStandalone', () => {
 
   describe('OneOf Types', () => {
     it('should warn but not error for invalid argument', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       PropTypes.oneOf('red', 'blue');
 
-      expect(console.error).toHaveBeenCalled();
-      expect(console.error.calls.argsFor(0)[0]).toContain(
+      expect(console.warn).toHaveBeenCalled();
+      expect(console.warn.calls.argsFor(0)[0]).toContain(
         'Invalid argument supplied to oneOf, expected an instance of array.',
       );
 
@@ -870,7 +870,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.oneOf(['red', 'blue']), true);
       expectThrowsInDevelopment(PropTypes.oneOf(['red', 'blue']), null);
       expectThrowsInDevelopment(PropTypes.oneOf(['red', 'blue']), undefined);
@@ -879,12 +879,12 @@ describe('PropTypesDevelopmentStandalone', () => {
 
   describe('Union Types', () => {
     it('should warn but not error for invalid argument', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       PropTypes.oneOfType(PropTypes.string, PropTypes.number);
 
-      expect(console.error).toHaveBeenCalled();
-      expect(console.error.calls.argsFor(0)[0]).toContain(
+      expect(console.warn).toHaveBeenCalled();
+      expect(console.warn.calls.argsFor(0)[0]).toContain(
         'Invalid argument supplied to oneOfType, expected an instance of array.',
       );
 
@@ -892,7 +892,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn but for invalid argument type', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
 
       const types = [undefined, null, false, new Date, /foo/, {}];
       const expected = ['undefined', 'null', 'a boolean', 'a date', 'a regexp', 'an object'];
@@ -900,12 +900,12 @@ describe('PropTypesDevelopmentStandalone', () => {
       for (let i = 0; i < expected.length; i++) {
         const type = types[i];
         PropTypes.oneOfType([type]);
-        expect(console.error).toHaveBeenCalled();
-        expect(console.error.calls.argsFor(0)[0]).toContain(
+        expect(console.warn).toHaveBeenCalled();
+        expect(console.warn.calls.argsFor(0)[0]).toContain(
           'Invalid argument supplied to oneOfType. Expected an array of check functions, ' +
           'but received ' + expected[i] + ' at index 0.'
         );
-        console.error.calls.reset();
+        console.warn.calls.reset();
       }
 
       typeCheckPass(PropTypes.oneOf(PropTypes.string, PropTypes.number), []);
@@ -961,7 +961,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(
         PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         [],
@@ -1059,7 +1059,7 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
 
     it('should warn if called manually in development', () => {
-      spyOn(console, 'error');
+      spyOn(console, 'warn');
       expectThrowsInDevelopment(PropTypes.shape({}), 'some string');
       expectThrowsInDevelopment(PropTypes.shape({foo: PropTypes.number}), {
         foo: 42,

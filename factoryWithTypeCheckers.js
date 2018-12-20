@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
   printWarning = function(text) {
     var message = 'Warning: ' + text;
     if (typeof console !== 'undefined') {
-      console.error(message);
+      console.warn(message);
     }
     try {
       // --- Welcome to debugging React ---
