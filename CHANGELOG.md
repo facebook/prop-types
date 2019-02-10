@@ -1,3 +1,12 @@
+## 15.7.0
+* [New] Add `.elementType` ([#211](https://github.com/facebook/prop-types/pull/211))
+* [New] add `PropTypes.resetWarningCache` ([#178](https://github.com/facebook/prop-types/pull/178))
+* `oneOf`: improve warning when multiple arguments are supplied ([#244](https://github.com/facebook/prop-types/pull/244))
+* Fix `oneOf` when used with Symbols ([#224](https://github.com/facebook/prop-types/pull/224))
+* Avoid relying on `hasOwnProperty` being present on values' prototypes ([#112](https://github.com/facebook/prop-types/pull/112), [#187](https://github.com/facebook/prop-types/pull/187))
+* Improve readme ([#248](https://github.com/facebook/prop-types/pull/248), [#233](https://github.com/facebook/prop-types/pull/233))
+* Clean up mistaken runtime dep, swap envify for loose-envify ([#204](https://github.com/facebook/prop-types/pull/204))
+
 ## 15.6.2
 * Remove the `fbjs` dependency by inlining some helpers from it ([#194](https://github.com/facebook/prop-types/pull/194)))
 
