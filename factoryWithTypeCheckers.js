@@ -307,8 +307,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (process.env.NODE_ENV !== 'production') {
         if (arguments.length > 1) {
           printWarning(
-            `Invalid arguments supplied to oneOf, expected an array, got ${arguments.length} arguments. ` +
-            `A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).`
+            'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
+            'A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).'
           );
         } else {
           printWarning('Invalid argument supplied to oneOf, expected an array.');
