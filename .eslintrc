@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 5,
+  },
+  "overrides": [
+    {
+      "files": "**/__tests__/**/*",
+      "parserOptions": {
+        "ecmaVersion": "2019",
+        "ecmaFeatures": {
+          "jsx": true,
+        }
+      },
+    },
+  ],
+}
