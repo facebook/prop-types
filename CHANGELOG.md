@@ -1,3 +1,6 @@
+## 15.7.1
+* [Fix] avoid template literal syntax ([#255](https://github.com/facebook/prop-types/issues/255), [#254](https://github.com/facebook/prop-types/issues/254))
+
 ## 15.7.0
 * [New] Add `.elementType` ([#211](https://github.com/facebook/prop-types/pull/211))
 * [New] add `PropTypes.resetWarningCache` ([#178](https://github.com/facebook/prop-types/pull/178))
