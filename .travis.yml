@@ -2,10 +2,7 @@ language: node_js
 os:
  - linux
 node_js:
-  - "11"
-  - "10"
-  - "8"
-  - "6"
+  - "lts/*"
 cache:
   directories:
     - "node_modules"
@@ -16,7 +13,15 @@ matrix:
   include:
     - node_js: "lts/*"
       env: PRETEST=true
+before_script:
+  - 'if [ -n "${REACT-}" ]; then npm install --no-save "react@~${REACT}" "react-dom@~${REACT}"; fi'
 script:
   - 'if [ -n "${PRETEST-}" ]; then yarn run pretest ; fi'
   - 'if [ -n "${TEST-}" ]; then yarn run tests-only ; fi'
 sudo: false
+env:
+  - REACT=0.14.9
+  - REACT=15.0
+  - REACT=15
+  - REACT=16.0
+  - REACT=16
