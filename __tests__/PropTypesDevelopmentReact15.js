@@ -318,6 +318,12 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should warn for missing required values', () => {
       typeCheckFailRequiredValues(PropTypes.string.isRequired);
+      typeCheckFailRequiredValues(PropTypes.array.isRequired);
+      typeCheckFailRequiredValues(PropTypes.symbol.isRequired);
+      typeCheckFailRequiredValues(PropTypes.number.isRequired);
+      typeCheckFailRequiredValues(PropTypes.bool.isRequired);
+      typeCheckFailRequiredValues(PropTypes.func.isRequired);
+      typeCheckFailRequiredValues(PropTypes.shape({}).isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -803,6 +809,13 @@ describe('PropTypesDevelopmentReact15', () => {
         'Invalid prop `testProp.c` of type `string` supplied to `testComponent`, ' +
           'expected `number`.',
       );
+
+      typeCheckFail(
+        PropTypes.objectOf(PropTypes.number.isRequired),
+        {a: 1, b: 2, c: undefined},
+        'Warning: Failed prop type: The prop `testProp.c` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
+      );
     });
 
     it('should warn with invalid complex types', () => {
@@ -816,6 +829,13 @@ describe('PropTypesDevelopmentReact15', () => {
           '`testComponent`, expected instance of `' +
           name +
           '`.',
+      );
+
+      typeCheckFail(
+        PropTypes.objectOf(PropTypes.instanceOf(Thing).isRequired),
+        {a: new Thing(), b: undefined},
+        'Warning: Failed prop type: The prop `testProp.b` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
       );
     });
 
@@ -948,6 +968,18 @@ describe('PropTypesDevelopmentReact15', () => {
         Symbol('green'),
         'Invalid prop `testProp` of value `Symbol(green)` supplied to ' +
           '`testComponent`, expected one of ["Symbol(red)","Symbol(blue)"].',
+      );
+      typeCheckFail(
+        PropTypes.oneOf([0, 'false']).isRequired,
+        undefined,
+        'Warning: Failed prop type: The prop `testProp` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
+      );
+      typeCheckFail(
+        PropTypes.oneOf([0, 'false']).isRequired,
+        null,
+        'Warning: Failed prop type: The prop `testProp` is marked as required in `testComponent`, ' +
+          'but its value is `null`.'
       );
     });
 
@@ -1114,6 +1146,20 @@ describe('PropTypesDevelopmentReact15', () => {
         {},
         'The prop `testProp.key` is marked as required in `testComponent`, ' +
           'but its value is `undefined`.',
+      );
+
+      typeCheckFail(
+        PropTypes.shape({key: PropTypes.number.isRequired}),
+        {key: undefined},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+
+      typeCheckFail(
+        PropTypes.shape({key: PropTypes.number.isRequired}),
+        {key: null},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `null`.',
       );
     });
 

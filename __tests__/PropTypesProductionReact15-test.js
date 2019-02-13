@@ -121,6 +121,12 @@ describe('PropTypesProductionReact15', () => {
 
     it('should warn for missing required values', () => {
       expectNoop(PropTypes.string.isRequired);
+      expectNoop(PropTypes.array.isRequired);
+      expectNoop(PropTypes.symbol.isRequired);
+      expectNoop(PropTypes.number.isRequired);
+      expectNoop(PropTypes.bool.isRequired);
+      expectNoop(PropTypes.func.isRequired);
+      expectNoop(PropTypes.shape({}).isRequired);
     });
 
     it('should warn if called manually in development', () => {
@@ -606,6 +612,13 @@ describe('PropTypesProductionReact15', () => {
         'Invalid prop `testProp.c` of type `string` supplied to `testComponent`, ' +
           'expected `number`.',
       );
+
+      expectNoop(
+        PropTypes.objectOf(PropTypes.number.isRequired),
+        {a: 1, b: 2, c: undefined},
+        'Warning: Failed prop type: The prop `testProp.c` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
+      );
     });
 
     it('should warn with invalid complex types', () => {
@@ -619,6 +632,13 @@ describe('PropTypesProductionReact15', () => {
           '`testComponent`, expected instance of `' +
           name +
           '`.',
+      );
+
+      expectNoop(
+        PropTypes.objectOf(PropTypes.instanceOf(Thing).isRequired),
+        {a: new Thing(), b: undefined},
+        'Warning: Failed prop type: The prop `testProp.b` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
       );
     });
 
@@ -733,6 +753,18 @@ describe('PropTypesProductionReact15', () => {
         Symbol('green'),
         'Invalid prop `testProp` of value `Symbol(green)` supplied to ' +
           '`testComponent`, expected one of ["Symbol(red)","Symbol(blue)"].',
+      );
+      expectNoop(
+        PropTypes.oneOf([0, 'false']).isRequired,
+        undefined,
+        'Warning: Failed prop type: The prop `testProp` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.'
+      );
+      expectNoop(
+        PropTypes.oneOf([0, 'false']).isRequired,
+        null,
+        'Warning: Failed prop type: The prop `testProp` is marked as required in `testComponent`, ' +
+          'but its value is `null`.'
       );
     });
 
@@ -886,6 +918,20 @@ describe('PropTypesProductionReact15', () => {
         {},
         'The prop `testProp.key` is marked as required in `testComponent`, ' +
           'but its value is `undefined`.',
+      );
+
+      expectNoop(
+        PropTypes.shape({key: PropTypes.number.isRequired}),
+        {key: undefined},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+
+      expectNoop(
+        PropTypes.shape({key: PropTypes.number.isRequired}),
+        {key: null},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `null`.',
       );
     });
 
