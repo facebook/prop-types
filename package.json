@@ -42,7 +42,7 @@
   "devDependencies": {
     "babel-jest": "^19.0.0",
     "babel-preset-react": "^6.24.1",
-    "browserify": "^14.3.0",
+    "browserify": "^16.2.3",
     "bundle-collapser": "^1.2.1",
     "eslint": "^5.13.0",
     "jest": "^19.0.2",
