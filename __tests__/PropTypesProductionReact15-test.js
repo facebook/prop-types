@@ -768,6 +768,15 @@ describe('PropTypesProductionReact15', () => {
       );
     });
 
+    it('does not fail when the valid types contain null or undefined', () => {
+      expectNoop(
+        PropTypes.oneOf([0, 'false', null, undefined]),
+        false,
+        'Warning: Failed prop type: Invalid prop `testProp` of value `false` supplied to ' +
+          '`testComponent`, expected one of [0,"false",null,undefined].',
+      );
+    });
+
     it('should not warn for valid values', () => {
       expectNoop(PropTypes.oneOf(['red', 'blue']), 'red');
       expectNoop(PropTypes.oneOf(['red', 'blue']), 'blue');

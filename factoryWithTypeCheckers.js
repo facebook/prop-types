@@ -326,7 +326,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
 
       var valuesString = JSON.stringify(expectedValues, function replacer(key, value) {
-        if (getPropType(value) === 'symbol') {
+        var type = getPreciseType(value);
+        if (type === 'symbol') {
           return String(value);
         }
         return value;
@@ -502,6 +503,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     // Native Symbol.
     if (propType === 'symbol') {
       return true;
+    }
+
+    // falsy value can't be a Symbol
+    if (!propValue) {
+      return false;
     }
 
     // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'

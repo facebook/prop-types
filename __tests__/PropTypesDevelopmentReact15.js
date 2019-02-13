@@ -983,6 +983,17 @@ describe('PropTypesDevelopmentReact15', () => {
       );
     });
 
+    it('does not fail when the valid types contain null or undefined', () => {
+      typeCheckFail(
+        PropTypes.oneOf([0, 'false', null, undefined]),
+        false,
+        'Warning: Failed prop type: Invalid prop `testProp` of value `false` supplied to ' +
+          '`testComponent`, expected one of [0,"false",null,null].',
+          // TODO: uncomment and fix implementation
+          // '`testComponent`, expected one of [0,"false",null,undefined].',
+      );
+    });
+
     it('should not warn for valid values', () => {
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), 'red');
       typeCheckPass(PropTypes.oneOf(['red', 'blue']), 'blue');
