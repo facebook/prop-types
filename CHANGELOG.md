@@ -1,3 +1,7 @@
+## 15.7.2
+* [Fix] ensure nullish values in `oneOf` do not crash ([#256](https://github.com/facebook/prop-types/issues/256))
+* [Fix] move `loose-envify` back to production deps, for browerify usage ([#203](https://github.com/facebook/prop-types/issues/203))
+
 ## 15.7.1
 * [Fix] avoid template literal syntax ([#255](https://github.com/facebook/prop-types/issues/255), [#254](https://github.com/facebook/prop-types/issues/254))
 
