@@ -289,7 +289,7 @@ PropTypes.checkPropTypes(myPropTypes, props, 'age', 'MyComponent');
 
 ## PropTypes.resetWarningCache()
 
-`PropTypes.checkPropTypes(...)` only `console.error.log(...)`s a given message once.  To reset the cache while testing call `PropTypes.resetWarningCache()`
+`PropTypes.checkPropTypes(...)` only `console.error`s a given message once. To reset the error warning cache in tests, call `PropTypes.resetWarningCache()`
 
 ### License
 
