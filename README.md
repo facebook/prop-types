@@ -10,7 +10,7 @@ definitions, and warn in development if they don’t match.
 ## Installation
 
 ```shell
-npm install --save prop-types
+npm install prop-types
 ```
 
 ## Importing
@@ -199,7 +199,7 @@ This package is compatible with **React 0.14.9**. Compared to 0.14.8 (which was 
 
 ```shell
 # ATTENTION: Only run this if you still use React 0.14!
-npm install --save react@^0.14.9 react-dom@^0.14.9
+npm install react@^0.14.9 react-dom@^0.14.9
 ```
 
 ### React 15+
@@ -207,7 +207,7 @@ npm install --save react@^0.14.9 react-dom@^0.14.9
 This package is compatible with **React 15.3.0** and higher.
 
 ```
-npm install --save react@^15.3.0 react-dom@^15.3.0
+npm install react@^15.3.0 react-dom@^15.3.0
 ```
 
 ### What happens on other React versions?
