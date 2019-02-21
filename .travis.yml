@@ -13,11 +13,14 @@ matrix:
   include:
     - node_js: "lts/*"
       env: PRETEST=true
+    - node_js: "lts/*"
+      env: BUILD=true
 before_script:
   - 'if [ -n "${REACT-}" ]; then npm install --no-save "react@~${REACT}" "react-dom@~${REACT}"; fi'
 script:
   - 'if [ -n "${PRETEST-}" ]; then yarn run pretest ; fi'
   - 'if [ -n "${TEST-}" ]; then yarn run tests-only ; fi'
+  - 'if [ -n "${BUILD-}" ]; then yarn run build ; fi'
 sudo: false
 env:
   - REACT=0.14.9
