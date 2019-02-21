@@ -76,6 +76,7 @@ MyComponent.propTypes = {
 
   // Anything that can be rendered: numbers, strings, elements or an array
   // (or fragment) containing these types.
+  // see https://reactjs.org/docs/rendering-elements.html for more info
   optionalNode: PropTypes.node,
 
   // A React element (ie. <MyComponent />).
