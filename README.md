@@ -257,6 +257,8 @@ PropTypes.checkPropTypes(MyComponent.propTypes, props, 'prop', 'MyComponent');
 ```
 See below for more info.
 
+**If you DO want to use validation in production**, you can choose to use the **development version** by importing/requiring `prop-types/prop-types` instead of `prop-types`.
+
 **You might also see this error** if you’re calling a `PropTypes` validator from your own custom `PropTypes` validator. In this case, the fix is to make sure that you are passing *all* of the arguments to the inner function. There is a more in-depth explanation of how to fix it [on this page](https://facebook.github.io/react/warnings/dont-call-proptypes.html#fixing-the-false-positive-in-third-party-proptypes). Alternatively, you can temporarily keep using `React.PropTypes` until React 16, as it would still only warn in this case.
 
 If you use a bundler like Browserify or Webpack, don’t forget to [follow these instructions](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build) to correctly bundle your application in development or production mode. Otherwise you’ll ship unnecessary code to your users.
