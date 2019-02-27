@@ -133,7 +133,8 @@ describe('PropTypesDevelopmentReact15', () => {
       );
       expect(console.error.calls.argsFor(0)[0]).toEqual(
         'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
-        'it must be a function, usually from the `prop-types` package, but received `undefined`.'
+        'it must be a function, usually from the `prop-types` package, but received `undefined`.' +
+        'This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.'
       );
     });
 
@@ -228,8 +229,9 @@ describe('PropTypesDevelopmentReact15', () => {
       const props = { foo: 'foo' };
       const returnValue = PropTypes.checkPropTypes(propTypes, props, 'prop', 'testComponent', null);
       expect(console.error.calls.argsFor(0)[0]).toEqual(
-        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; '
-        + 'it must be a function, usually from the `prop-types` package, but received `undefined`.'
+        'Warning: Failed prop type: testComponent: prop type `foo` is invalid; ' +
+        'it must be a function, usually from the `prop-types` package, but received `undefined`.' +
+        'This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.'
       );
       expect(returnValue).toBe(undefined);
     });
