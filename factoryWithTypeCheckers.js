@@ -387,7 +387,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
       var hasInvalid = propValues.some(propValue => expectedType !== propValue.type);
       if (hasInvalid) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type [' + propValues.map(pv => pv.type).map(getDisplayName).join(', ') + '] ' + ('supplied to `' + componentName + '`, expected one of type `' + getDisplayName(expectedType) + '`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type [' + propValues.map(function (pv) return getDisplayName(pv.type)).join(', ') + '] ' + ('supplied to `' + componentName + '`, expected one of type `' + getDisplayName(expectedType) + '`.'));
       }
 
       return null;
