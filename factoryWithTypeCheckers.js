@@ -374,7 +374,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       return emptyFunction.thatReturnsNull;
     }
 
-    function getDisplayName (comp) {
+    function getDisplayName(comp) {
       return typeof comp === 'function' ? comp.displayName || comp.name : comp;
     }
 
