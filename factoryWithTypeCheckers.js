@@ -206,7 +206,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           }
         }
       }
-      if (props[propName] == null) {
+      // undefined == null and null == null are true
+      if (props[propName] === null || props[propName] === undefined) {
         if (isRequired) {
           if (props[propName] === null) {
             return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
