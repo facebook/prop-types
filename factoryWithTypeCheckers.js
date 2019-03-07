@@ -369,7 +369,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createElementWithTypeChecker(expectedType) {
     var ACCEPTABLE_TYPES_OF_EXPECTED_TYPES = ['string', 'function'];
 
-    if (ACCEPTABLE_TYPES_OF_EXPECTED_TYPES.indexOf(typeof expectedType) === -1) {
+    if (!isValidElementType(expectedType)) {
       process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to ElementWithType, expected an Html tag name or a Component.') : void 0;
       return emptyFunction.thatReturnsNull;
     }
