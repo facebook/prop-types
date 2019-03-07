@@ -381,7 +381,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     function validate(props, propName, componentName, location, propFullName) {
       var propValues = [].concat(props[propName]);
 
-      if (propValues.some(pv => !isValidElement(pv))) {
+      if (propValues.some(function (pv) { return !isValidElement(pv); })) {
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of component `' + componentName + '` has been given invalid component.');
       }
 
