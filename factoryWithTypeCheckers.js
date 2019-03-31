@@ -369,7 +369,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createElementWithTypeChecker(expectedType) {
     var ACCEPTABLE_TYPES_OF_EXPECTED_TYPES = ['string', 'function'];
 
-    if (!isValidElementType(expectedType)) {
+    if (!ReactIs.isValidElementType(expectedType)) {
       process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to ElementWithType, expected an Html tag name or a Component.') : void 0;
       return emptyFunction.thatReturnsNull;
     }
@@ -385,9 +385,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of component `' + componentName + '` has been given invalid component.');
       }
 
-      var hasInvalid = propValues.some(propValue => expectedType !== propValue.type);
+      var hasInvalid = propValues.some(function(propValue) {
+        return expectedType !== propValue.type
+      });
       if (hasInvalid) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type [' + propValues.map(function (pv) return getDisplayName(pv.type)).join(', ') + '] ' + ('supplied to `' + componentName + '`, expected one of type `' + getDisplayName(expectedType) + '`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type [' + propValues.map(function (pv) { return getDisplayName(pv.type) }).join(', ') + '] ' + ('supplied to `' + componentName + '`, expected one of type `' + getDisplayName(expectedType) + '`.'));
       }
 
       return null;
