@@ -135,6 +135,42 @@ describe('PropTypesDevelopmentStandalone', () => {
       );
     });
 
+    it('should warn for missing validator', () => {
+      spyOn(console, 'error')
+      const propTypes = { foo: PropTypes.string };
+      const props = { foo: 'foo', bar: 'bar' };
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      expect(console.error.calls.argsFor(0)[0]).toEqual(
+        'Warning: Missing `prop-types`: testComponent: prop type `bar` is missing validate in `prop-types`.' +
+        ' Please add type in `prop-types` or remove prop' + ' `bar`' +
+        ' from outer props if not used for performance reason.'
+      );
+    });
+
+    it('should warn for missing validators', () => {
+      spyOn(console, 'error')
+      const propTypes = { foo: PropTypes.string };
+      const props = { foo: 'foo', bar: 'bar', zoo: 'zoo' };
+      PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+      );
+      expect(console.error.calls.argsFor(0)[0]).toEqual(
+        'Warning: Missing `prop-types`: testComponent: prop type `bar`, `zoo` is missing validate in `prop-types`.' +
+        ' Please add type in `prop-types` or remove prop' + ' `bar`, `zoo`' +
+        ' from outer props if not used for performance reason.'
+      );
+    })
+
     it('should only warn once for identical validator failures', () => {
       spyOn(console, 'error');
       const propTypes = { foo: undefined };

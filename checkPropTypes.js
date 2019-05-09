@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
   var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
   var loggedTypeFailures = {};
   var has = require('./lib/has');
-
+  var diffArr = require('./lib/diffArr');
   printWarning = function(text) {
     var message = 'Warning: ' + text;
     if (typeof console !== 'undefined') {
@@ -86,7 +86,26 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         }
       }
     }
+
+    var missKeys = checkIfPropsMissKey(values, typeSpecs);
+    if(missKeys){
+      printWarning(
+        'Missing `prop-types`: '+
+        (componentName || 'React class') + ': ' + location + ' type `'+ missKeys +
+      '` is missing validate in `prop-types`. Please add type in `prop-types` or remove '
+      + location + ' `' + missKeys + '` from outer props if not used for performance reason.');
+    }
   }
+}
+
+function checkIfPropsMissKey(componentProps, propTypes) {
+  var componentKeys = Object.keys(componentProps);
+  var propKeys = Object.keys(propTypes);
+  var diffKeys = diffArr(componentKeys, propKeys);
+  if(diffKeys.length) {
+    return diffKeys.join('`, `');
+  }
+  return false;
 }
 
 /**
