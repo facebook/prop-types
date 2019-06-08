@@ -7,9 +7,11 @@
 
 'use strict';
 
+var shouldDoSomething = require('./shouldDoSomething');
+
 var printWarning = function() {};
 
-if (process.env.NODE_ENV !== 'production') {
+if (shouldDoSomething()) {
   var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
   var loggedTypeFailures = {};
   var has = require('./lib/has');
@@ -40,7 +42,7 @@ if (process.env.NODE_ENV !== 'production') {
  * @private
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (process.env.NODE_ENV !== 'production') {
+  if (shouldDoSomething()) {
     for (var typeSpecName in typeSpecs) {
       if (has(typeSpecs, typeSpecName)) {
         var error;
@@ -95,7 +97,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
  * @private
  */
 checkPropTypes.resetWarningCache = function() {
-  if (process.env.NODE_ENV !== 'production') {
+  if (shouldDoSomething()) {
     loggedTypeFailures = {};
   }
 }

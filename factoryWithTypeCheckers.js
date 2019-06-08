@@ -13,10 +13,11 @@ var assign = require('object-assign');
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var has = require('./lib/has');
 var checkPropTypes = require('./checkPropTypes');
+var shouldDoSomething = require('./shouldDoSomething');
 
 var printWarning = function() {};
 
-if (process.env.NODE_ENV !== 'production') {
+if (shouldDoSomething()) {
   printWarning = function(text) {
     var message = 'Warning: ' + text;
     if (typeof console !== 'undefined') {
@@ -168,7 +169,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   PropTypeError.prototype = Error.prototype;
 
   function createChainableTypeChecker(validate) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (shouldDoSomething()) {
       var manualPropTypeCallCache = {};
       var manualPropTypeWarningCount = 0;
     }
@@ -308,7 +309,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   function createEnumTypeChecker(expectedValues) {
     if (!Array.isArray(expectedValues)) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (shouldDoSomething()) {
         if (arguments.length > 1) {
           printWarning(
             'Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + ' arguments. ' +
