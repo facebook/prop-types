@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-var shouldDoSomething = require('./shouldDoSomething');
+var usage = require('./usage');
 
 function init() {
-  if (shouldDoSomething()) {
+  if (usage.shouldDoSomething()) {
     var ReactIs = require('react-is');
   
     // By explicitly using `prop-types` you are opting into new development behavior.
@@ -25,6 +25,6 @@ function init() {
 init();
 
 module.exports.generalize = function(degeneralize) {
-  shouldDoSomething.generalize(degeneralize);
+  usage.generalize(degeneralize);
   init();
 }

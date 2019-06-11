@@ -13,8 +13,16 @@ function shouldDoSomething() {
   return generalizedUsage || process.env.NODE_ENV !== 'production';
 }
 
-shouldDoSomething.generalize = function(degeneralize) {
-  generalizedUsage = !!degeneralize;
+function generalize(degeneralize) {
+  generalizedUsage = !degeneralize;
 }
 
-module.exports = shouldDoSomething;
+function isGeneralizedUsage() {
+  return generalizedUsage;
+}
+
+module.exports = {
+  shouldDoSomething: shouldDoSomething,
+  generalize: generalize,
+  isGeneralizedUsage: isGeneralizedUsage
+};

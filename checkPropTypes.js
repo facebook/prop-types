@@ -7,18 +7,21 @@
 
 'use strict';
 
-var shouldDoSomething = require('./shouldDoSomething');
+var usage = require('./usage');
 
 var printWarning = function() {};
 
-if (shouldDoSomething()) {
+if (usage.shouldDoSomething()) {
   var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
   var loggedTypeFailures = {};
   var has = require('./lib/has');
 
   printWarning = function(text) {
     var message = 'Warning: ' + text;
-    if (typeof console !== 'undefined') {
+    if (usage.isGeneralizedUsage()) {
+      throw new Error(message);
+    }
+    else if (typeof console !== 'undefined') {
       console.error(message);
     }
     try {
@@ -42,7 +45,7 @@ if (shouldDoSomething()) {
  * @private
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (shouldDoSomething()) {
+  if (usage.shouldDoSomething()) {
     for (var typeSpecName in typeSpecs) {
       if (has(typeSpecs, typeSpecName)) {
         var error;
@@ -75,16 +78,24 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
             'shape all require an argument).'
           );
         }
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
+        if (error instanceof Error) {
+          if (usage.isGeneralizedUsage()) {
+            var stack = getStack ? getStack() : '';
 
-          var stack = getStack ? getStack() : '';
+            printWarning(
+              'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
+            );
+          } else if (!(error.message in loggedTypeFailures)) {
+            // Only monitor this failure once because there tends to be a lot of the
+            // same error.
+            loggedTypeFailures[error.message] = true;
+  
+            var stack = getStack ? getStack() : '';
 
-          printWarning(
-            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
-          );
+            printWarning(
+              'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
+            );
+          }
         }
       }
     }
@@ -97,7 +108,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
  * @private
  */
 checkPropTypes.resetWarningCache = function() {
-  if (shouldDoSomething()) {
+  if (usage.shouldDoSomething()) {
     loggedTypeFailures = {};
   }
 }
