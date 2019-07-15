@@ -398,7 +398,7 @@ describe('PropTypesDevelopmentStandalone', () => {
   });
 
   describe('Any type', () => {
-    it('should should accept any value', () => {
+    it('should accept any value', () => {
       typeCheckPass(PropTypes.any, 0);
       typeCheckPass(PropTypes.any, 'str');
       typeCheckPass(PropTypes.any, []);

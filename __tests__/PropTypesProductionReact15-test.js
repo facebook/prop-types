@@ -177,7 +177,7 @@ describe('PropTypesProductionReact15', () => {
   });
 
   describe('Any type', () => {
-    it('should should accept any value', () => {
+    it('should accept any value', () => {
       expectNoop(PropTypes.any, 0);
       expectNoop(PropTypes.any, 'str');
       expectNoop(PropTypes.any, []);
