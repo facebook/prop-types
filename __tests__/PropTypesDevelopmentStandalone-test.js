@@ -1291,7 +1291,7 @@ describe('PropTypesDevelopmentStandalone', () => {
       typeCheckFail(
         PropTypes.shape({key: PropTypes.number}),
         {key: 'abc'},
-        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent` with key `abc`, ' +
           'expected `number`.',
       );
     });

@@ -251,6 +251,27 @@ describe('PropTypesDevelopmentReact15', () => {
       expectInvalidValidatorWarning(PropTypes.exact({ bar: 'true' }), 'string');
       expectInvalidValidatorWarning(PropTypes.exact({ bar: null }), 'null');
     });
+
+    it('should output the value of the `key` prop (if it has one)', () => {
+      function typeCheckFailWithKey(declaration, value) {
+        const propTypes = { testProp: declaration };
+        const props = { testProp: value, key: 'abc' };
+        const message = getPropTypeWarningMessage(propTypes, props, 'testComponent');
+        expect(message).toContain('`testComponent` with key `abc`');
+      }
+      function Something() {}
+      typeCheckFailWithKey(PropTypes.string, false);
+      typeCheckFailWithKey(PropTypes.arrayOf(PropTypes.string), 2);
+      typeCheckFailWithKey(PropTypes.element, {});
+      typeCheckFailWithKey(PropTypes.elementType, {});
+      typeCheckFailWithKey(PropTypes.instanceOf(Something), '');
+      typeCheckFailWithKey(PropTypes.node, {});
+      typeCheckFailWithKey(PropTypes.objectOf(PropTypes.string), '');
+      typeCheckFailWithKey(PropTypes.oneOf([1]), '');
+      typeCheckFailWithKey(PropTypes.oneOfType([PropTypes.number]), '');
+      typeCheckFailWithKey(PropTypes.shape({ a: PropTypes.string }), false);
+      typeCheckFailWithKey(PropTypes.exact({ a: PropTypes.string }), false);
+    });
   });
 
   describe('resetWarningCache', () => {
@@ -1217,7 +1238,7 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFail(
         PropTypes.shape({key: PropTypes.number}),
         {key: 'abc'},
-        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent` with key `abc`, ' +
           'expected `number`.',
       );
     });
@@ -1324,7 +1345,7 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFail(
         PropTypes.exact({key: PropTypes.number}),
         {key: 'abc'},
-        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent` with key `abc`, ' +
           'expected `number`.',
       );
     });

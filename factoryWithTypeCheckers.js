@@ -35,6 +35,11 @@ function emptyFunctionThatReturnsNull() {
   return null;
 }
 
+// Helper for adding `key` to the error message if it exists in props.
+function getKey(props) {
+  return (props.key && typeof props.key !== 'obejct') ? ' with key `' + props.key + '`' : '';
+}
+
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
   var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
@@ -209,9 +214,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (props[propName] == null) {
         if (isRequired) {
           if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`' + getKey(props) + ', but its value is `null`.'));
           }
-          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`' + getKey(props) + ', but its value is `undefined`.'));
         }
         return null;
       } else {
@@ -236,7 +241,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         var preciseType = getPreciseType(propValue);
 
         return new PropTypeError(
-          'Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'),
+          'Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`' + getKey(props) + ', expected ') + ('`' + expectedType + '`.'),
           {expectedType: expectedType}
         );
       }
@@ -257,7 +262,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       if (!Array.isArray(propValue)) {
         var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`' + getKey(props) + ', expected an array.'));
       }
       for (var i = 0; i < propValue.length; i++) {
         var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
@@ -275,7 +280,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       if (!isValidElement(propValue)) {
         var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`' + getKey(props) + ', expected a single ReactElement.'));
       }
       return null;
     }
@@ -287,7 +292,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       if (!ReactIs.isValidElementType(propValue)) {
         var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement type.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`' + getKey(props) + ', expected a single ReactElement type.'));
       }
       return null;
     }
@@ -299,7 +304,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (!(props[propName] instanceof expectedClass)) {
         var expectedClassName = expectedClass.name || ANONYMOUS;
         var actualClassName = getClassName(props[propName]);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`' + getKey(props) + ', expected ') + ('instance of `' + expectedClassName + '`.'));
       }
       return null;
     }
@@ -336,7 +341,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
         return value;
       });
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`' + getKey(props) + ', expected one of ' + valuesString + '.'));
     }
     return createChainableTypeChecker(validate);
   }
@@ -349,7 +354,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`' + getKey(props) + ', expected an object.'));
       }
       for (var key in propValue) {
         if (has(propValue, key)) {
@@ -394,7 +399,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
       }
       var expectedTypesMessage = (expectedTypes.length > 0) ? ', expected one of type [' + expectedTypes.join(', ') + ']': '';
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`' + expectedTypesMessage + '.'));
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`' + getKey(props) + expectedTypesMessage + '.'));
     }
     return createChainableTypeChecker(validate);
   }
@@ -402,7 +407,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createNodeChecker() {
     function validate(props, propName, componentName, location, propFullName) {
       if (!isNode(props[propName])) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`' + getKey(props) + ', expected a ReactNode.'));
       }
       return null;
     }
@@ -421,7 +426,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`' + getKey(props) + ', expected `object`.'));
       }
       for (var key in shapeTypes) {
         var checker = shapeTypes[key];
@@ -443,7 +448,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`' + getKey(props) + ', expected `object`.'));
       }
       // We need to check all keys in case some are required but missing from
       // props.
@@ -455,7 +460,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
         if (!checker) {
           return new PropTypeError(
-            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`' + getKey(props) + '.' +
             '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
             '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
           );
