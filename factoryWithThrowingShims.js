@@ -44,6 +44,10 @@ module.exports = function() {
 
     any: shim,
     arrayOf: getShim,
+    tupleOf: getShim,
+    iterableOf: getShim,
+    mapOf: getShim,
+    setOf: getShim,
     element: shim,
     elementType: shim,
     instanceOf: getShim,

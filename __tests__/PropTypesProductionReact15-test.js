@@ -314,6 +314,471 @@ describe('PropTypesProductionReact15', () => {
     });
   });
 
+  describe('IterableOf Type', () => {
+    it('should fail for invalid argument', () => {
+      expectNoop(
+        PropTypes.iterableOf({ foo: PropTypes.string }),
+        { foo: 'bar' },
+        'Property `testProp` of component `testComponent` has invalid PropType notation inside iterableOf.',
+      );
+    });
+
+    it('should support the iterableOf propTypes', () => {
+      expectNoop(PropTypes.iterableOf(PropTypes.number), [1, 2, 3]);
+      expectNoop(PropTypes.iterableOf(PropTypes.string), ['a', 'b', 'c']);
+      expectNoop(PropTypes.iterableOf(PropTypes.oneOf(['a', 'b'])), ['a', 'b']);
+      expectNoop(PropTypes.iterableOf(PropTypes.symbol), [Symbol(), Symbol()]);
+    });
+
+    it('should support iterableOf with complex types', () => {
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.shape({ a: PropTypes.number.isRequired })),
+        [{ a: 1 }, { a: 2 }],
+      );
+
+      function Thing() { }
+      expectNoop(PropTypes.iterableOf(PropTypes.instanceOf(Thing)), [
+        new Thing(),
+        new Thing(),
+      ]);
+    });
+
+    it('should warn with invalid items in the array', () => {
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number),
+        [1, 2, 'b'],
+        'Invalid prop `testProp[2]` of type `string` supplied to ' +
+        '`testComponent`, expected `number`.',
+      );
+    });
+
+    it('should warn with invalid complex types', () => {
+      function Thing() { }
+      const name = Thing.name || '<<anonymous>>';
+
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.instanceOf(Thing)),
+        [new Thing(), 'xyz'],
+        'Invalid prop `testProp[1]` of type `String` supplied to ' +
+        '`testComponent`, expected instance of `' +
+        name +
+        '`.',
+      );
+    });
+
+    it('should warn when passed something other than an iterable', () => {
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number),
+        { '0': 'maybe-array', length: 1 },
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an iterable.',
+      );
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an iterable.',
+      );
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an iterable.',
+      );
+    });
+
+    it('should not warn when passing an empty array', () => {
+      expectNoop(PropTypes.iterableOf(PropTypes.number), []);
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(PropTypes.iterableOf(PropTypes.number), null);
+      expectNoop(PropTypes.iterableOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectNoop(PropTypes.iterableOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectNoop(PropTypes.iterableOf(PropTypes.number), [
+        1,
+        2,
+        'b',
+      ]);
+      expectNoop(PropTypes.iterableOf(PropTypes.number), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number).isRequired,
+        null,
+      );
+      expectNoop(
+        PropTypes.iterableOf(PropTypes.number).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('TupleOf Type', () => {
+    it('should fail for invalid argument', () => {
+      expectNoop(
+        PropTypes.tupleOf({ foo: PropTypes.string }),
+        { foo: 'bar' },
+        'Property `testProp` of component `testComponent` has invalid PropType notation inside tupleOf.',
+      );
+    });
+
+    it('should support the tupleOf propTypes', () => {
+      expectNoop(PropTypes.tupleOf([PropTypes.number, PropTypes.number, PropTypes.number]), [1, 2, 3]);
+      expectNoop(PropTypes.tupleOf([PropTypes.string, PropTypes.string]), ['a', 'b']);
+      expectNoop(PropTypes.tupleOf([PropTypes.oneOf(['a', 'b']), PropTypes.oneOf(['a', 'b'])]), ['a', 'b']);
+      expectNoop(PropTypes.tupleOf([PropTypes.symbol]), [Symbol()]);
+    });
+
+    it('should support tupleOf with complex types', () => {
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.shape({ a: PropTypes.number.isRequired })]),
+        [{ a: 1 }],
+      );
+
+      function Thing() { }
+      expectNoop(PropTypes.tupleOf([PropTypes.instanceOf(Thing)]), [
+        new Thing(),
+      ]);
+    });
+
+    it('should warn with invalid items in the array', () => {
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number, PropTypes.number]),
+        [1, 'b'],
+        'Invalid prop `testProp[1]` of type `string` supplied to `testComponent`, expected `number`.',
+      );
+    });
+
+    it('should warn with the wrong number of items in the array', () => {
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]),
+        [1, 2],
+        'Invalid prop `testProp` of length `2` supplied to `testComponent`, expected an array of length `1`.',
+      );
+
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number, PropTypes.number]),
+        [1],
+        'Invalid prop `testProp` of length `1` supplied to `testComponent`, expected an array of length `2`.',
+      );
+    });
+
+    it('should warn with invalid complex types', () => {
+      function Thing() { }
+      const name = Thing.name || '<<anonymous>>';
+
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.instanceOf(Thing), PropTypes.instanceOf(Thing)]),
+        [new Thing(), 'xyz'],
+        'Invalid prop `testProp[1]` of type `String` supplied to `testComponent`, expected instance of `' + name + '`.',
+      );
+    });
+
+    it('should warn when passed something other than an array', () => {
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]),
+        { '0': 'maybe-array', length: 1 },
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected an array.',
+      );
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected an array.',
+      );
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected an array.',
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(PropTypes.tupleOf([PropTypes.number]), null);
+      expectNoop(PropTypes.tupleOf([PropTypes.number]), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectNoop(PropTypes.tupleOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectNoop(PropTypes.tupleOf([PropTypes.number]), [
+        1,
+        2,
+        'b',
+      ]);
+      expectNoop(PropTypes.tupleOf([PropTypes.number]), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]).isRequired,
+        null,
+      );
+      expectNoop(
+        PropTypes.tupleOf([PropTypes.number]).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('MapOf Type', () => {
+    it('should fail if argument is not an array', () => {
+      expectNoop(
+        PropTypes.mapOf({ foo: PropTypes.string }),
+        { foo: 'bar' },
+        'Correct syntax is `PropTypes.mapOf([PropTypes.keyType, PropTypes.valueType])`.',
+      );
+    });
+
+    it('should fail for invalid keyMatcher or valueMatcher', () => {
+      expectNoop(
+        PropTypes.mapOf([{ foo: PropTypes.string }]),
+        { foo: 'bar' },
+        'Property `testProp` of component `testComponent` has invalid PropType notation inside mapOf.',
+      );
+    });
+
+    it('should support the mapOf propTypes', () => {
+      expectNoop(PropTypes.mapOf([PropTypes.string, PropTypes.number]), new Map([['1', 1], ['2', 2], ['3', 3]]));
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.string]), new Map([[0, 'a'], [1, 'b'], [2, 'c']]));
+      expectNoop(PropTypes.mapOf([PropTypes.object, PropTypes.oneOf(['a', 'b'])]), new Map([[{}, 'a'], [{}, 'b']]));
+      expectNoop(PropTypes.mapOf([PropTypes.symbol, PropTypes.func]), new Map([[Symbol(), function () { }]]));
+    });
+
+    it('should support mapOf with complex types', () => {
+      expectNoop(
+        PropTypes.mapOf([PropTypes.string, PropTypes.shape({ a: PropTypes.number.isRequired })]),
+        new Map([['foo', { a: 1 }], ['bar', { a: 2 }]]),
+      );
+
+      function Thing() { }
+      expectNoop(PropTypes.mapOf([PropTypes.string, PropTypes.instanceOf(Thing)]), new Map([
+        ['foo', new Thing()],
+        ['bar', new Thing()],
+      ]));
+    });
+
+    it('should warn with invalid entries in the map', () => {
+      expectNoop(
+        PropTypes.mapOf([PropTypes.string, PropTypes.number]),
+        new Map([['1', 1], ['2', 2], ['3', 'b']]),
+        'Invalid prop `testProp.get("3")` of type `string` supplied to ' +
+        '`testComponent`, expected `number`.',
+      );
+    });
+
+    it('should warn with invalid complex types', () => {
+      function Thing() { }
+      const name = Thing.name || '<<anonymous>>';
+
+      expectNoop(
+        PropTypes.mapOf([PropTypes.any, PropTypes.instanceOf(Thing)]),
+        new Map([[new Thing(), new Thing()], ['a', 'xyz']]),
+        'Invalid prop `testProp.get("a")` of type `String` supplied to ' +
+        '`testComponent`, expected instance of `' +
+        name +
+        '`.',
+      );
+    });
+
+    it('should warn when passed something other than a map', () => {
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]),
+        { '0': 'maybe-array', length: 1 },
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected a Map.',
+      );
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected a Map.',
+      );
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected a Map.',
+      );
+    });
+
+    it('should not warn when passing an empty map', () => {
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.number]), new Map());
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.number]), null);
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.number]), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectNoop(PropTypes.mapOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.number]), [
+        1,
+        2,
+        'b',
+      ]);
+      expectNoop(PropTypes.mapOf([PropTypes.number, PropTypes.number]), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]).isRequired,
+        null,
+      );
+      expectNoop(
+        PropTypes.mapOf([PropTypes.number, PropTypes.number]).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('SetOf Type', () => {
+    it('should fail for invalid argument', () => {
+      expectNoop(
+        PropTypes.setOf({ foo: PropTypes.string }),
+        { foo: 'bar' },
+        'Property `testProp` of component `testComponent` has invalid PropType notation inside setOf.',
+      );
+    });
+
+    it('should support the setOf propTypes', () => {
+      expectNoop(PropTypes.setOf(PropTypes.number), new Set([1, 2, 3]));
+      expectNoop(PropTypes.setOf(PropTypes.string), new Set(['a', 'b', 'c']));
+      expectNoop(PropTypes.setOf(PropTypes.oneOf(['a', 'b'])), new Set(['a', 'b']));
+      expectNoop(PropTypes.setOf(PropTypes.symbol), new Set([Symbol()]));
+    });
+
+    it('should support setOf with complex types', () => {
+      expectNoop(
+        PropTypes.setOf(PropTypes.shape({ a: PropTypes.number.isRequired })),
+        new Set([{ a: 1 }, { a: 2 }]),
+      );
+
+      function Thing() { }
+      expectNoop(PropTypes.setOf(PropTypes.instanceOf(Thing)), new Set([
+        new Thing(),
+        new Thing(),
+      ]));
+    });
+
+    it('should warn with invalid values in the set', () => {
+      expectNoop(
+        PropTypes.setOf(PropTypes.number),
+        new Set([1, 2, '3']),
+        'Invalid prop `testProp.has("3")` of type `string` supplied to ' +
+        '`testComponent`, expected `number`.',
+      );
+    });
+
+    it('should warn with invalid complex types', () => {
+      function Thing() { }
+      const name = Thing.name || '<<anonymous>>';
+
+      expectNoop(
+        PropTypes.setOf(PropTypes.instanceOf(Thing)),
+        new Set([new Thing(), 'xyz']),
+        'Invalid prop `testProp.has("xyz")` of type `String` supplied to ' +
+        '`testComponent`, expected instance of `' +
+        name +
+        '`.',
+      );
+    });
+
+    it('should warn when passed something other than a set', () => {
+      expectNoop(
+        PropTypes.setOf(PropTypes.number),
+        { '0': 'maybe-array', length: 1 },
+        'Invalid prop `testProp` of type `object` supplied to ' +
+        '`testComponent`, expected a Set.',
+      );
+      expectNoop(
+        PropTypes.setOf(PropTypes.number),
+        123,
+        'Invalid prop `testProp` of type `number` supplied to ' +
+        '`testComponent`, expected a Set.',
+      );
+      expectNoop(
+        PropTypes.setOf(PropTypes.number),
+        'string',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+        '`testComponent`, expected a Set.',
+      );
+    });
+
+    it('should not warn when passing an empty set', () => {
+      expectNoop(PropTypes.setOf(PropTypes.number), new Set());
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(PropTypes.setOf(PropTypes.number), null);
+      expectNoop(PropTypes.setOf(PropTypes.number), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(
+        PropTypes.setOf(PropTypes.number).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectNoop(PropTypes.setOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectNoop(PropTypes.setOf(PropTypes.number), [
+        1,
+        2,
+        'b',
+      ]);
+      expectNoop(PropTypes.setOf(PropTypes.number), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectNoop(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        null,
+      );
+      expectNoop(
+        PropTypes.setOf(PropTypes.number).isRequired,
+        undefined,
+      );
+    });
+  });
+
   describe('Component Type', () => {
 
     it('should support components', () => {

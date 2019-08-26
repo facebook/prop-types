@@ -103,6 +103,18 @@ MyComponent.propTypes = {
   // An array of a certain type
   optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
 
+  // A two item array of [string, number]
+  optionalTupleOf: PropTypes.tupleOf([PropTypes.string, PropTypes.number]),
+
+  // An iterable of a certain type
+  optionalIterableOf: PropTypes.iterableOf(PropTypes.number),
+
+  // An es6 Map containing certain types of keys and values
+  optionalMapOf: PropTypes.mapOf([PropTypes.string, PropTypes.number]),
+
+  // An es6 Set containing certain types of values
+  optionalSetOf: PropTypes.setOf(PropTypes.number),
+
   // An object with property values of a certain type
   optionalObjectOf: PropTypes.objectOf(PropTypes.number),
 
