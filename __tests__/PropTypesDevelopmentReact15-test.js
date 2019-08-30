@@ -54,7 +54,7 @@ function typeCheckFailRequiredValues(declaration) {
   const specifiedButIsNullMsg = 'The prop `testProp` is marked as required in ' +
     '`testComponent`, but its value is `null`.';
   const unspecifiedMsg = 'The prop `testProp` is marked as required in ' +
-    '`testComponent`, but its value is \`undefined\`.';
+    '`testComponent`, but its value is `undefined`.';
 
   const propTypes = {testProp: declaration};
 
@@ -1289,7 +1289,7 @@ describe('PropTypesDevelopmentReact15', () => {
         {key: 1},
         'Warning: Failed prop type: Invalid prop `testProp` key `key` supplied to `testComponent`.' +
         '\nBad object: {' +
-        '\n  \"key\": 1' +
+        '\n  "key": 1' +
         '\n}' +
         '\nValid keys: []'
       );
