@@ -54,7 +54,7 @@ function typeCheckFailRequiredValues(declaration) {
   const specifiedButIsNullMsg = 'The prop `testProp` is marked as required in ' +
     '`testComponent`, but its value is `null`.';
   const unspecifiedMsg = 'The prop `testProp` is marked as required in ' +
-    '`testComponent`, but its value is \`undefined\`.';
+    '`testComponent`, but its value is `undefined`.';
 
   const propTypes = {testProp: declaration};
 

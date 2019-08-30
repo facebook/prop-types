@@ -27,7 +27,7 @@ if (process.env.NODE_ENV !== 'production') {
       // This error was thrown as a convenience so that you can use this stack
       // to find the callsite that caused this warning to fire.
       throw new Error(message);
-    } catch (x) {}
+    } catch (x) { /**/ }
   };
 }
 
@@ -226,7 +226,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   }
 
   function createPrimitiveTypeChecker(expectedType) {
-    function validate(props, propName, componentName, location, propFullName, secret) {
+    function validate(props, propName, componentName, location, propFullName) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== expectedType) {
@@ -389,7 +389,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         if (checkerResult == null) {
           return null;
         }
-        if (checkerResult.data.hasOwnProperty('expectedType')) {
+        if (Object.prototype.hasOwnProperty.call(checkerResult.data,'expectedType')) {
           expectedTypes.push(checkerResult.data.expectedType);
         }
       }

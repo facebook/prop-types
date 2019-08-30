@@ -26,11 +26,11 @@ module.exports = function() {
     );
     err.name = 'Invariant Violation';
     throw err;
-  };
+  }
   shim.isRequired = shim;
   function getShim() {
     return shim;
-  };
+  }
   // Important!
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {

@@ -3,13 +3,28 @@
   "parserOptions": {
     "ecmaVersion": 5,
   },
+  "env": {
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-console": "off",
+  },
   "overrides": [
     {
       "files": "**/__tests__/**/*",
+      "env": {
+        "jest": true,
+        "jasmine": true,
+        "es6": true
+      },
+      "rules": {
+        "no-unused-vars": "off"
+      },
       "parserOptions": {
-        "ecmaVersion": "2019",
+        "ecmaVersion": 2019,
         "ecmaFeatures": {
-          "jsx": true,
+          "jsx": true
         }
       },
     },
