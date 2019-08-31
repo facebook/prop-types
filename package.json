@@ -42,14 +42,14 @@
   "devDependencies": {
     "babel-jest": "^19.0.0",
     "babel-preset-react": "^6.24.1",
-    "browserify": "^16.2.3",
-    "bundle-collapser": "^1.2.1",
+    "browserify": "^16.5.0",
+    "bundle-collapser": "^1.3.0",
     "eslint": "^6.3.0",
     "in-publish": "^2.0.0",
     "jest": "^19.0.2",
-    "react": "^15.5.1",
-    "uglifyify": "^3.0.4",
-    "uglifyjs": "^2.4.10"
+    "react": "^15.5.4",
+    "uglifyify": "^5.0.2",
+    "uglifyjs": "^2.4.11"
   },
   "browserify": {
     "transform": [
