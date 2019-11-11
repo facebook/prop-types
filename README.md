@@ -284,7 +284,7 @@ const props = {
 // Let's say your component is called 'MyComponent'
 
 // Works with standalone PropTypes
-PropTypes.checkPropTypes(myPropTypes, props, 'age', 'MyComponent');
+PropTypes.checkPropTypes(myPropTypes, props, 'prop', 'MyComponent');
 // This will warn as follows:
 // Warning: Failed prop type: Invalid prop `age` of type `string` supplied to
 // `MyComponent`, expected `number`.
