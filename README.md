@@ -65,7 +65,7 @@ class MyComponent extends React.Component {
 
 MyComponent.propTypes = {
   // You can declare that a prop is a specific JS primitive. By default, these
-  // are all optional.
+  // are all optional - `undefined` and `null` are allowed.
   optionalArray: PropTypes.array,
   optionalBool: PropTypes.bool,
   optionalFunc: PropTypes.func,
