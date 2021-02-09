@@ -82,7 +82,9 @@ MyComponent.propTypes = {
   // A React element (ie. <MyComponent />).
   optionalElement: PropTypes.element,
 
-  // A React element type (ie. MyComponent).
+  // A React element type (eg. MyComponent).
+  // a function, string, or "element-like" object (eg. React.Fragment, Suspense, etc.)
+  // see https://github.com/facebook/react/blob/master/packages/shared/isValidElementType.js
   optionalElementType: PropTypes.elementType,
 
   // You can also declare that a prop is an instance of a class. This uses
