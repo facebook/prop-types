@@ -34,22 +34,24 @@
     "lint": "eslint .",
     "test": "npm run tests-only",
     "tests-only": "jest",
-    "umd": "NODE_ENV=development browserify index.js -t loose-envify --standalone PropTypes -o prop-types.js",
-    "umd-min": "NODE_ENV=production browserify index.js -t loose-envify -t uglifyify --standalone PropTypes  -p bundle-collapser/plugin -o | uglifyjs --compress unused,dead_code -o prop-types.min.js",
-    "build": "yarn umd && yarn umd-min",
+    "build": "rollup -c",
     "prepublish": "not-in-publish || yarn build"
   },
   "devDependencies": {
+    "babel-core": "6",
     "babel-jest": "^19.0.0",
     "babel-preset-react": "^6.24.1",
-    "browserify": "^16.5.0",
-    "bundle-collapser": "^1.3.0",
     "eslint": "^6.3.0",
     "in-publish": "^2.0.0",
     "jest": "^19.0.2",
+    "loose-envify": "^1.4.0",
     "react": "^15.5.4",
-    "uglifyify": "^5.0.2",
-    "uglifyjs": "^2.4.11"
+    "rollup": "^1.32.1",
+    "rollup-plugin-babel": "3",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^2.1.1",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-uglify": "^6.0.4"
   },
   "browserify": {
     "transform": [
