@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   var has = require('./lib/has');
 
   printWarning = function(text) {
-    var message = 'Warning: ' + text;
+    var message = 'Error: ' + text;
     if (typeof console !== 'undefined') {
       console.error(message);
     }
