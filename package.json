@@ -27,7 +27,7 @@
   "dependencies": {
     "loose-envify": "^1.4.0",
     "object-assign": "^4.1.1",
-    "react-is": "^16.9.0"
+    "react-is": "^16.13.1"
   },
   "scripts": {
     "pretest": "npm run lint",
