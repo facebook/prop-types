@@ -20,9 +20,7 @@
       },
       "rules": {
         "no-unused-vars": "off",
-        "no-multi-spaces": [
-          "error"
-        ],
+        "no-multi-spaces": ["error"],
         "key-spacing": ["error"],
       },
       "parserOptions": {
