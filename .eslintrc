@@ -20,6 +20,10 @@
       },
       "rules": {
         "no-unused-vars": "off",
+        "no-multi-spaces": [
+          "error"
+        ],
+        "key-spacing": ["error"],
       },
       "parserOptions": {
         "ecmaVersion": 2019,
