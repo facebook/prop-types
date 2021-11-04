@@ -9,6 +9,8 @@
   },
   "rules": {
     "no-console": "off",
+    "no-multi-spaces": ["error"],
+    "key-spacing": ["error"],
   },
   "overrides": [
     {
