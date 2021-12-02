@@ -1,4 +1,4 @@
-# prop-types [![Build Status](https://travis-ci.com/facebook/prop-types.svg?branch=master)](https://travis-ci.org/facebook/prop-types)
+# prop-types [![Build Status](https://travis-ci.com/facebook/prop-types.svg?branch=main)](https://travis-ci.org/facebook/prop-types)
 
 Runtime type checking for React props and similar objects.
 
@@ -84,7 +84,7 @@ MyComponent.propTypes = {
 
   // A React element type (eg. MyComponent).
   // a function, string, or "element-like" object (eg. React.Fragment, Suspense, etc.)
-  // see https://github.com/facebook/react/blob/master/packages/shared/isValidElementType.js
+  // see https://github.com/facebook/react/blob/HEAD/packages/shared/isValidElementType.js
   optionalElementType: PropTypes.elementType,
 
   // You can also declare that a prop is an instance of a class. This uses

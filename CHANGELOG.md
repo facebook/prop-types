@@ -89,4 +89,4 @@
 
 ## Before 15.5.0
 
-PropTypes was previously included in React, but is now a separate package. For earlier history of PropTypes [see the React change log.](https://github.com/facebook/react/blob/master/CHANGELOG.md)
+PropTypes was previously included in React, but is now a separate package. For earlier history of PropTypes [see the React change log.](https://github.com/facebook/react/blob/HEAD/CHANGELOG.md)
