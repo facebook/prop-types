@@ -45,7 +45,7 @@
     "babel-preset-react": "^6.24.1",
     "browserify": "^16.5.0",
     "bundle-collapser": "^1.4.0",
-    "eslint": "^7.26.0",
+    "eslint": "^8.5.0",
     "in-publish": "^2.0.1",
     "jest": "^19.0.2",
     "react": "^15.7.0",
