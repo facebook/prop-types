@@ -328,6 +328,9 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should not warn for valid values', () => {
       typeCheckPass(PropTypes.array, []);
+      if (typeof BigInt === 'function') {
+        typeCheckPass(PropTypes.bigint, BigInt(0));
+      }
       typeCheckPass(PropTypes.bool, false);
       typeCheckPass(PropTypes.func, function() {});
       typeCheckPass(PropTypes.number, 0);
@@ -348,6 +351,7 @@ describe('PropTypesDevelopmentReact15', () => {
       typeCheckFailRequiredValues(PropTypes.array.isRequired);
       typeCheckFailRequiredValues(PropTypes.symbol.isRequired);
       typeCheckFailRequiredValues(PropTypes.number.isRequired);
+      typeCheckFailRequiredValues(PropTypes.bigint.isRequired);
       typeCheckFailRequiredValues(PropTypes.bool.isRequired);
       typeCheckFailRequiredValues(PropTypes.func.isRequired);
       typeCheckFailRequiredValues(PropTypes.shape({}).isRequired);
@@ -361,6 +365,15 @@ describe('PropTypesDevelopmentReact15', () => {
       expectWarningInDevelopment(PropTypes.array.isRequired, []);
       expectWarningInDevelopment(PropTypes.array.isRequired, null);
       expectWarningInDevelopment(PropTypes.array.isRequired, undefined);
+      expectWarningInDevelopment(PropTypes.bigint, function() {});
+      expectWarningInDevelopment(PropTypes.bigint, 42);
+      if (typeof BigInt === 'function') {
+        expectWarningInDevelopment(PropTypes.bigint, BigInt(42));
+      }
+      expectWarningInDevelopment(PropTypes.bigint.isRequired, function() {});
+      expectWarningInDevelopment(PropTypes.bigint.isRequired, 42);
+      expectWarningInDevelopment(PropTypes.bigint.isRequired, null);
+      expectWarningInDevelopment(PropTypes.bigint.isRequired, undefined);
       expectWarningInDevelopment(PropTypes.bool, []);
       expectWarningInDevelopment(PropTypes.bool, true);
       expectWarningInDevelopment(PropTypes.bool.isRequired, []);
@@ -436,6 +449,9 @@ describe('PropTypesDevelopmentReact15', () => {
 
     it('should support the arrayOf propTypes', () => {
       typeCheckPass(PropTypes.arrayOf(PropTypes.number), [1, 2, 3]);
+      if (typeof BigInt === 'function') {
+        typeCheckPass(PropTypes.arrayOf(PropTypes.bigint), [BigInt(1), BigInt(2), BigInt(3)]);
+      }
       typeCheckPass(PropTypes.arrayOf(PropTypes.string), ['a', 'b', 'c']);
       typeCheckPass(PropTypes.arrayOf(PropTypes.oneOf(['a', 'b'])), ['a', 'b']);
       typeCheckPass(PropTypes.arrayOf(PropTypes.symbol), [Symbol(), Symbol()]);
@@ -539,7 +555,6 @@ describe('PropTypesDevelopmentReact15', () => {
   });
 
   describe('Component Type', () => {
-
     it('should support components', () => {
       typeCheckPass(PropTypes.element, <div />);
     });
@@ -557,6 +572,14 @@ describe('PropTypesDevelopmentReact15', () => {
         'Invalid prop `testProp` of type `number` supplied to `testComponent`, ' +
           'expected a single ReactElement.',
       );
+      if (typeof BigInt === 'function') {
+        typeCheckFail(
+          PropTypes.element,
+          BigInt(123),
+          'Invalid prop `testProp` of type `bigint` supplied to `testComponent`, ' +
+            'expected a single ReactElement.',
+        );
+      }
       typeCheckFail(
         PropTypes.element,
         'foo',

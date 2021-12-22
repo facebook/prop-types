@@ -76,6 +76,15 @@ describe('PropTypesProductionStandalone', function() {
       expectThrowsInProduction(PropTypes.array.isRequired, /please/);
       expectThrowsInProduction(PropTypes.array.isRequired, null);
       expectThrowsInProduction(PropTypes.array.isRequired, undefined);
+      expectThrowsInProduction(PropTypes.bigint, function() {});
+      expectThrowsInProduction(PropTypes.bigint, 42);
+      if (typeof BigInt === 'function') {
+        expectThrowsInProduction(PropTypes.bigint, BigInt(42));
+      }
+      expectThrowsInProduction(PropTypes.bigint.isRequired, function() {});
+      expectThrowsInProduction(PropTypes.bigint.isRequired, 42);
+      expectThrowsInProduction(PropTypes.bigint.isRequired, null);
+      expectThrowsInProduction(PropTypes.bigint.isRequired, undefined);
       expectThrowsInProduction(PropTypes.bool, []);
       expectThrowsInProduction(PropTypes.bool.isRequired, []);
       expectThrowsInProduction(PropTypes.bool.isRequired, null);
@@ -140,6 +149,9 @@ describe('PropTypesProductionStandalone', function() {
     it('should be a no-op', function() {
       expectThrowsInProduction(PropTypes.element, [<div />, <div />]);
       expectThrowsInProduction(PropTypes.element, 123);
+      if (typeof BigInt === 'function') {
+        expectThrowsInProduction(PropTypes.element, BigInt(123));
+      }
       expectThrowsInProduction(PropTypes.element, 'foo');
       expectThrowsInProduction(PropTypes.element, false);
       expectThrowsInProduction(PropTypes.element.isRequired, null);
