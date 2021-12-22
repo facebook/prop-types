@@ -145,6 +145,106 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
+  describe('IterableOf Type', function () {
+    it('should be a no-op', function () {
+      expectThrowsInProduction(PropTypes.iterableOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectThrowsInProduction(PropTypes.iterableOf(PropTypes.number), [
+        1,
+        2,
+        'b',
+      ]);
+      expectThrowsInProduction(PropTypes.iterableOf(PropTypes.number), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectThrowsInProduction(
+        PropTypes.iterableOf(PropTypes.number).isRequired,
+        null,
+      );
+      expectThrowsInProduction(
+        PropTypes.iterableOf(PropTypes.number).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('TupleOf Type', function () {
+    it('should be a no-op', function () {
+      expectThrowsInProduction(PropTypes.tupleOf({ foo: PropTypes.string }), {
+        foo: 'bar',
+      });
+      expectThrowsInProduction(PropTypes.tupleOf([PropTypes.number]), [
+        1,
+        2,
+        'b',
+      ]);
+      expectThrowsInProduction(PropTypes.tupleOf([PropTypes.number]), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectThrowsInProduction(
+        PropTypes.tupleOf([PropTypes.number]).isRequired,
+        null,
+      );
+      expectThrowsInProduction(
+        PropTypes.tupleOf([PropTypes.number]).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('MapOf Type', function () {
+    it('should be a no-op', function () {
+      expectThrowsInProduction(PropTypes.mapOf([]), {
+        foo: 'bar',
+      });
+      expectThrowsInProduction(PropTypes.mapOf([PropTypes.string, PropTypes.number]), [
+        1,
+        2,
+        'b',
+      ]);
+      expectThrowsInProduction(PropTypes.mapOf([PropTypes.string, PropTypes.number]), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectThrowsInProduction(
+        PropTypes.mapOf([PropTypes.string, PropTypes.number]).isRequired,
+        null,
+      );
+      expectThrowsInProduction(
+        PropTypes.mapOf([PropTypes.string, PropTypes.number]).isRequired,
+        undefined,
+      );
+    });
+  });
+
+  describe('SetOf Type', function () {
+    it('should be a no-op', function () {
+      expectThrowsInProduction(PropTypes.setOf({}), {
+        foo: 'bar',
+      });
+      expectThrowsInProduction(PropTypes.setOf(PropTypes.string), [
+        1,
+        2,
+        'b',
+      ]);
+      expectThrowsInProduction(PropTypes.setOf(PropTypes.string), {
+        '0': 'maybe-array',
+        length: 1,
+      });
+      expectThrowsInProduction(
+        PropTypes.setOf(PropTypes.string).isRequired,
+        null,
+      );
+      expectThrowsInProduction(
+        PropTypes.setOf(PropTypes.string).isRequired,
+        undefined,
+      );
+    });
+  });
+
   describe('Component Type', function() {
     it('should be a no-op', function() {
       expectThrowsInProduction(PropTypes.element, [<div />, <div />]);

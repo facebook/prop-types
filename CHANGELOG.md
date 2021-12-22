@@ -1,3 +1,6 @@
+## 15.7.3
+* [New] Add `.tupleOf`, `.iterableOf`, `.mapOf`, and `.setOf` ([#289](https://github.com/facebook/prop-types/pull/289))
+
 ## 15.7.2
 * [Fix] ensure nullish values in `oneOf` do not crash ([#256](https://github.com/facebook/prop-types/issues/256))
 * [Fix] move `loose-envify` back to production deps, for browerify usage ([#203](https://github.com/facebook/prop-types/issues/203))

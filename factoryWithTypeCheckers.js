@@ -12,6 +12,7 @@ var assign = require('object-assign');
 
 var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
 var has = require('./lib/has');
+var forEach = require('./lib/forEach');
 var checkPropTypes = require('./checkPropTypes');
 
 var printWarning = function() {};
@@ -33,6 +34,20 @@ if (process.env.NODE_ENV !== 'production') {
 
 function emptyFunctionThatReturnsNull() {
   return null;
+}
+
+function isSet(maybeSet) {
+  try {
+    Object.getOwnPropertyDescriptor(Set.prototype, 'size').get.call(maybeSet);
+    return true
+  } catch(e) { return false; }
+}
+
+function isMap(maybeMap) {
+  try {
+    Object.getOwnPropertyDescriptor(Map.prototype, 'size').get.call(maybeMap);
+    return true
+  } catch(e) { return false; }
 }
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -124,6 +139,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
     any: createAnyTypeChecker(),
     arrayOf: createArrayOfTypeChecker,
+    tupleOf: createTupleOfTypeChecker,
+    iterableOf: createIterableOfTypeChecker,
+    mapOf: createMapOfTypeChecker,
+    setOf: createSetOfTypeChecker,
     element: createElementTypeChecker(),
     elementType: createElementTypeTypeChecker(),
     instanceOf: createInstanceTypeChecker,
@@ -267,6 +286,107 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
       }
       return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+  
+  function createTupleOfTypeChecker(typeCheckerTuple) {
+    var argsInvalid = !Array.isArray(typeCheckerTuple) || !typeCheckerTuple.every(function (checker) { return typeof checker === 'function'});
+
+    function validate(props, propName, componentName, location, propFullName) {
+      if (argsInvalid) {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside tupleOf.')
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + '`' + propType + '` supplied to `' + componentName + '`, expected an array.');
+      }
+      if (propValue.length !== typeCheckerTuple.length) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of length ' + '`' + propValue.length + '` supplied to `' + componentName + '`, expected an array of length `' + typeCheckerTuple.length + '`.');
+      }
+      for (var i = 0; i < typeCheckerTuple.length; i++) {
+        var typeChecker = typeCheckerTuple[i];
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createIterableOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside iterableOf.');
+      }
+      if (!(Symbol && Symbol.iterator)) {
+        return new PropTypeError('Cannot use `PropTypes.iterableOf` if Symbol.iterator is not present');
+      }
+      var error;
+      var propValue = props[propName];
+
+      if (typeof propValue[Symbol.iterator] !== 'function') {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + '`' + propType + '` supplied to `' + componentName + '`, expected an iterable.');
+      }
+
+      forEach(propValue, function (value) {
+        var _error = typeChecker([value], 0, componentName, location, propFullName + '<iteratorItem>', ReactPropTypesSecret);
+        if (_error instanceof Error) {
+          error = _error;
+          return
+        }
+      });
+
+      return error instanceof Error ? error : null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createMapOfTypeChecker(typeCheckers) {
+    var validateIterable = createIterableOfTypeChecker(createTupleOfTypeChecker(typeCheckers));
+
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!Array.isArray(typeCheckers)) {
+        return new PropTypeError('Correct syntax is `PropTypes.mapOf([PropTypes.keyType, PropTypes.valueType])`.');
+      }
+      var keyChecker = typeCheckers[0];
+      var valueChecker = typeCheckers[1];
+      if (typeof Map !== 'function') {
+        return new PropTypeError('Cannot use `PropTypes.mapOf` if the Map data structure is not present');
+      }
+      if (typeof keyChecker !== 'function' || typeof valueChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside mapOf.');
+      }
+      var propValue = props[propName];
+      if (!isMap(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a Map.'));
+      }
+      return validateIterable(props, propName, componentName, location, propFullName, ReactPropTypesSecret);
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createSetOfTypeChecker(typeChecker) {
+    var validateIterable = createIterableOfTypeChecker(typeChecker);
+
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof Set !== 'function') {
+        return new PropTypeError('Cannot use `PropTypes.setOf` if the Set data structure is not present');
+      }
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside setOf.');
+      }
+      var propValue = props[propName];
+      if (!isSet(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a Set.'));
+      }
+      return validateIterable(props, propName, componentName, location, propFullName, ReactPropTypesSecret);
     }
     return createChainableTypeChecker(validate);
   }
