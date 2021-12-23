@@ -8,13 +8,15 @@ jobs:
     name: "Build & Test (React v${{ matrix.react_version}})"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         react_version:
-          - "0.14.9"
-          - "15.0"
-          - "15"
-          - "16.0"
+          - "17"
           - "16"
+          - "16.0"
+          - "15"
+          - "15.0"
+          - "0.14.9"
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
