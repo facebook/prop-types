@@ -1,26 +1,26 @@
 ## 15.8.0
-[New] add `PropTypes.bigint` (#365)
-[New] `oneOfType`: Add expected types to warning (#198)
-[New] Add type check for validator for 'shape' and 'exact' (#234)
-[Fix] `checkPropTypes`: Friendlier message when using a type checker that is not a function (#51)
-[Refactor] extract `has` (#261, #125, #124)
-[readme] Fix branch name (master -> main) (#364)
-[readme] Clarify usage of `elementType` (#335)
-[docs] highlighted the func name (#321)
-[docs] Typo fix in example (#300)
-[docs] Add instructions for intentional inclusion of validation in production. (#262)
-[docs] `PropTypes.node`: add link to react docs
-[docs] Improve wording for `checkPropTypes` (#258)
-[meta] Add a package `sideEffects` field. (#350)
-[meta] use `in-publish` to avoid running the build on install
-[deps] regenerate yarn.lock
-[deps] update `react-is` (#347, #346, #345, #340, #338)
-[eslint] enable some rules (#360)
-[Tests] Use GH Actions (#363)
-[Tests] Fix spelling (#318)
-[Tests] Fixed typo: 'Any type *should* accept any value' (#281)
-[Tests] fix broken tests; test the build process
-[Dev Deps] update `browserify`, `bundle-collapser`, `eslint`, `in-publish`, `react`, `uglifyify`, `uglifyjs`
+* [New] add `PropTypes.bigint` (#365)
+* [New] `oneOfType`: Add expected types to warning (#198)
+* [New] Add type check for validator for 'shape' and 'exact' (#234)
+* [Fix] `checkPropTypes`: Friendlier message when using a type checker that is not a function (#51)
+* [Refactor] extract `has` (#261, #125, #124)
+* [readme] Fix branch name (master -> main) (#364)
+* [readme] Clarify usage of `elementType` (#335)
+* [docs] highlighted the func name (#321)
+* [docs] Typo fix in example (#300)
+* [docs] Add instructions for intentional inclusion of validation in production. (#262)
+* [docs] `PropTypes.node`: add link to react docs
+* [docs] Improve wording for `checkPropTypes` (#258)
+* [meta] Add a package `sideEffects` field. (#350)
+* [meta] use `in-publish` to avoid running the build on install
+* [deps] regenerate yarn.lock
+* [deps] update `react-is` (#347, #346, #345, #340, #338)
+* [eslint] enable some rules (#360)
+* [Tests] Use GH Actions (#363)
+* [Tests] Fix spelling (#318)
+* [Tests] Fixed typo: 'Any type *should* accept any value' (#281)
+* [Tests] fix broken tests; test the build process
+* [Dev Deps] update `browserify`, `bundle-collapser`, `eslint`, `in-publish`, `react`, `uglifyify`, `uglifyjs`
 
 ## 15.7.2
 * [Fix] ensure nullish values in `oneOf` do not crash ([#256](https://github.com/facebook/prop-types/issues/256))
