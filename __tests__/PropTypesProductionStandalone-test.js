@@ -9,7 +9,7 @@
 
 'use strict';
 
-describe('PropTypesProductionStandalone', function() {
+describe('PropTypesProductionStandalone', () => {
   let React;
   let PropTypes;
 
@@ -21,11 +21,11 @@ describe('PropTypesProductionStandalone', function() {
     PropTypes = require('../index');
   }
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetWarningCache();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     delete process.env.NODE_ENV;
   });
 
@@ -70,8 +70,8 @@ describe('PropTypesProductionStandalone', function() {
     expect(message).toBe(null);
   }
 
-  describe('Primitive Types', function() {
-    it('should be a no-op', function() {
+  describe('Primitive Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.array, /please/);
       expectThrowsInProduction(PropTypes.array.isRequired, /please/);
       expectThrowsInProduction(PropTypes.array.isRequired, null);
@@ -112,16 +112,16 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('Any Type', function() {
-    it('should be a no-op', function() {
+  describe('Any Type', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.any, null);
       expectThrowsInProduction(PropTypes.any.isRequired, null);
       expectThrowsInProduction(PropTypes.any.isRequired, undefined);
     });
   });
 
-  describe('ArrayOf Type', function() {
-    it('should be a no-op', function() {
+  describe('ArrayOf Type', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.arrayOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -145,8 +145,8 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('Component Type', function() {
-    it('should be a no-op', function() {
+  describe('Component Type', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.element, [<div />, <div />]);
       expectThrowsInProduction(PropTypes.element, 123);
       if (typeof BigInt === 'function') {
@@ -159,30 +159,30 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('Instance Types', function() {
-    it('should be a no-op', function() {
+  describe('Instance Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.instanceOf(Date), {});
       expectThrowsInProduction(PropTypes.instanceOf(Date).isRequired, {});
     });
   });
 
-  describe('React Component Types', function() {
-    it('should be a no-op', function() {
+  describe('React Component Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.node, {});
       expectThrowsInProduction(PropTypes.node.isRequired, null);
       expectThrowsInProduction(PropTypes.node.isRequired, undefined);
     });
   });
 
-  describe('React ElementType Type', function() {
-    it('should be a no-op', function() {
+  describe('React ElementType Type', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.elementType.isRequired, false);
       expectThrowsInProduction(PropTypes.elementType.isRequired, {});
     });
   });
 
-  describe('ObjectOf Type', function() {
-    it('should be a no-op', function() {
+  describe('ObjectOf Type', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.objectOf({foo: PropTypes.string}), {
         foo: 'bar',
       });
@@ -197,8 +197,8 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('OneOf Types', function() {
-    it('should be a no-op', function() {
+  describe('OneOf Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.oneOf('red', 'blue'), 'red');
       expectThrowsInProduction(PropTypes.oneOf(['red', 'blue']), true);
       expectThrowsInProduction(PropTypes.oneOf(['red', 'blue']), null);
@@ -206,8 +206,8 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('Union Types', function() {
-    it('should be a no-op', function() {
+  describe('Union Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(
         PropTypes.oneOfType(PropTypes.string, PropTypes.number),
         'red',
@@ -227,8 +227,8 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('Shape Types', function() {
-    it('should be a no-op', function() {
+  describe('Shape Types', () => {
+    it('should be a no-op', () => {
       expectThrowsInProduction(PropTypes.shape({}), 'some string');
       expectThrowsInProduction(
         PropTypes.shape({key: PropTypes.number}).isRequired,
@@ -241,8 +241,8 @@ describe('PropTypesProductionStandalone', function() {
     });
   });
 
-  describe('checkPropTypes', function() {
-    it('does not call validators', function() {
+  describe('checkPropTypes', () => {
+    it('does not call validators', () => {
       spyOn(console, 'error');
 
       const spy = jest.fn();
