@@ -1385,6 +1385,37 @@ describe('PropTypesDevelopmentReact15', () => {
       );
       expectWarningInDevelopment(PropTypes.element, <div />);
     });
+
+    it('works with oneOfType', () => {
+      typeCheckPass(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: 42 }
+      );
+      typeCheckPass(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: '42' }
+      );
+      typeCheckFail(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: 42, bar: 'what is 6 * 7' },
+        `Warning: Failed prop type: Invalid prop \`testProp\` key \`bar\` supplied to \`testComponent\`.
+Bad object: {
+  "foo": 42,
+  "bar": "what is 6 * 7"
+}
+Valid keys: [
+  "foo"
+]`
+      );
+    });
+
+    it('works with a custom propType', () => {
+      typeCheckFail(
+        PropTypes.oneOfType([() => new Error('hi')]),
+        {},
+        'Warning: Failed prop type: Invalid prop `testProp` supplied to `testComponent`.'
+      )
+    });
   });
 
   describe('Symbol Type', () => {

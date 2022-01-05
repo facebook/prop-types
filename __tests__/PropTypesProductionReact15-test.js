@@ -1112,6 +1112,28 @@ describe('PropTypesProductionReact15', () => {
       );
       expectNoop(PropTypes.element, <div />);
     });
+
+    it('works with oneOfType', () => {
+      expectNoop(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: 42 }
+      );
+      expectNoop(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: '42' }
+      );
+      expectNoop(
+        PropTypes.exact({ foo: PropTypes.oneOfType([PropTypes.number, PropTypes.string]) }),
+        { foo: 42, bar: 'what is 6 * 7' }
+      );
+    });
+
+    it('works with a custom propType', () => {
+      expectNoop(
+        PropTypes.oneOfType([() => new Error('hi')]),
+        {}
+      )
+    });
   });
 
   describe('Symbol Type', () => {

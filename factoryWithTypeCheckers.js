@@ -390,7 +390,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         if (checkerResult == null) {
           return null;
         }
-        if (checkerResult.data.hasOwnProperty('expectedType')) {
+        if (checkerResult.data && has(checkerResult.data, 'expectedType')) {
           expectedTypes.push(checkerResult.data.expectedType);
         }
       }
