@@ -1,3 +1,11 @@
+## 15.8.1
+* [Fix] fix crash when a custom propType return lacks `.data`; call `hasOwnProperty` properly (#370)
+* [meta] Fix formatting in CHANGELOG.md (#367)
+* [Tests] add missing test coverage (#370)
+* [Tests] convert normal `it` functions to arrow functions (#370)
+* [Tests] do not fail fast; add react 17 (#366)
+* [Dev Deps] update `eslint`
+
 ## 15.8.0
 * [New] add `PropTypes.bigint` (#365)
 * [New] `oneOfType`: Add expected types to warning (#198)
