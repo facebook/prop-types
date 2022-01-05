@@ -1023,6 +1023,97 @@ describe('PropTypesProductionReact15', () => {
     });
   });
 
+  describe('Exact Types', () => {
+    it('should warn for non objects', () => {
+      expectNoop(
+        PropTypes.exact({}),
+        'some string'
+      );
+      expectNoop(
+        PropTypes.exact({}),
+        ['array']
+      );
+    });
+
+    it('should not warn for empty values', () => {
+      expectNoop(PropTypes.exact({}), undefined);
+      expectNoop(PropTypes.exact({}), null);
+      expectNoop(PropTypes.exact({}), {});
+    });
+
+    it('should not warn for an empty object', () => {
+      expectNoop(PropTypes.exact({}).isRequired, {});
+    });
+
+    it('expectNoop warn for non specified types', () => {
+      expectNoop(
+        PropTypes.exact({}),
+        {key: 1}
+      );
+    });
+
+    it('should not warn for valid types', () => {
+      expectNoop(PropTypes.exact({key: PropTypes.number}), {key: 1});
+    });
+
+    it('should warn for required valid types', () => {
+      expectNoop(
+        PropTypes.exact({key: PropTypes.number.isRequired}),
+        {}
+      );
+    });
+
+    it('should warn for the first required type', () => {
+      expectNoop(
+        PropTypes.exact({
+          key: PropTypes.number.isRequired,
+          secondKey: PropTypes.number.isRequired,
+        }),
+        {}
+      );
+    });
+
+    it('should warn for invalid key types', () => {
+      expectNoop(
+        PropTypes.exact({key: PropTypes.number}),
+        {key: 'abc'}
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        null,
+      );
+      expectNoop(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        undefined,
+      );
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+      );
+    });
+
+    it('should warn if called manually in development', () => {
+      expectNoop(PropTypes.exact({}), 'some string');
+      expectNoop(PropTypes.exact({foo: PropTypes.number}), {
+        foo: 42,
+      });
+      expectNoop(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+        null,
+      );
+      expectNoop(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+        undefined,
+      );
+      expectNoop(PropTypes.element, <div />);
+    });
+  });
+
   describe('Symbol Type', () => {
     it('should warn for non-symbol', () => {
       expectNoop(

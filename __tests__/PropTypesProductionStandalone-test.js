@@ -241,6 +241,123 @@ describe('PropTypesProductionStandalone', () => {
     });
   });
 
+  describe('Exact Types', () => {
+    it('should warn for non objects', () => {
+      spyOn(console, 'error');
+      expectThrowsInProduction(
+        PropTypes.exact({}),
+        'some string'
+      );
+      expectThrowsInProduction(
+        PropTypes.exact({}),
+        ['array']
+      );
+    });
+
+    it('should not warn for empty values', () => {
+      typeCheckPass(PropTypes.exact({}), undefined);
+      typeCheckPass(PropTypes.exact({}), null);
+      typeCheckPass(PropTypes.exact({}), {});
+    });
+
+    it('should not warn for an empty object', () => {
+      typeCheckPass(PropTypes.exact({}).isRequired, {});
+    });
+
+    it('should warn for non specified types', () => {
+      expectThrowsInProduction(
+        PropTypes.exact({}),
+        {key: 1},
+        'Warning: Failed prop type: Invalid prop `testProp` key `key` supplied to `testComponent`.' +
+        '\nBad object: {' +
+        '\n  \"key\": 1' +
+        '\n}' +
+        '\nValid keys: []'
+      );
+    });
+
+    it('should not warn for valid types', () => {
+      typeCheckPass(PropTypes.exact({key: PropTypes.number}), {key: 1});
+    });
+
+    it('should warn for required valid types', () => {
+      expectThrowsInProduction(
+        PropTypes.exact({key: PropTypes.number.isRequired}),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for the first required type', () => {
+      expectThrowsInProduction(
+        PropTypes.exact({
+          key: PropTypes.number.isRequired,
+          secondKey: PropTypes.number.isRequired,
+        }),
+        {},
+        'The prop `testProp.key` is marked as required in `testComponent`, ' +
+          'but its value is `undefined`.',
+      );
+    });
+
+    it('should warn for invalid key types', () => {
+      expectThrowsInProduction(
+        PropTypes.exact({key: PropTypes.number}),
+        {key: 'abc'},
+        'Invalid prop `testProp.key` of type `string` supplied to `testComponent`, ' +
+          'expected `number`.',
+      );
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      typeCheckPass(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        null,
+      );
+      typeCheckPass(
+        PropTypes.exact(PropTypes.exact({key: PropTypes.number})),
+        undefined,
+      );
+    });
+
+    it('should warn for missing required values', () => {
+      expectThrowsInProduction(
+        PropTypes.exact({key: PropTypes.number}).isRequired,
+      );
+    });
+  });
+
+  describe('Symbol Type', () => {
+    it('should warn for non-symbol', () => {
+      expectThrowsInProduction(
+        PropTypes.symbol,
+        'hello',
+        'Invalid prop `testProp` of type `string` supplied to ' +
+          '`testComponent`, expected `symbol`.',
+      );
+      expectThrowsInProduction(
+        PropTypes.symbol,
+        function() {},
+        'Invalid prop `testProp` of type `function` supplied to ' +
+          '`testComponent`, expected `symbol`.',
+      );
+      expectThrowsInProduction(
+        PropTypes.symbol,
+        {
+          '@@toStringTag': 'Katana',
+        },
+        'Invalid prop `testProp` of type `object` supplied to ' +
+          '`testComponent`, expected `symbol`.',
+      );
+    });
+
+    it('should not warn for a polyfilled Symbol', () => {
+      const CoreSymbol = require('core-js/library/es6/symbol');
+      typeCheckPass(PropTypes.symbol, CoreSymbol('core-js'));
+    });
+  });
+
   describe('checkPropTypes', () => {
     it('does not call validators', () => {
       spyOn(console, 'error');
