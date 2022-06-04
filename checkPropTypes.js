@@ -38,9 +38,11 @@ if (process.env.NODE_ENV !== 'production') {
  * @param {string} componentName Name of the component for error messages.
  * @param {?Function} getStack Returns the component stack.
  * @private
+ * @returns {boolean} if the prop types were valid or not
  */
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   if (process.env.NODE_ENV !== 'production') {
+    let validated = true;
     for (var typeSpecName in typeSpecs) {
       if (has(typeSpecs, typeSpecName)) {
         var error;
@@ -72,6 +74,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
             'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
             'shape all require an argument).'
           );
+          validated = false;
         }
         if (error instanceof Error && !(error.message in loggedTypeFailures)) {
           // Only monitor this failure once because there tends to be a lot of the
@@ -79,6 +82,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
           loggedTypeFailures[error.message] = true;
 
           var stack = getStack ? getStack() : '';
+          validated = false;
 
           printWarning(
             'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
@@ -86,6 +90,8 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         }
       }
     }
+
+    return validated;
   }
 }
 
