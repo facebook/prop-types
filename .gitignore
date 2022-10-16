@@ -1,3 +1,5 @@
 node_modules
 prop-types.js
 prop-types.min.js
+.DS_Store
+
