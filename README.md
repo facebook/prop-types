@@ -57,10 +57,8 @@ documents the different validators provided:
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class MyComponent extends React.Component {
-  render() {
-    // ... do things with the props
-  }
+function MyComponent(props) {
+  // ... do things with the props
 }
 
 MyComponent.propTypes = {
