@@ -69,8 +69,8 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
             location + ' `' + typeSpecName + '` is invalid; the type checker ' +
             'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
             'You may have forgotten to pass an argument to the type checker ' +
-            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
-            'shape all require an argument).'
+            'creator (arrayOf, instanceOf, literal, objectOf, oneOf, oneOfType, ' +
+            'and shape all require an argument).'
           );
         }
         if (error instanceof Error && !(error.message in loggedTypeFailures)) {

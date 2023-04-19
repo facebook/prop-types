@@ -480,11 +480,37 @@ describe('PropTypesProductionReact15', () => {
 
     it('should warn if called manually in development', () => {
       spyOn(console, 'error');
-      expectNoop(PropTypes.instanceOf(Date), {});
-      expectNoop(PropTypes.instanceOf(Date), new Date());
-      expectNoop(PropTypes.instanceOf(Date).isRequired, {});
+      expectNoop(PropTypes.literal('foo'), 'bar');
+      expectNoop(PropTypes.literal('foo'), 5);
+      expectNoop(PropTypes.literal('foo').isRequired, 'bar');
+      expectNoop(PropTypes.literal('foo').isRequired, 5);
+    });
+  });
+
+  describe('Literal Types', () => {
+    it('should not warn for valid values', () => {
+      const literal = 'foo';
+
+      expectNoop(PropTypes.literal('foo'), 'foo');
+      expectNoop(PropTypes.literal(5), 5);
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      expectNoop(PropTypes.literal('foo'), null);
+      expectNoop(PropTypes.literal(5), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      expectNoop(PropTypes.literal('foo').isRequired);
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectNoop(PropTypes.literal('foo'), {});
+      expectNoop(PropTypes.literal('foo'), new Date());
+      expectNoop(PropTypes.literal('foo').isRequired, {});
       expectNoop(
-        PropTypes.instanceOf(Date).isRequired,
+        PropTypes.literal('foo').isRequired,
         new Date(),
       );
     });

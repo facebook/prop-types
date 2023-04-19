@@ -127,6 +127,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     element: createElementTypeChecker(),
     elementType: createElementTypeTypeChecker(),
     instanceOf: createInstanceTypeChecker,
+    literal: createLiteralTypeChecker,
     node: createNodeChecker(),
     objectOf: createObjectOfTypeChecker,
     oneOf: createEnumTypeChecker,
@@ -301,6 +302,17 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         var expectedClassName = expectedClass.name || ANONYMOUS;
         var actualClassName = getClassName(props[propName]);
         return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createLiteralTypeChecker(expectedValue) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (props[propName] !== expectedValue) {
+        var actualValue = props[propName];
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` with value ' + ('`' + JSON.stringify(actualValue) + '` supplied to `' + componentName + '`, expected ') + ('`' + JSON.stringify(expectedValue) + '`.'));
       }
       return null;
     }
