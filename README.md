@@ -92,6 +92,9 @@ MyComponent.propTypes = {
   // JS's instanceof operator.
   optionalMessage: PropTypes.instanceOf(Message),
 
+  // A specific value
+  optionalLiteral: PropTypes.literal('value'),
+
   // You can ensure that your prop is limited to specific values by treating
   // it as an enum.
   optionalEnum: PropTypes.oneOf(['News', 'Photos']),

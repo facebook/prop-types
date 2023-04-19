@@ -782,6 +782,61 @@ describe('PropTypesDevelopmentStandalone', () => {
     });
   });
 
+  describe('Literal Types', () => {
+    it('should warn for invalid values', () => {
+      const personName = 'Andrew';
+
+      typeCheckFail(
+        PropTypes.literal(personName),
+        'bar',
+        'Invalid prop `testProp` with value `"bar"` supplied to ' +
+          '`testComponent`, expected `"' +
+          personName +
+          '"`.',
+      );
+      typeCheckFail(
+        PropTypes.literal(personName),
+        5,
+        'Invalid prop `testProp` with value `5` supplied to ' +
+          '`testComponent`, expected `"' +
+          personName +
+          '"`.',
+      );
+      typeCheckFail(
+        PropTypes.literal(personName),
+        {},
+        'Invalid prop `testProp` with value `{}` supplied to ' +
+          '`testComponent`, expected `"' +
+          personName +
+          '"`.',
+      );
+    });
+
+    it('should not warn for valid values', () => {
+      const literal = 'foo';
+
+      typeCheckPass(PropTypes.literal('foo'), 'foo');
+      typeCheckPass(PropTypes.literal(5), 5);
+    });
+
+    it('should be implicitly optional and not warn without values', () => {
+      typeCheckPass(PropTypes.literal('foo'), null);
+      typeCheckPass(PropTypes.literal(5), undefined);
+    });
+
+    it('should warn for missing required values', () => {
+      typeCheckFailRequiredValues(PropTypes.literal('foo').isRequired);
+    });
+
+    it('should warn if called manually in development', () => {
+      spyOn(console, 'error');
+      expectThrowsInDevelopment(PropTypes.literal('foo'), 'bar');
+      expectThrowsInDevelopment(PropTypes.literal('foo'), 5);
+      expectThrowsInDevelopment(PropTypes.literal('foo').isRequired, 'bar');
+      expectThrowsInDevelopment(PropTypes.literal('foo').isRequired, 5);
+    });
+  });
+
   describe('React Component Types', () => {
     it('should warn for invalid values', () => {
       const failMessage = 'Invalid prop `testProp` supplied to ' +
