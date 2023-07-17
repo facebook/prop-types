@@ -80,7 +80,8 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
           var stack = getStack ? getStack() : '';
 
-          printWarning(
+          var warningLogger = arguments.length > 5 ? arguments[5] : printWarning;
+          warningLogger(
             'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
           );
         }

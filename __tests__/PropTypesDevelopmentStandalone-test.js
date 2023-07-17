@@ -248,6 +248,27 @@ describe('PropTypesDevelopmentStandalone', () => {
       expectInvalidValidatorWarning(PropTypes.exact({ bar: 'true' }), 'string');
       expectInvalidValidatorWarning(PropTypes.exact({ bar: null }), 'null');
     });
+
+    it('calls the passed in warning logger', () => {
+      const warningLogger = jest.fn()
+      const propTypes = {
+        foo(props, propName, componentName) {
+          throw new Error('some error');
+        },
+      };
+      const props = {foo: 'foo'};
+      const returnValue = PropTypes.checkPropTypes(
+        propTypes,
+        props,
+        'prop',
+        'testComponent',
+        null,
+        warningLogger,
+      );
+
+      expect(warningLogger).toBeCalledWith('Failed prop type: some error');
+      expect(returnValue).toBe(undefined);
+    });
   });
 
   describe('resetWarningCache', () => {
@@ -262,6 +283,7 @@ describe('PropTypesDevelopmentStandalone', () => {
         'testComponent',
         null,
       );
+
       PropTypes.resetWarningCache();
       PropTypes.checkPropTypes(
         propTypes,
