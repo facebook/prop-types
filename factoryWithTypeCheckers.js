@@ -173,7 +173,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var manualPropTypeCallCache = {};
       var manualPropTypeWarningCount = 0;
     }
-    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+    function checkType(allowNull, allowUndefined, props, propName, componentName, location, propFullName, secret) {
       componentName = componentName || ANONYMOUS;
       propFullName = propFullName || propName;
 
@@ -207,21 +207,19 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           }
         }
       }
-      if (props[propName] == null) {
-        if (isRequired) {
-          if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-          }
-          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-        }
-        return null;
+      if (props[propName] === null) {
+        return allowNull ? null : new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+      } else if (props[propName] == null) {
+        return allowUndefined ? null : new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
       } else {
         return validate(props, propName, componentName, location, propFullName);
       }
     }
 
-    var chainedCheckType = checkType.bind(null, false);
-    chainedCheckType.isRequired = checkType.bind(null, true);
+    var chainedCheckType = checkType.bind(null, true, true);
+    chainedCheckType.isRequired = checkType.bind(null, false, false);
+    chainedCheckType.isDefined = checkType.bind(null, true, false);
+    chainedCheckType.isNotNull = checkType.bind(null, false, true);
 
     return chainedCheckType;
   }
